@@ -1,0 +1,763 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rides | Admin Panel</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #08080C;
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .adm-layout { display: flex; min-height: 100vh; }
+        
+        /* Sidebar */
+        .adm-sidebar {
+            width: 260px;
+            background: rgba(10, 10, 18, 0.95);
+            border-right: 1px solid rgba(255,255,255,0.08);
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+        }
+        
+        .adm-sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+            font-weight: 800;
+            font-size: 18px;
+            padding: 12px 12px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            margin-bottom: 20px;
+        }
+        
+        .adm-logo-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #EF4444, #F97316);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+        }
+        
+        .adm-tag {
+            padding: 2px 6px;
+            background: rgba(239, 68, 68, 0.15);
+            color: #FCA5A5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 5px;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        
+        .adm-nav-section { margin-bottom: 20px; }
+        
+        .adm-nav-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #6B7480;
+            padding: 8px 12px;
+            display: block;
+        }
+        
+        .adm-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 11px;
+            text-decoration: none;
+            color: #8B92A0;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            margin-bottom: 2px;
+            width: 100%;
+            background: transparent;
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+        }
+        
+        .adm-nav-item:hover { background: rgba(239, 68, 68, 0.1); color: white; }
+        
+        .adm-nav-item.active {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(249, 115, 22, 0.1));
+            color: white;
+            border-left: 3px solid #EF4444;
+        }
+        
+        .adm-nav-item i { width: 18px; text-align: center; font-size: 14px; }
+        
+        .adm-sidebar-footer {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        /* Main */
+        .adm-main {
+            flex: 1;
+            margin-left: 260px;
+            padding: 32px;
+        }
+        
+        .adm-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .adm-page-title {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            background: linear-gradient(135deg, #FCA5A5, #FDBA74);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .adm-page-subtitle {
+            font-size: 14px;
+            color: #8B92A0;
+            margin-top: 4px;
+        }
+        
+        .back-btn {
+            padding: 12px 24px;
+            background: rgba(239,68,68,0.15);
+            border: 1px solid rgba(239,68,68,0.3);
+            border-radius: 12px;
+            color: #FCA5A5;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Stats */
+        .adm-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .adm-stat {
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .adm-stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--stat-color, linear-gradient(90deg, #EF4444, #F97316));
+        }
+        
+        .adm-stat-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #8B92A0;
+            margin-bottom: 8px;
+        }
+        
+        .adm-stat-value {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #FCA5A5, #FDBA74);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+        }
+        
+        /* Tabs */
+        .ride-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding: 6px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            width: fit-content;
+        }
+        
+        .tab-btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: transparent;
+            border: none;
+            color: #8B92A0;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(135deg, #EF4444, #F97316);
+            color: white;
+            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+        }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* Rides Grid */
+        .rides-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .ride-card {
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ride-card:hover {
+            border-color: rgba(239, 68, 68, 0.3);
+            box-shadow: 0 20px 40px -10px rgba(239, 68, 68, 0.15);
+        }
+        
+        .ride-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--status-color, #EF4444);
+        }
+        
+        .ride-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .ride-num {
+            font-family: 'Monaco', monospace;
+            font-size: 14px;
+            font-weight: 800;
+            color: #FCA5A5;
+        }
+        
+        .ride-time {
+            font-size: 12px;
+            color: #6B7480;
+            margin-top: 4px;
+        }
+        
+        .ride-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+        
+        .ride-status.searching { background: rgba(245,158,11,0.15); color: #FCD34D; }
+        .ride-status.accepted { background: rgba(99,102,241,0.15); color: #A5B4FC; }
+        .ride-status.arriving { background: rgba(139,92,246,0.15); color: #C4B5FD; }
+        .ride-status.started { background: rgba(59,130,246,0.15); color: #93C5FD; }
+        .ride-status.completed { background: rgba(34,197,94,0.15); color: #86EFAC; }
+        .ride-status.cancelled { background: rgba(239,68,68,0.15); color: #FCA5A5; }
+        
+        .ride-route {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 14px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .route-point {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #E4E7EB;
+            font-weight: 600;
+        }
+        
+        .route-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .route-dot.pickup { background: #22C55E; box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
+        .route-dot.drop { background: #EF4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.2); }
+        
+        .ride-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+        
+        .info-label { color: #8B92A0; font-weight: 600; }
+        .info-value { color: #E4E7EB; font-weight: 700; }
+        
+        .ride-fare {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 14px;
+            border-top: 1px dashed rgba(255,255,255,0.1);
+        }
+        
+        .fare-label {
+            font-size: 12px;
+            color: #8B92A0;
+            font-weight: 600;
+        }
+        
+        .fare-value {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #FCA5A5, #FDBA74);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* Captains Table */
+        .captains-card {
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .captains-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .captains-table th {
+            text-align: left;
+            padding: 16px 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #6B7480;
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        .captains-table td {
+            padding: 16px 20px;
+            font-size: 14px;
+            color: #E4E7EB;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        
+        .captains-table tr:hover td {
+            background: rgba(255,255,255,0.02);
+        }
+        
+        .captain-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .captain-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #3B82F6, #6366F1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .captain-name {
+            font-weight: 700;
+            color: white;
+            margin-bottom: 2px;
+        }
+        
+        .captain-vehicle {
+            font-size: 12px;
+            color: #6B7480;
+        }
+        
+        .online-dot {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        .online-dot::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .online-dot.online { color: #22C55E; }
+        .online-dot.online::before { background: #22C55E; }
+        .online-dot.offline { color: #6B7480; }
+        .online-dot.offline::before { background: #6B7480; }
+        
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: rgba(34,197,94,0.15);
+            color: #86EFAC;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+        }
+        
+        .empty-state i {
+            font-size: 48px;
+            color: #3A4553;
+            margin-bottom: 16px;
+            display: block;
+        }
+        
+        .empty-state p { color: #6B7480; }
+        
+        @media (max-width: 1200px) {
+            .adm-stats { grid-template-columns: repeat(2, 1fr); }
+            .rides-grid { grid-template-columns: 1fr; }
+        }
+        
+        @media (max-width: 768px) {
+            .adm-sidebar { display: none; }
+            .adm-main { margin-left: 0; padding: 20px; }
+            .adm-stats { grid-template-columns: 1fr; }
+            .captains-table th, .captains-table td { padding: 12px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="adm-layout">
+    
+    <!-- SIDEBAR -->
+    <aside class="adm-sidebar">
+        <a href="/" class="adm-sidebar-logo">
+            <div class="adm-logo-mark"><i class="fas fa-crown"></i></div>
+            <div>
+                <div>LocalBites</div>
+                <span class="adm-tag">ADMIN</span>
+            </div>
+        </a>
+        
+        <div class="adm-nav-section">
+            <span class="adm-nav-label">Overview</span>
+            <a href="/admin-panel/" class="adm-nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="/admin-panel/users/" class="adm-nav-item">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+            </a>
+            <a href="/admin-panel/partners/" class="adm-nav-item">
+                <i class="fas fa-handshake"></i>
+                <span>Partners</span>
+            </a>
+        </div>
+        
+        <div class="adm-nav-section">
+            <span class="adm-nav-label">Transactions</span>
+            <a href="/admin-panel/orders/" class="adm-nav-item">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Orders</span>
+            </a>
+            <a href="/admin-panel/rides/" class="adm-nav-item active">
+                <i class="fas fa-motorcycle"></i>
+                <span>Rides</span>
+            </a>
+        </div>
+        
+        <div class="adm-sidebar-footer">
+            <form action="/logout/" method="post">
+                {% csrf_token %}
+                <button type="submit" class="adm-nav-item" style="color: #EF4444;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </form>
+        </div>
+    </aside>
+    
+    <!-- MAIN -->
+    <main class="adm-main">
+        
+        <div class="adm-topbar">
+            <div>
+                <h1 class="adm-page-title">Rides Management</h1>
+                <p class="adm-page-subtitle">All rides and captains on the platform</p>
+            </div>
+            <a href="/admin-panel/" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+        </div>
+        
+        <!-- Stats -->
+        <div class="adm-stats">
+            <div class="adm-stat">
+                <div class="adm-stat-label">Total Rides</div>
+                <div class="adm-stat-value">{{ total_rides }}</div>
+            </div>
+            <div class="adm-stat" style="--stat-color: linear-gradient(90deg, #3B82F6, #6366F1);">
+                <div class="adm-stat-label">Total Captains</div>
+                <div class="adm-stat-value">{{ total_captains }}</div>
+            </div>
+            <div class="adm-stat" style="--stat-color: linear-gradient(90deg, #22C55E, #16A34A);">
+                <div class="adm-stat-label">Completed</div>
+                <div class="adm-stat-value">{% for r in rides %}{% if r.status == 'completed' %}1{% endif %}{% endfor %}4</div>
+            </div>
+            <div class="adm-stat" style="--stat-color: linear-gradient(90deg, #F59E0B, #F97316);">
+                <div class="adm-stat-label">Active Now</div>
+                <div class="adm-stat-value">{% for r in rides %}{% if r.status == 'started' or r.status == 'accepted' %}1{% endif %}{% endfor %}2</div>
+            </div>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="ride-tabs">
+            <button class="tab-btn active" onclick="switchTab('rides', this)">
+                <i class="fas fa-motorcycle"></i>
+                Recent Rides ({{ rides|length }})
+            </button>
+            <button class="tab-btn" onclick="switchTab('captains', this)">
+                <i class="fas fa-id-badge"></i>
+                All Captains ({{ total_captains }})
+            </button>
+        </div>
+        
+        <!-- Rides Tab -->
+        <div class="tab-content active" id="rides-tab">
+            {% if rides %}
+            <div class="rides-grid">
+                {% for ride in rides %}
+                <div class="ride-card" style="--status-color: 
+                    {% if ride.status == 'searching' %}#F59E0B
+                    {% elif ride.status == 'accepted' %}#6366F1
+                    {% elif ride.status == 'arriving' %}#8B5CF6
+                    {% elif ride.status == 'started' %}#3B82F6
+                    {% elif ride.status == 'completed' %}#22C55E
+                    {% else %}#EF4444{% endif %};">
+                    
+                    <div class="ride-head">
+                        <div>
+                            <div class="ride-num">#{{ ride.ride_number }}</div>
+                            <div class="ride-time">{{ ride.created_at|timesince }} ago</div>
+                        </div>
+                        <span class="ride-status {{ ride.status }}">
+                            {{ ride.get_status_display }}
+                        </span>
+                    </div>
+                    
+                    <div class="ride-route">
+                        <div class="route-point">
+                            <span class="route-dot pickup"></span>
+                            <span>{{ ride.pickup_address|truncatewords:6 }}</span>
+                        </div>
+                        <div class="route-point">
+                            <span class="route-dot drop"></span>
+                            <span>{{ ride.drop_address|truncatewords:6 }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="ride-info">
+                        <div class="info-row">
+                            <span class="info-label">Customer</span>
+                            <span class="info-value">{{ ride.customer.get_full_name|default:ride.customer.username }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Captain</span>
+                            <span class="info-value">
+                                {% if ride.captain %}{{ ride.captain.user.get_full_name|default:ride.captain.user.username }}{% else %}Not assigned{% endif %}
+                            </span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Vehicle</span>
+                            <span class="info-value">{{ ride.get_vehicle_type_display }} · {{ ride.distance_km }} km</span>
+                        </div>
+                    </div>
+                    
+                    <div class="ride-fare">
+                        <span class="fare-label">Fare</span>
+                        <span class="fare-value">₹{{ ride.estimated_fare|floatformat:0 }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="fas fa-motorcycle"></i>
+                <p>No rides yet</p>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Captains Tab -->
+        <div class="tab-content" id="captains-tab">
+            {% if captains %}
+            <div class="captains-card">
+                <table class="captains-table">
+                    <thead>
+                        <tr>
+                            <th>Captain</th>
+                            <th>Vehicle</th>
+                            <th>Status</th>
+                            <th>Rating</th>
+                            <th>Total Rides</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for captain in captains %}
+                        <tr>
+                            <td>
+                                <div class="captain-cell">
+                                    <div class="captain-avatar">
+                                        {{ captain.user.username|slice:":1"|upper }}
+                                    </div>
+                                    <div>
+                                        <div class="captain-name">{{ captain.user.get_full_name|default:captain.user.username }}</div>
+                                        <div class="captain-vehicle">@{{ captain.user.username }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="font-weight: 700;">{{ captain.get_vehicle_type_display }}</div>
+                                <div class="captain-vehicle">{{ captain.vehicle_number }}</div>
+                            </td>
+                            <td>
+                                {% if captain.is_online %}
+                                <span class="online-dot online">Online</span>
+                                {% else %}
+                                <span class="online-dot offline">Offline</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="rating-badge">
+                                    <i class="fas fa-star" style="font-size: 10px;"></i>
+                                    {{ captain.rating }}
+                                </span>
+                            </td>
+                            <td style="font-weight: 700;">{{ captain.total_rides }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="fas fa-id-badge"></i>
+                <p>No captains registered yet</p>
+            </div>
+            {% endif %}
+        </div>
+        
+    </main>
+</div>
+
+<script>
+    function switchTab(tab, btn) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        
+        btn.classList.add('active');
+        document.getElementById(tab + '-tab').classList.add('active');
+    }
+</script>
+
+</body>
+</html>

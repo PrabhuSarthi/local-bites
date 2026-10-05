@@ -1,0 +1,798 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | LocalBites</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #08080C;
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .adm-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* ========== SIDEBAR ========== */
+        .adm-sidebar {
+            width: 260px;
+            background: rgba(10, 10, 18, 0.95);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255,255,255,0.08);
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+        }
+        
+        .adm-sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+            font-weight: 800;
+            font-size: 18px;
+            padding: 12px 12px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            margin-bottom: 20px;
+        }
+        
+        .adm-logo-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #EF4444, #F97316);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+        }
+        
+        .adm-tag {
+            padding: 2px 6px;
+            background: rgba(239, 68, 68, 0.15);
+            color: #FCA5A5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 5px;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        
+        .adm-nav-section {
+            margin-bottom: 20px;
+        }
+        
+        .adm-nav-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #6B7480;
+            padding: 8px 12px;
+            display: block;
+        }
+        
+        .adm-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 11px;
+            text-decoration: none;
+            color: #8B92A0;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            margin-bottom: 2px;
+            width: 100%;
+            background: transparent;
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+        }
+        
+        .adm-nav-item:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: white;
+            transform: translateX(3px);
+        }
+        
+        .adm-nav-item.active {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(249, 115, 22, 0.1));
+            color: white;
+            border-left: 3px solid #EF4444;
+        }
+        
+        .adm-nav-item i {
+            width: 18px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .adm-nav-count {
+            margin-left: auto;
+            padding: 2px 8px;
+            background: rgba(255,255,255,0.08);
+            color: #8B92A0;
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: 100px;
+        }
+        
+        .adm-sidebar-footer {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        /* ========== MAIN ========== */
+        .adm-main {
+            flex: 1;
+            margin-left: 260px;
+            padding: 32px;
+            min-height: 100vh;
+        }
+        
+        .adm-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .adm-page-title {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            background: linear-gradient(135deg, #FCA5A5, #FDBA74);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .adm-page-subtitle {
+            font-size: 14px;
+            color: #8B92A0;
+            margin-top: 4px;
+        }
+        
+        .adm-user-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px 8px 8px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 100px;
+        }
+        
+        .adm-user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #EF4444, #F97316);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: white;
+        }
+        
+        .adm-user-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .adm-user-role {
+            font-size: 11px;
+            color: #FCA5A5;
+            font-weight: 700;
+        }
+        
+        /* ========== STATS ========== */
+        .adm-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        
+        .adm-stat {
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .adm-stat:hover {
+            transform: translateY(-4px);
+            border-color: rgba(239, 68, 68, 0.3);
+            box-shadow: 0 20px 40px -10px rgba(239, 68, 68, 0.2);
+        }
+        
+        .adm-stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--stat-color, linear-gradient(90deg, #EF4444, #F97316));
+        }
+        
+        .adm-stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .adm-stat-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #8B92A0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .adm-stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            background: rgba(239, 68, 68, 0.15);
+            color: #FCA5A5;
+        }
+        
+        .adm-stat-value {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            background: linear-gradient(135deg, #FCA5A5, #FDBA74);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        
+        .adm-stat-sub {
+            font-size: 12px;
+            color: #22C55E;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        /* ========== CHART ========== */
+        .adm-chart-section {
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 28px;
+            margin-bottom: 32px;
+        }
+        
+        .adm-chart-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        
+        .adm-chart-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: white;
+        }
+        
+        .adm-chart-subtitle {
+            font-size: 12px;
+            color: #8B92A0;
+            margin-top: 4px;
+        }
+        
+        .adm-chart-legend {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: #8B92A0;
+        }
+        
+        .adm-legend-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+        
+        .adm-chart-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            height: 180px;
+        }
+        
+        .adm-bar-wrap {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            height: 100%;
+        }
+        
+        .adm-bar-track {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            align-items: flex-end;
+        }
+        
+        .adm-bar {
+            width: 100%;
+            border-radius: 8px 8px 0 0;
+            animation: admBarGrow 1s ease-out;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .adm-bar:hover {
+            filter: brightness(1.3);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+        }
+        
+        @keyframes admBarGrow {
+            from { height: 0 !important; opacity: 0; }
+        }
+        
+        .adm-bar-label {
+            font-size: 11px;
+            color: #6B7480;
+            font-weight: 600;
+        }
+        
+        /* ========== SECTION ========== */
+        .adm-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .adm-card {
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 24px;
+        }
+        
+        .adm-card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        .adm-card-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .adm-card-link {
+            font-size: 13px;
+            color: #FCA5A5;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .adm-card-link:hover { color: #FEE2E2; }
+        
+        /* List items */
+        .adm-list-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .adm-list-item:hover {
+            background: rgba(255,255,255,0.03);
+        }
+        
+        .adm-item-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            flex-shrink: 0;
+            color: white;
+        }
+        
+        .adm-avatar-admin { background: linear-gradient(135deg, #EF4444, #F97316); }
+        .adm-avatar-restaurant { background: linear-gradient(135deg, #F59E0B, #F97316); }
+        .adm-avatar-grocery { background: linear-gradient(135deg, #22C55E, #16A34A); }
+        .adm-avatar-driver { background: linear-gradient(135deg, #3B82F6, #6366F1); }
+        .adm-avatar-customer { background: linear-gradient(135deg, #8B5CF6, #EC4899); }
+        
+        .adm-item-info { flex: 1; min-width: 0; }
+        
+        .adm-item-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 2px;
+        }
+        
+        .adm-item-sub {
+            font-size: 12px;
+            color: #6B7480;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .adm-item-badge {
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+        
+        .badge-admin { background: rgba(239,68,68,0.15); color: #FCA5A5; }
+        .badge-restaurant { background: rgba(245,158,11,0.15); color: #FCD34D; }
+        .badge-grocery { background: rgba(34,197,94,0.15); color: #86EFAC; }
+        .badge-driver { background: rgba(59,130,246,0.15); color: #93C5FD; }
+        .badge-customer { background: rgba(139,92,246,0.15); color: #C4B5FD; }
+        
+        .badge-pending { background: rgba(245,158,11,0.15); color: #FCD34D; }
+        .badge-confirmed { background: rgba(99,102,241,0.15); color: #A5B4FC; }
+        .badge-delivered { background: rgba(34,197,94,0.15); color: #86EFAC; }
+        .badge-completed { background: rgba(34,197,94,0.15); color: #86EFAC; }
+        .badge-cancelled { background: rgba(239,68,68,0.15); color: #FCA5A5; }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .adm-stats { grid-template-columns: repeat(2, 1fr); }
+            .adm-section { grid-template-columns: 1fr; }
+        }
+        
+        @media (max-width: 768px) {
+            .adm-sidebar { transform: translateX(-100%); }
+            .adm-sidebar.open { transform: translateX(0); }
+            .adm-main { margin-left: 0; padding: 20px; }
+            .adm-stats { grid-template-columns: 1fr; }
+            .adm-chart-bars { height: 140px; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="adm-layout">
+    
+    <!-- SIDEBAR -->
+    <aside class="adm-sidebar">
+        <a href="/" class="adm-sidebar-logo">
+            <div class="adm-logo-mark">
+                <i class="fas fa-crown"></i>
+            </div>
+            <div>
+                <div>LocalBites</div>
+                <span class="adm-tag">ADMIN</span>
+            </div>
+        </a>
+        
+        <div class="adm-nav-section">
+            <span class="adm-nav-label">Overview</span>
+            <a href="/admin-panel/" class="adm-nav-item active">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="/admin-panel/users/" class="adm-nav-item">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+                <span class="adm-nav-count">{{ total_customers|default:0 }}</span>
+            </a>
+            <a href="/admin-panel/partners/" class="adm-nav-item">
+                <i class="fas fa-handshake"></i>
+                <span>Partners</span>
+            </a>
+        </div>
+        
+        <div class="adm-nav-section">
+            <span class="adm-nav-label">Transactions</span>
+            <a href="/admin-panel/orders/" class="adm-nav-item">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Orders</span>
+            </a>
+            <a href="/admin-panel/rides/" class="adm-nav-item">
+                <i class="fas fa-motorcycle"></i>
+                <span>Rides</span>
+            </a>
+        </div>
+        
+        <div class="adm-nav-section">
+            <span class="adm-nav-label">System</span>
+            <a href="/admin/" class="adm-nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Django Admin</span>
+            </a>
+        </div>
+        
+        <div class="adm-sidebar-footer">
+            <form action="/logout/" method="post">
+                {% csrf_token %}
+                <button type="submit" class="adm-nav-item" style="color: #EF4444;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </form>
+        </div>
+    </aside>
+    
+    <!-- MAIN CONTENT -->
+    <main class="adm-main">
+        
+        <div class="adm-topbar">
+            <div>
+                <h1 class="adm-page-title">Admin Dashboard</h1>
+                <p class="adm-page-subtitle">Welcome back, {{ user.get_full_name|default:user.username }} · Here's your platform overview</p>
+            </div>
+            
+            <div class="adm-user-badge">
+                <div class="adm-user-avatar">
+                    {{ user.username|slice:":1"|upper }}
+                </div>
+                <div>
+                    <div class="adm-user-name">{{ user.get_full_name|default:user.username }}</div>
+                    <div class="adm-user-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats -->
+        <div class="adm-stats">
+            <div class="adm-stat" style="--stat-color: linear-gradient(90deg, #8B5CF6, #EC4899);">
+                <div class="adm-stat-header">
+                    <span class="adm-stat-label">Customers</span>
+                    <div class="adm-stat-icon" style="background: rgba(139,92,246,0.15); color: #C4B5FD;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div class="adm-stat-value">{{ total_customers }}</div>
+                <div class="adm-stat-sub"><i class="fas fa-check"></i> Active users</div>
+            </div>
+            
+            <div class="adm-stat" style="--stat-color: linear-gradient(90deg, #F59E0B, #F97316);">
+                <div class="adm-stat-header">
+                    <span class="adm-stat-label">Partners</span>
+                    <div class="adm-stat-icon" style="background: rgba(245,158,11,0.15); color: #FCD34D;">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                </div>
+                <div class="adm-stat-value">{{ total_restaurant_owners|add:total_grocery_owners|add:total_captains }}</div>
+                <div class="adm-stat-sub"><i class="fas fa-store"></i> {{ total_restaurants }} rest · {{ total_grocery_stores }} store · {{ total_riders }} capt</div>
+            </div>
+            
+            <div class="adm-stat" style="--stat-color: linear-gradient(90deg, #22C55E, #10B981);">
+                <div class="adm-stat-header">
+                    <span class="adm-stat-label">Total Orders</span>
+                    <div class="adm-stat-icon" style="background: rgba(34,197,94,0.15); color: #86EFAC;">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                </div>
+                <div class="adm-stat-value">{{ food_orders|add:grocery_orders }}</div>
+                <div class="adm-stat-sub"><i class="fas fa-utensils"></i> {{ food_orders }} food · {{ grocery_orders }} grocery</div>
+            </div>
+            
+            <div class="adm-stat" style="--stat-color: linear-gradient(90deg, #3B82F6, #06B6D4);">
+                <div class="adm-stat-header">
+                    <span class="adm-stat-label">Total Rides</span>
+                    <div class="adm-stat-icon" style="background: rgba(59,130,246,0.15); color: #93C5FD;">
+                        <i class="fas fa-motorcycle"></i>
+                    </div>
+                </div>
+                <div class="adm-stat-value">{{ total_rides }}</div>
+                <div class="adm-stat-sub"><i class="fas fa-clock"></i> All-time bookings</div>
+            </div>
+        </div>
+        
+        <!-- Revenue Chart -->
+        <div class="adm-chart-section">
+            <div class="adm-chart-head">
+                <div>
+                    <div class="adm-chart-title">Weekly Orders Overview</div>
+                    <div class="adm-chart-subtitle">Food + Grocery orders across last 7 days</div>
+                </div>
+                <div class="adm-chart-legend">
+                    <span><span class="adm-legend-dot" style="background: #EF4444;"></span>Food</span>
+                    <span><span class="adm-legend-dot" style="background: #22C55E;"></span>Grocery</span>
+                </div>
+            </div>
+            
+            <div class="adm-chart-bars">
+                <div class="adm-bar-wrap">
+                    <div class="adm-bar-track">
+                        <div class="adm-bar" style="height: 60%; background: linear-gradient(180deg, #EF4444, #DC2626);"></div>
+                    </div>
+                    <span class="adm-bar-label">Mon</span>
+                </div>
+                <div class="adm-bar-wrap">
+                    <div class="adm-bar-track">
+                        <div class="adm-bar" style="height: 45%; background: linear-gradient(180deg, #EF4444, #DC2626);"></div>
+                    </div>
+                    <span class="adm-bar-label">Tue</span>
+                </div>
+                <div class="adm-bar-wrap">
+                    <div class="adm-bar-track">
+                        <div class="adm-bar" style="height: 78%; background: linear-gradient(180deg, #EF4444, #DC2626);"></div>
+                    </div>
+                    <span class="adm-bar-label">Wed</span>
+                </div>
+                <div class="adm-bar-wrap">
+                    <div class="adm-bar-track">
+                        <div class="adm-bar" style="height: 62%; background: linear-gradient(180deg, #EF4444, #DC2626);"></div>
+                    </div>
+                    <span class="adm-bar-label">Thu</span>
+                </div>
+                <div class="adm-bar-wrap">
+                    <div class="adm-bar-track">
+                        <div class="adm-bar" style="height: 88%; background: linear-gradient(180deg, #EF4444, #DC2626);"></div>
+                    </div>
+                    <span class="adm-bar-label">Fri</span>
+                </div>
+                <div class="adm-bar-wrap">
+                    <div class="adm-bar-track">
+                        <div class="adm-bar" style="height: 92%; background: linear-gradient(180deg, #F59E0B, #F97316);"></div>
+                    </div>
+                    <span class="adm-bar-label">Sat</span>
+                </div>
+                <div class="adm-bar-wrap">
+                    <div class="adm-bar-track">
+                        <div class="adm-bar" style="height: 85%; background: linear-gradient(180deg, #F59E0B, #F97316);"></div>
+                    </div>
+                    <span class="adm-bar-label">Sun</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Activity Grid -->
+        <div class="adm-section">
+            
+            <!-- Recent Users -->
+            <div class="adm-card">
+                <div class="adm-card-head">
+                    <div class="adm-card-title">
+                        <i class="fas fa-user-plus" style="color: #C4B5FD;"></i>
+                        Recent Users
+                    </div>
+                    <a href="/admin-panel/users/" class="adm-card-link">
+                        View All <i class="fas fa-arrow-right" style="font-size: 11px;"></i>
+                    </a>
+                </div>
+                
+                {% for u in recent_users %}
+                <div class="adm-list-item">
+                    <div class="adm-item-avatar 
+                        {% if u.role == 'admin' %}adm-avatar-admin
+                        {% elif u.role == 'restaurant' %}adm-avatar-restaurant
+                        {% elif u.role == 'grocery' %}adm-avatar-grocery
+                        {% elif u.role == 'driver' %}adm-avatar-driver
+                        {% else %}adm-avatar-customer{% endif %}">
+                        {{ u.username|slice:":1"|upper }}
+                    </div>
+                    <div class="adm-item-info">
+                        <div class="adm-item-title">{{ u.get_full_name|default:u.username }}</div>
+                        <div class="adm-item-sub">{{ u.email|truncatechars:25 }}</div>
+                    </div>
+                    <span class="adm-item-badge badge-{{ u.role }}">{{ u.role|title }}</span>
+                </div>
+                {% empty %}
+                <p style="color: #6B7480; text-align: center; padding: 20px;">No users yet</p>
+                {% endfor %}
+            </div>
+            
+            <!-- Recent Orders -->
+            <div class="adm-card">
+                <div class="adm-card-head">
+                    <div class="adm-card-title">
+                        <i class="fas fa-shopping-bag" style="color: #86EFAC;"></i>
+                        Recent Orders
+                    </div>
+                    <a href="/admin-panel/orders/" class="adm-card-link">
+                        View All <i class="fas fa-arrow-right" style="font-size: 11px;"></i>
+                    </a>
+                </div>
+                
+                {% for order in recent_food_orders %}
+                <div class="adm-list-item">
+                    <div class="adm-item-avatar adm-avatar-restaurant">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="adm-item-info">
+                        <div class="adm-item-title">#{{ order.order_number }} · {{ order.restaurant.name|truncatechars:15 }}</div>
+                        <div class="adm-item-sub">{{ order.customer.get_full_name|default:order.customer.username }} · ₹{{ order.total|floatformat:0 }}</div>
+                    </div>
+                    <span class="adm-item-badge badge-{{ order.status }}">{{ order.get_status_display|truncatechars:8 }}</span>
+                </div>
+                {% endfor %}
+                
+                {% for order in recent_grocery_orders %}
+                <div class="adm-list-item">
+                    <div class="adm-item-avatar adm-avatar-grocery">
+                        <i class="fas fa-shopping-basket"></i>
+                    </div>
+                    <div class="adm-item-info">
+                        <div class="adm-item-title">#{{ order.order_number }} · {{ order.store.name|truncatechars:15 }}</div>
+                        <div class="adm-item-sub">{{ order.customer.get_full_name|default:order.customer.username }} · ₹{{ order.total|floatformat:0 }}</div>
+                    </div>
+                    <span class="adm-item-badge badge-{{ order.status }}">{{ order.get_status_display|truncatechars:8 }}</span>
+                </div>
+                {% endfor %}
+                
+                {% if not recent_food_orders and not recent_grocery_orders %}
+                <p style="color: #6B7480; text-align: center; padding: 20px;">No orders yet</p>
+                {% endif %}
+            </div>
+            
+        </div>
+        
+    </main>
+</div>
+
+</body>
+</html>

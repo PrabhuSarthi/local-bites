@@ -1,0 +1,750 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captain Dashboard | LocalBites</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #08080C;
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .cap-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        .cap-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .cap-title {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            background: linear-gradient(135deg, #93C5FD, #22D3EE);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .cap-subtitle {
+            color: #8B92A0;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        
+        .cap-header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .cap-back-btn {
+            padding: 12px 24px;
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            color: #93C5FD;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-family: inherit;
+            cursor: pointer;
+        }
+        
+        .cap-back-btn:hover {
+            background: rgba(59, 130, 246, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        .cap-logout-btn {
+            background: rgba(239, 68, 68, 0.15) !important;
+            border-color: rgba(239, 68, 68, 0.3) !important;
+            color: #FCA5A5 !important;
+        }
+        
+        .cap-logout-btn:hover {
+            background: rgba(239, 68, 68, 0.25) !important;
+        }
+        
+        /* Online Status Card */
+        .online-card {
+            background: linear-gradient(160deg, rgba(34, 197, 94, 0.1), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .online-card.offline {
+            background: linear-gradient(160deg, rgba(239, 68, 68, 0.1), rgba(18, 18, 28, 0.8));
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+        
+        .online-status {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .pulse-dot {
+            width: 14px;
+            height: 14px;
+            background: #22C55E;
+            border-radius: 50%;
+            animation: pulseGreen 2s infinite;
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+        }
+        
+        .online-card.offline .pulse-dot {
+            background: #EF4444;
+            animation: pulseRed 2s infinite;
+            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+        }
+        
+        @keyframes pulseGreen {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            50% { box-shadow: 0 0 0 12px rgba(34, 197, 94, 0); }
+        }
+        
+        @keyframes pulseRed {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            50% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+        }
+        
+        .online-text strong {
+            display: block;
+            font-size: 18px;
+            font-weight: 800;
+            color: white;
+        }
+        
+        .online-text span {
+            font-size: 13px;
+            color: #8B92A0;
+            margin-top: 2px;
+            display: block;
+        }
+        
+        .toggle-btn {
+            padding: 12px 28px;
+            border-radius: 100px;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .toggle-btn.go-offline {
+            background: rgba(239, 68, 68, 0.15);
+            color: #EF4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .toggle-btn.go-offline:hover {
+            background: rgba(239, 68, 68, 0.25);
+        }
+        
+        .toggle-btn.go-online {
+            background: linear-gradient(135deg, #22C55E, #16A34A);
+            color: white;
+            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+        }
+        
+        .toggle-btn.go-online:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(34, 197, 94, 0.5);
+        }
+        
+        /* Stats */
+        .cap-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .cap-stat {
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cap-stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--stat-color, linear-gradient(90deg, #3B82F6, #6366F1));
+        }
+        
+        .cap-stat-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #8B92A0;
+            margin-bottom: 8px;
+        }
+        
+        .cap-stat-value {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #93C5FD, #22D3EE);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+        }
+        
+        /* Section */
+        .cap-section-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .cap-section-title .badge {
+            background: rgba(59, 130, 246, 0.15);
+            color: #93C5FD;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        /* Ride Cards */
+        .cap-orders-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        
+        .cap-order-card {
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cap-order-card:hover {
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.2);
+        }
+        
+        .cap-order-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--status-color, #3B82F6);
+        }
+        
+        .cap-order-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .cap-order-num {
+            font-family: 'Monaco', monospace;
+            font-size: 14px;
+            font-weight: 800;
+            color: #93C5FD;
+            letter-spacing: 0.5px;
+        }
+        
+        .cap-order-time {
+            font-size: 12px;
+            color: #6B7480;
+            margin-top: 4px;
+        }
+        
+        .cap-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+        
+        .cap-status-badge.searching { background: rgba(245,158,11,0.15); color: #F59E0B; }
+        .cap-status-badge.accepted { background: rgba(99,102,241,0.15); color: #818CF8; }
+        .cap-status-badge.arriving { background: rgba(139,92,246,0.15); color: #A78BFA; }
+        .cap-status-badge.started { background: rgba(59,130,246,0.15); color: #60A5FA; }
+        .cap-status-badge.completed { background: rgba(34,197,94,0.15); color: #22C55E; }
+        .cap-status-badge.cancelled { background: rgba(239,68,68,0.15); color: #EF4444; }
+        
+        .cap-route {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 14px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .cap-route-point {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #E4E7EB;
+            font-weight: 600;
+        }
+        
+        .cap-route-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .cap-route-dot.pickup {
+            background: #22C55E;
+            box-shadow: 0 0 0 3px rgba(34,197,94,0.2);
+        }
+        
+        .cap-route-dot.drop {
+            background: #EF4444;
+            box-shadow: 0 0 0 3px rgba(239,68,68,0.2);
+        }
+        
+        .cap-order-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 14px;
+            border-top: 1px dashed rgba(255,255,255,0.1);
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .cap-meta-item {
+            font-size: 12px;
+            color: #8B92A0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+        
+        .cap-meta-item i { color: #60A5FA; }
+        
+        .cap-fare {
+            font-size: 20px;
+            font-weight: 900;
+            color: #60A5FA;
+            letter-spacing: -0.5px;
+        }
+        
+        .cap-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .cap-action-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+        
+        .cap-action-btn.accept {
+            background: linear-gradient(135deg, #22C55E, #16A34A);
+            color: white;
+            box-shadow: 0 4px 16px rgba(34,197,94,0.3);
+        }
+        
+        .cap-action-btn.accept:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(34,197,94,0.4);
+        }
+        
+        .cap-action-btn.start {
+            background: linear-gradient(135deg, #3B82F6, #6366F1);
+            color: white;
+            box-shadow: 0 4px 16px rgba(59,130,246,0.3);
+        }
+        
+        .cap-action-btn.start:hover {
+            transform: translateY(-2px);
+        }
+        
+        .cap-action-btn.complete {
+            background: linear-gradient(135deg, #22C55E, #10B981);
+            color: white;
+            box-shadow: 0 4px 16px rgba(34,197,94,0.3);
+        }
+        
+        .cap-action-btn.complete:hover {
+            transform: translateY(-2px);
+        }
+        
+        .cap-action-btn.view {
+            background: rgba(255,255,255,0.05);
+            color: #8B92A0;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .cap-action-btn.view:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .cap-empty {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .cap-empty i {
+            font-size: 48px;
+            color: #3A4553;
+            margin-bottom: 16px;
+            display: block;
+        }
+        
+        .cap-empty h3 {
+            font-size: 18px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 6px;
+        }
+        
+        .cap-empty p { color: #6B7480; font-size: 13px; }
+        
+        @media (max-width: 968px) {
+            .cap-stats { grid-template-columns: repeat(2, 1fr); }
+            .cap-orders-grid { grid-template-columns: 1fr; }
+        }
+        
+        @media (max-width: 640px) {
+            .cap-stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="cap-wrap">
+    
+    <!-- Header -->
+    <div class="cap-header">
+        <div>
+            <h1 class="cap-title">Captain Dashboard 🏍️</h1>
+            <p class="cap-subtitle">{{ captain.user.get_full_name|default:captain.user.username }} · {{ captain.get_vehicle_type_display }} · {{ captain.vehicle_number }}</p>
+        </div>
+        <div class="cap-header-actions">
+            <a href="/dashboard/" class="cap-back-btn">
+                <i class="fas fa-arrow-left"></i> Dashboard
+            </a>
+            <form action="/logout/" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="cap-back-btn cap-logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Online Status -->
+    <div class="online-card {% if not captain.is_online %}offline{% endif %}">
+        <div class="online-status">
+            <div class="pulse-dot"></div>
+            <div class="online-text">
+                {% if captain.is_online %}
+                <strong>You're Online</strong>
+                <span>Receiving ride requests in your area</span>
+                {% else %}
+                <strong>You're Offline</strong>
+                <span>Go online to start receiving rides</span>
+                {% endif %}
+            </div>
+        </div>
+        <a href="/rides/captain/toggle-online/" class="toggle-btn {% if captain.is_online %}go-offline{% else %}go-online{% endif %}">
+            {% if captain.is_online %}
+            <i class="fas fa-power-off"></i> Go Offline
+            {% else %}
+            <i class="fas fa-play"></i> Go Online
+            {% endif %}
+        </a>
+    </div>
+    
+    <!-- Stats -->
+    <div class="cap-stats">
+        <div class="cap-stat">
+            <div class="cap-stat-label">Total Rides</div>
+            <div class="cap-stat-value">{{ captain.total_rides }}</div>
+        </div>
+        <div class="cap-stat" style="--stat-color: linear-gradient(90deg, #22C55E, #16A34A);">
+            <div class="cap-stat-label">Total Earnings</div>
+            <div class="cap-stat-value">₹{{ captain.total_earnings|floatformat:0 }}</div>
+        </div>
+        <div class="cap-stat" style="--stat-color: linear-gradient(90deg, #F59E0B, #F97316);">
+            <div class="cap-stat-label">Rating</div>
+            <div class="cap-stat-value">{{ captain.rating }}★</div>
+        </div>
+        <div class="cap-stat" style="--stat-color: linear-gradient(90deg, #8B5CF6, #EC4899);">
+            <div class="cap-stat-label">Active Rides</div>
+            <div class="cap-stat-value">{{ active_rides|length }}</div>
+        </div>
+    </div>
+    
+    <!-- Active Rides -->
+    {% if active_rides %}
+    <h2 class="cap-section-title">
+        <i class="fas fa-motorcycle" style="color: #60A5FA;"></i>
+        Active Rides
+        <span class="badge">{{ active_rides|length }}</span>
+    </h2>
+    
+    <div class="cap-orders-grid">
+        {% for ride in active_rides %}
+        <div class="cap-order-card" style="--status-color: 
+            {% if ride.status == 'accepted' %}#6366F1
+            {% elif ride.status == 'arriving' %}#8B5CF6
+            {% elif ride.status == 'started' %}#3B82F6
+            {% endif %};">
+            
+            <div class="cap-order-head">
+                <div>
+                    <div class="cap-order-num">#{{ ride.ride_number }}</div>
+                    <div class="cap-order-time">{{ ride.created_at|timesince }} ago</div>
+                </div>
+                <span class="cap-status-badge {{ ride.status }}">
+                    {{ ride.get_status_display }}
+                </span>
+            </div>
+            
+            <div class="cap-route">
+                <div class="cap-route-point">
+                    <span class="cap-route-dot pickup"></span>
+                    <span>{{ ride.pickup_address|truncatewords:8 }}</span>
+                </div>
+                <div class="cap-route-point">
+                    <span class="cap-route-dot drop"></span>
+                    <span>{{ ride.drop_address|truncatewords:8 }}</span>
+                </div>
+            </div>
+            
+            <div class="cap-order-meta">
+                <div class="cap-meta-item">
+                    <i class="fas fa-user"></i>
+                    {{ ride.customer.get_full_name|default:ride.customer.username }}
+                </div>
+                <div class="cap-meta-item">
+                    <i class="fas fa-road"></i>
+                    {{ ride.distance_km }} km
+                </div>
+                <div class="cap-fare">₹{{ ride.estimated_fare|floatformat:0 }}</div>
+            </div>
+            
+            <div class="cap-actions">
+                {% if ride.status == 'accepted' %}
+                <form method="POST" action="/rides/captain/ride/{{ ride.id }}/status/" style="display: contents;">
+                    {% csrf_token %}
+                    <input type="hidden" name="status" value="started">
+                    <button type="submit" class="cap-action-btn start">
+                        <i class="fas fa-play"></i> Start Ride
+                    </button>
+                </form>
+                {% endif %}
+                
+                {% if ride.status == 'started' %}
+                <form method="POST" action="/rides/captain/ride/{{ ride.id }}/status/" style="display: contents;">
+                    {% csrf_token %}
+                    <input type="hidden" name="status" value="completed">
+                    <button type="submit" class="cap-action-btn complete">
+                        <i class="fas fa-check"></i> Complete
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <!-- Pending Rides -->
+    <h2 class="cap-section-title">
+        <i class="fas fa-bell" style="color: #F59E0B;"></i>
+        Available Ride Requests
+        {% if pending_rides %}<span class="badge">{{ pending_rides|length }}</span>{% endif %}
+    </h2>
+    
+    {% if pending_rides %}
+    <div class="cap-orders-grid">
+        {% for ride in pending_rides %}
+        <div class="cap-order-card" style="--status-color: #F59E0B;">
+            <div class="cap-order-head">
+                <div>
+                    <div class="cap-order-num">#{{ ride.ride_number }}</div>
+                    <div class="cap-order-time">{{ ride.created_at|timesince }} ago</div>
+                </div>
+                <span class="cap-status-badge searching">
+                    Finding Captain
+                </span>
+            </div>
+            
+            <div class="cap-route">
+                <div class="cap-route-point">
+                    <span class="cap-route-dot pickup"></span>
+                    <span>{{ ride.pickup_address|truncatewords:8 }}</span>
+                </div>
+                <div class="cap-route-point">
+                    <span class="cap-route-dot drop"></span>
+                    <span>{{ ride.drop_address|truncatewords:8 }}</span>
+                </div>
+            </div>
+            
+            <div class="cap-order-meta">
+                <div class="cap-meta-item">
+                    <i class="fas fa-user"></i>
+                    {{ ride.customer.get_full_name|default:ride.customer.username }}
+                </div>
+                <div class="cap-meta-item">
+                    <i class="fas fa-road"></i>
+                    {{ ride.distance_km }} km
+                </div>
+                <div class="cap-fare">₹{{ ride.estimated_fare|floatformat:0 }}</div>
+            </div>
+            
+            <div class="cap-actions">
+                <form method="POST" action="/rides/captain/ride/{{ ride.id }}/accept/" style="display: contents;">
+                    {% csrf_token %}
+                    <button type="submit" class="cap-action-btn accept">
+                        <i class="fas fa-check"></i> Accept Ride
+                    </button>
+                </form>
+                <a href="/rides/ride/{{ ride.id }}/" class="cap-action-btn view">
+                    <i class="fas fa-eye"></i> View
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="cap-empty">
+        <i class="fas fa-inbox"></i>
+        <h3>No pending ride requests</h3>
+        <p>{% if captain.is_online %}You'll see new requests here when customers book{% else %}Go online to start receiving ride requests{% endif %}</p>
+    </div>
+    {% endif %}
+    
+    <!-- Recent Completed Rides -->
+    {% if completed_rides %}
+    <h2 class="cap-section-title">
+        <i class="fas fa-history" style="color: #22C55E;"></i>
+        Recent Completed Rides
+    </h2>
+    
+    <div class="cap-orders-grid">
+        {% for ride in completed_rides %}
+        <div class="cap-order-card" style="--status-color: #22C55E;">
+            <div class="cap-order-head">
+                <div>
+                    <div class="cap-order-num">#{{ ride.ride_number }}</div>
+                    <div class="cap-order-time">{{ ride.completed_at|timesince }} ago</div>
+                </div>
+                <span class="cap-status-badge completed">
+                    Completed
+                </span>
+            </div>
+            
+            <div class="cap-order-meta" style="border-top: none; padding-top: 0;">
+                <div class="cap-meta-item">
+                    <i class="fas fa-user"></i>
+                    {{ ride.customer.get_full_name|default:ride.customer.username }}
+                </div>
+                <div class="cap-meta-item">
+                    <i class="fas fa-road"></i>
+                    {{ ride.distance_km }} km
+                </div>
+                <div class="cap-fare">₹{{ ride.final_fare|default:ride.estimated_fare|floatformat:0 }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+</div>
+
+</body>
+</html>

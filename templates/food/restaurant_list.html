@@ -1,0 +1,440 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Food | LocalBites</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    <style>
+        body {
+            background: #FFF8F0;
+            min-height: 100vh;
+        }
+        
+        .food-nav {
+            background: rgba(255, 248, 240, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid #F0E5D8;
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .food-nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .food-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #1A1A1A;
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: -0.5px;
+        }
+        
+        .food-logo-mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 8px 20px rgba(255,107,53,0.3);
+        }
+        
+        .food-nav-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .food-nav-btn {
+            padding: 10px 18px;
+            border-radius: 10px;
+            background: white;
+            color: #1A1A1A;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1.5px solid #F0E5D8;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .food-nav-btn:hover {
+            border-color: #FF6B35;
+            color: #FF6B35;
+        }
+        
+        .food-nav-btn.primary {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 16px rgba(255,107,53,0.3);
+        }
+        
+        .food-wrap {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        .food-header {
+            margin-bottom: 32px;
+        }
+        
+        .food-header h1 {
+            font-size: 42px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: #1A1A1A;
+            margin-bottom: 8px;
+        }
+        
+        .food-header h1 span {
+            background: linear-gradient(135deg, #FF6B35, #E63946);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .food-header p {
+            color: #6B6B6B;
+            font-size: 16px;
+        }
+        
+        .food-search {
+            background: white;
+            border-radius: 16px;
+            padding: 8px 8px 8px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border: 1.5px solid #F0E5D8;
+        }
+        
+        .food-search input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 15px;
+            font-family: inherit;
+            color: #1A1A1A;
+            background: transparent;
+        }
+        
+        .food-search input::placeholder {
+            color: #9CA3AF;
+        }
+        
+        .food-search button {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .food-search button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255,107,53,0.3);
+        }
+        
+        .food-cuisines {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .cuisine-chip {
+            padding: 8px 18px;
+            background: white;
+            border: 1.5px solid #F0E5D8;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #6B6B6B;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .cuisine-chip:hover,
+        .cuisine-chip.active {
+            background: #FF6B35;
+            border-color: #FF6B35;
+            color: white;
+        }
+        
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        .restro-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            border: 1.5px solid #F0E5D8;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .restro-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 48px -12px rgba(255,107,53,0.2);
+            border-color: #FF6B35;
+        }
+        
+        .restro-img {
+            height: 180px;
+            background: linear-gradient(135deg, #FFE8D6, #FFD4B8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .restro-img::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.3));
+        }
+        
+        .restro-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 6px 12px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 800;
+            color: #FF6B35;
+            letter-spacing: 0.5px;
+            z-index: 2;
+        }
+        
+        .restro-body {
+            padding: 20px;
+        }
+        
+        .restro-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            gap: 12px;
+        }
+        
+        .restro-name {
+            font-size: 18px;
+            font-weight: 800;
+            color: #1A1A1A;
+            letter-spacing: -0.4px;
+        }
+        
+        .restro-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: #22C55E;
+            color: white;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .restro-cuisine {
+            font-size: 13px;
+            color: #6B6B6B;
+            margin-bottom: 14px;
+        }
+        
+        .restro-meta {
+            display: flex;
+            gap: 16px;
+            padding-top: 14px;
+            border-top: 1px dashed #F0E5D8;
+            font-size: 12px;
+            color: #6B6B6B;
+            font-weight: 600;
+        }
+        
+        .restro-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .restro-meta i {
+            color: #FF6B35;
+        }
+        
+        .food-empty {
+            text-align: center;
+            padding: 80px 20px;
+            background: white;
+            border-radius: 24px;
+            border: 1.5px dashed #F0E5D8;
+        }
+        
+        .food-empty i {
+            font-size: 56px;
+            color: #E5D5C0;
+            margin-bottom: 20px;
+        }
+        
+        .food-empty h3 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 8px;
+        }
+        
+        .food-empty p {
+            color: #6B6B6B;
+        }
+        
+        @media (max-width: 968px) {
+            .food-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 640px) {
+            .food-grid { grid-template-columns: 1fr; }
+            .food-header h1 { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="food-nav">
+    <div class="food-nav-inner">
+        <a href="/" class="food-logo">
+            <div class="food-logo-mark">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <span>LocalBites</span>
+        </a>
+        
+        <div class="food-nav-actions">
+            <a href="/dashboard/" class="food-nav-btn">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a href="/food/orders/" class="food-nav-btn">
+                <i class="fas fa-receipt"></i> My Orders
+            </a>
+            <a href="/food/cart/" class="food-nav-btn primary">
+                <i class="fas fa-shopping-bag"></i> Cart
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="food-wrap">
+    
+    <div class="food-header">
+        <h1>Order <span>Food</span> 🍽️</h1>
+        <p>Fresh food from {{ restaurants|length }} local restaurants near you</p>
+    </div>
+    
+    <!-- Search -->
+    <form method="GET" class="food-search">
+        <i class="fas fa-search" style="color: #9CA3AF;"></i>
+        <input type="text" name="q" value="{{ search }}" placeholder="Search restaurants or cuisines...">
+        <button type="submit">Search</button>
+    </form>
+    
+    <!-- Cuisine Filters -->
+    {% if all_cuisines %}
+    <div class="food-cuisines">
+        <a href="/food/" class="cuisine-chip {% if not selected_cuisine %}active{% endif %}">
+            All
+        </a>
+        {% for cuisine in all_cuisines %}
+        <a href="/food/?cuisine={{ cuisine }}" class="cuisine-chip {% if selected_cuisine == cuisine %}active{% endif %}">
+            {{ cuisine }}
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <!-- Restaurants Grid -->
+    {% if restaurants %}
+    <div class="food-grid">
+        {% for restro in restaurants %}
+        <a href="/food/restaurant/{{ restro.id }}/" class="restro-card">
+            <div class="restro-img">
+                <span style="position: relative; z-index: 1;">🍽️</span>
+                <span class="restro-badge">
+                    <i class="fas fa-clock"></i> {{ restro.delivery_time }} min
+                </span>
+            </div>
+            <div class="restro-body">
+                <div class="restro-head">
+                    <div class="restro-name">{{ restro.name }}</div>
+                    <div class="restro-rating">
+                        <i class="fas fa-star" style="font-size: 10px;"></i>
+                        {{ restro.rating }}
+                    </div>
+                </div>
+                <div class="restro-cuisine">{{ restro.cuisine }} · {{ restro.total_reviews }}+ reviews</div>
+                <div class="restro-meta">
+                    <span><i class="fas fa-motorcycle"></i> ₹{{ restro.delivery_fee }}</span>
+                    <span><i class="fas fa-shopping-bag"></i> Min ₹{{ restro.min_order }}</span>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="food-empty">
+        <i class="fas fa-search"></i>
+        <h3>No restaurants found</h3>
+        <p>Try a different search or browse all restaurants</p>
+    </div>
+    {% endif %}
+    
+</div>
+
+</body>
+</html>

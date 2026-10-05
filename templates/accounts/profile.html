@@ -1,0 +1,722 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | LocalBites</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #08080C;
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .prof-wrap {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        /* Header Card */
+        .prof-header {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #06B6D4 100%);
+            border-radius: 28px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        
+        .prof-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.15), transparent 60%);
+        }
+        
+        .prof-header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .prof-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(20px);
+            border: 3px solid rgba(255,255,255,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: 900;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .prof-header-info { flex: 1; min-width: 200px; }
+        
+        .prof-header-info h1 {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            color: white;
+            margin-bottom: 6px;
+        }
+        
+        .prof-header-username {
+            font-size: 15px;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .prof-header-meta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .prof-meta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        /* Stats Grid */
+        .prof-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .prof-stat {
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .prof-stat:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.2);
+        }
+        
+        .prof-stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--stat-color, linear-gradient(90deg, #4F46E5, #7C3AED));
+        }
+        
+        .prof-stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin-bottom: 12px;
+            background: rgba(99, 102, 241, 0.15);
+            color: #818CF8;
+        }
+        
+        .prof-stat-value {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #818CF8, #22D3EE);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        
+        .prof-stat-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #8B92A0;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        
+        /* Info Cards */
+        .prof-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .prof-card {
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 28px;
+        }
+        
+        .prof-card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        .prof-card-title i { color: #818CF8; font-size: 18px; }
+        
+        .prof-info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.06);
+            gap: 12px;
+        }
+        
+        .prof-info-row:last-child { border-bottom: none; }
+        
+        .prof-info-label {
+            font-size: 13px;
+            color: #8B92A0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .prof-info-label i {
+            color: #6B7480;
+            font-size: 13px;
+            width: 16px;
+        }
+        
+        .prof-info-value {
+            font-size: 14px;
+            color: white;
+            font-weight: 700;
+            text-align: right;
+            word-break: break-word;
+        }
+        
+        /* Recent Activity */
+        .prof-activity-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            transition: background 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .prof-activity-item:hover {
+            background: rgba(255,255,255,0.03);
+        }
+        
+        .prof-activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(6, 182, 212, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .prof-activity-info { flex: 1; min-width: 0; }
+        
+        .prof-activity-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 2px;
+        }
+        
+        .prof-activity-sub {
+            font-size: 12px;
+            color: #6B7480;
+        }
+        
+        .prof-activity-status {
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+        
+        .status-pending { background: rgba(245,158,11,0.15); color: #FCD34D; }
+        .status-confirmed { background: rgba(99,102,241,0.15); color: #A5B4FC; }
+        .status-preparing, .status-packing { background: rgba(139,92,246,0.15); color: #C4B5FD; }
+        .status-out_for_delivery { background: rgba(34,211,238,0.15); color: #67E8F9; }
+        .status-delivered, .status-completed { background: rgba(34,197,94,0.15); color: #86EFAC; }
+        .status-cancelled { background: rgba(239,68,68,0.15); color: #FCA5A5; }
+        .status-accepted { background: rgba(99,102,241,0.15); color: #A5B4FC; }
+        .status-started { background: rgba(59,130,246,0.15); color: #93C5FD; }
+        .status-searching { background: rgba(245,158,11,0.15); color: #FCD34D; }
+        
+        /* Actions */
+        .prof-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        
+        .prof-action-btn {
+            padding: 20px;
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .prof-action-btn:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.3);
+        }
+        
+        .prof-action-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(6, 182, 212, 0.15));
+        }
+        
+        .prof-action-btn.logout:hover {
+            border-color: rgba(239, 68, 68, 0.5);
+            box-shadow: 0 20px 40px -10px rgba(239, 68, 68, 0.3);
+        }
+        
+        .prof-action-btn.logout .prof-action-icon {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(249, 115, 22, 0.15));
+            color: #FCA5A5;
+        }
+        
+        .prof-empty {
+            text-align: center;
+            padding: 30px 20px;
+            color: #6B7480;
+            font-size: 13px;
+        }
+        
+        .prof-empty i {
+            font-size: 32px;
+            color: #3A4553;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 968px) {
+            .prof-stats { grid-template-columns: repeat(2, 1fr); }
+            .prof-section { grid-template-columns: 1fr; }
+            .prof-actions { grid-template-columns: 1fr; }
+            .prof-header { padding: 28px; }
+            .prof-avatar { width: 80px; height: 80px; font-size: 32px; }
+            .prof-header-info h1 { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="prof-wrap">
+    
+    <!-- Header -->
+    <div class="prof-header">
+        <div class="prof-header-content">
+            <div class="prof-avatar">
+                {{ user.username|slice:":1"|upper }}
+            </div>
+            <div class="prof-header-info">
+                <h1>{{ user.get_full_name|default:user.username }}</h1>
+                <div class="prof-header-username">@{{ user.username }}</div>
+                <div class="prof-header-meta">
+                    <span class="prof-meta-badge">
+                        {% if user.role == 'admin' %}👑
+                        {% elif user.role == 'restaurant' %}🍽️
+                        {% elif user.role == 'grocery' %}🛒
+                        {% elif user.role == 'driver' %}🏍️
+                        {% else %}🎯{% endif %}
+                        {{ user.get_role_display }}
+                    </span>
+                    <span class="prof-meta-badge">
+                        <i class="fas fa-calendar"></i>
+                        Joined {{ user.date_joined|date:"M Y" }}
+                    </span>
+                    {% if user.is_active %}
+                    <span class="prof-meta-badge" style="background: rgba(34,197,94,0.3);">
+                        <i class="fas fa-circle" style="font-size: 8px;"></i>
+                        Active
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stats — Role-Specific -->
+    {% if user.is_customer %}
+    <div class="prof-stats">
+        <div class="prof-stat">
+            <div class="prof-stat-icon"><i class="fas fa-utensils"></i></div>
+            <div class="prof-stat-value">{{ total_food_orders }}</div>
+            <div class="prof-stat-label">Food Orders</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #22C55E, #16A34A);">
+            <div class="prof-stat-icon" style="background: rgba(34,197,94,0.15); color: #86EFAC;"><i class="fas fa-shopping-basket"></i></div>
+            <div class="prof-stat-value">{{ total_grocery_orders }}</div>
+            <div class="prof-stat-label">Grocery Orders</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #3B82F6, #6366F1);">
+            <div class="prof-stat-icon" style="background: rgba(59,130,246,0.15); color: #93C5FD;"><i class="fas fa-motorcycle"></i></div>
+            <div class="prof-stat-value">{{ total_rides }}</div>
+            <div class="prof-stat-label">Total Rides</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #F59E0B, #F97316);">
+            <div class="prof-stat-icon" style="background: rgba(245,158,11,0.15); color: #FCD34D;"><i class="fas fa-rupee-sign"></i></div>
+            <div class="prof-stat-value">₹{{ total_spent|floatformat:0 }}</div>
+            <div class="prof-stat-label">Total Spent</div>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if user.is_restaurant and restaurant %}
+    <div class="prof-stats">
+        <div class="prof-stat">
+            <div class="prof-stat-icon"><i class="fas fa-receipt"></i></div>
+            <div class="prof-stat-value">{{ total_orders }}</div>
+            <div class="prof-stat-label">Total Orders</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #F59E0B, #F97316);">
+            <div class="prof-stat-icon" style="background: rgba(245,158,11,0.15); color: #FCD34D;"><i class="fas fa-clock"></i></div>
+            <div class="prof-stat-value">{{ pending_orders }}</div>
+            <div class="prof-stat-label">Pending</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #22C55E, #16A34A);">
+            <div class="prof-stat-icon" style="background: rgba(34,197,94,0.15); color: #86EFAC;"><i class="fas fa-rupee-sign"></i></div>
+            <div class="prof-stat-value">₹{{ total_revenue|floatformat:0 }}</div>
+            <div class="prof-stat-label">Total Revenue</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #EC4899, #8B5CF6);">
+            <div class="prof-stat-icon" style="background: rgba(236,72,153,0.15); color: #F9A8D4;"><i class="fas fa-star"></i></div>
+            <div class="prof-stat-value">{{ restaurant.rating }}★</div>
+            <div class="prof-stat-label">Rating</div>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if user.is_grocery and store %}
+    <div class="prof-stats">
+        <div class="prof-stat">
+            <div class="prof-stat-icon" style="background: rgba(34,197,94,0.15); color: #86EFAC;"><i class="fas fa-receipt"></i></div>
+            <div class="prof-stat-value">{{ total_orders }}</div>
+            <div class="prof-stat-label">Total Orders</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #F59E0B, #F97316);">
+            <div class="prof-stat-icon" style="background: rgba(245,158,11,0.15); color: #FCD34D;"><i class="fas fa-box"></i></div>
+            <div class="prof-stat-value">{{ total_products }}</div>
+            <div class="prof-stat-label">Products</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #22C55E, #16A34A);">
+            <div class="prof-stat-icon" style="background: rgba(34,197,94,0.15); color: #86EFAC;"><i class="fas fa-rupee-sign"></i></div>
+            <div class="prof-stat-value">₹{{ total_revenue|floatformat:0 }}</div>
+            <div class="prof-stat-label">Revenue</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #EF4444, #F97316);">
+            <div class="prof-stat-icon" style="background: rgba(239,68,68,0.15); color: #FCA5A5;"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="prof-stat-value">{{ low_stock_count }}</div>
+            <div class="prof-stat-label">Low Stock</div>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if user.is_driver and captain %}
+    <div class="prof-stats">
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #3B82F6, #6366F1);">
+            <div class="prof-stat-icon" style="background: rgba(59,130,246,0.15); color: #93C5FD;"><i class="fas fa-motorcycle"></i></div>
+            <div class="prof-stat-value">{{ completed_rides }}</div>
+            <div class="prof-stat-label">Rides Completed</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #22C55E, #16A34A);">
+            <div class="prof-stat-icon" style="background: rgba(34,197,94,0.15); color: #86EFAC;"><i class="fas fa-rupee-sign"></i></div>
+            <div class="prof-stat-value">₹{{ total_earnings|floatformat:0 }}</div>
+            <div class="prof-stat-label">Total Earnings</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #F59E0B, #F97316);">
+            <div class="prof-stat-icon" style="background: rgba(245,158,11,0.15); color: #FCD34D;"><i class="fas fa-star"></i></div>
+            <div class="prof-stat-value">{{ captain.rating }}★</div>
+            <div class="prof-stat-label">Rating</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #8B5CF6, #EC4899);">
+            <div class="prof-stat-icon" style="background: rgba(139,92,246,0.15); color: #C4B5FD;"><i class="fas fa-id-card"></i></div>
+            <div class="prof-stat-value">{{ captain.get_vehicle_type_display }}</div>
+            <div class="prof-stat-label">Vehicle Type</div>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if user.is_admin %}
+    <div class="prof-stats">
+        <div class="prof-stat">
+            <div class="prof-stat-icon"><i class="fas fa-users"></i></div>
+            <div class="prof-stat-value">{{ total_users }}</div>
+            <div class="prof-stat-label">Total Users</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #22C55E, #16A34A);">
+            <div class="prof-stat-icon" style="background: rgba(34,197,94,0.15); color: #86EFAC;"><i class="fas fa-utensils"></i></div>
+            <div class="prof-stat-value">{{ total_food_orders }}</div>
+            <div class="prof-stat-label">Food Orders</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #06B6D4, #3B82F6);">
+            <div class="prof-stat-icon" style="background: rgba(6,182,212,0.15); color: #67E8F9;"><i class="fas fa-shopping-basket"></i></div>
+            <div class="prof-stat-value">{{ total_grocery_orders }}</div>
+            <div class="prof-stat-label">Grocery Orders</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #F59E0B, #F97316);">
+            <div class="prof-stat-icon" style="background: rgba(245,158,11,0.15); color: #FCD34D;"><i class="fas fa-motorcycle"></i></div>
+            <div class="prof-stat-value">{{ total_rides }}</div>
+            <div class="prof-stat-label">Total Rides</div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Info + Activity -->
+    <div class="prof-section">
+        
+        <!-- Personal Info -->
+        <div class="prof-card">
+            <div class="prof-card-title">
+                <i class="fas fa-user-circle"></i>
+                Personal Information
+            </div>
+            
+            <div class="prof-info-row">
+                <span class="prof-info-label"><i class="fas fa-user"></i> Username</span>
+                <span class="prof-info-value">{{ user.username }}</span>
+            </div>
+            
+            <div class="prof-info-row">
+                <span class="prof-info-label"><i class="fas fa-envelope"></i> Email</span>
+                <span class="prof-info-value">{{ user.email|default:"Not set" }}</span>
+            </div>
+            
+            <div class="prof-info-row">
+                <span class="prof-info-label"><i class="fas fa-phone"></i> Phone</span>
+                <span class="prof-info-value">{{ user.phone|default:"Not set" }}</span>
+            </div>
+            
+            <div class="prof-info-row">
+                <span class="prof-info-label"><i class="fas fa-map-marker-alt"></i> Address</span>
+                <span class="prof-info-value">{{ user.address|default:"Not set" }}</span>
+            </div>
+            
+            <div class="prof-info-row">
+                <span class="prof-info-label"><i class="fas fa-calendar"></i> Member Since</span>
+                <span class="prof-info-value">{{ user.date_joined|date:"F d, Y" }}</span>
+            </div>
+            
+            {% if user.is_restaurant and restaurant %}
+            <div class="prof-info-row">
+                <span class="prof-info-label"><i class="fas fa-store"></i> Restaurant</span>
+                <span class="prof-info-value">{{ restaurant.name }}</span>
+            </div>
+            {% endif %}
+            
+            {% if user.is_grocery and store %}
+            <div class="prof-info-row">
+                <span class="prof-info-label"><i class="fas fa-store"></i> Store</span>
+                <span class="prof-info-value">{{ store.name }}</span>
+            </div>
+            {% endif %}
+            
+            {% if user.is_driver and captain %}
+            <div class="prof-info-row">
+                <span class="prof-info-label"><i class="fas fa-motorcycle"></i> Vehicle</span>
+                <span class="prof-info-value">{{ captain.vehicle_number }}</span>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Recent Activity -->
+        <div class="prof-card">
+            <div class="prof-card-title">
+                <i class="fas fa-history"></i>
+                Recent Activity
+            </div>
+            
+            {% if user.is_customer %}
+                {% for order in recent_food_orders %}
+                <a href="/food/orders/{{ order.id }}/" class="prof-activity-item">
+                    <div class="prof-activity-icon">🍽️</div>
+                    <div class="prof-activity-info">
+                        <div class="prof-activity-title">{{ order.restaurant.name }}</div>
+                        <div class="prof-activity-sub">₹{{ order.total|floatformat:0 }} · {{ order.created_at|timesince }} ago</div>
+                    </div>
+                    <span class="prof-activity-status status-{{ order.status }}">{{ order.get_status_display|truncatechars:8 }}</span>
+                </a>
+                {% endfor %}
+                
+                {% for order in recent_grocery_orders %}
+                <a href="/grocery/orders/{{ order.id }}/" class="prof-activity-item">
+                    <div class="prof-activity-icon">🛒</div>
+                    <div class="prof-activity-info">
+                        <div class="prof-activity-title">{{ order.store.name }}</div>
+                        <div class="prof-activity-sub">₹{{ order.total|floatformat:0 }} · {{ order.created_at|timesince }} ago</div>
+                    </div>
+                    <span class="prof-activity-status status-{{ order.status }}">{{ order.get_status_display|truncatechars:8 }}</span>
+                </a>
+                {% endfor %}
+                
+                {% for ride in recent_rides %}
+                <a href="/rides/ride/{{ ride.id }}/" class="prof-activity-item">
+                    <div class="prof-activity-icon">🏍️</div>
+                    <div class="prof-activity-info">
+                        <div class="prof-activity-title">{{ ride.get_vehicle_type_display }} Ride</div>
+                        <div class="prof-activity-sub">₹{{ ride.estimated_fare|floatformat:0 }} · {{ ride.created_at|timesince }} ago</div>
+                    </div>
+                    <span class="prof-activity-status status-{{ ride.status }}">{{ ride.get_status_display|truncatechars:8 }}</span>
+                </a>
+                {% endfor %}
+                
+                {% if not recent_food_orders and not recent_grocery_orders and not recent_rides %}
+                <div class="prof-empty">
+                    <i class="fas fa-inbox"></i>
+                    <p>No recent activity yet</p>
+                </div>
+                {% endif %}
+            
+            {% elif user.is_restaurant %}
+                {% for order in recent_orders %}
+                <a href="/food/orders/{{ order.id }}/" class="prof-activity-item">
+                    <div class="prof-activity-icon">🍽️</div>
+                    <div class="prof-activity-info">
+                        <div class="prof-activity-title">#{{ order.order_number }}</div>
+                        <div class="prof-activity-sub">{{ order.customer.get_full_name|default:order.customer.username }} · ₹{{ order.total|floatformat:0 }}</div>
+                    </div>
+                    <span class="prof-activity-status status-{{ order.status }}">{{ order.get_status_display|truncatechars:8 }}</span>
+                </a>
+                {% empty %}
+                <div class="prof-empty"><i class="fas fa-inbox"></i><p>No orders yet</p></div>
+                {% endfor %}
+            
+            {% elif user.is_grocery %}
+                {% for order in recent_orders %}
+                <a href="/grocery/orders/{{ order.id }}/" class="prof-activity-item">
+                    <div class="prof-activity-icon">🛒</div>
+                    <div class="prof-activity-info">
+                        <div class="prof-activity-title">#{{ order.order_number }}</div>
+                        <div class="prof-activity-sub">{{ order.customer.get_full_name|default:order.customer.username }} · ₹{{ order.total|floatformat:0 }}</div>
+                    </div>
+                    <span class="prof-activity-status status-{{ order.status }}">{{ order.get_status_display|truncatechars:8 }}</span>
+                </a>
+                {% empty %}
+                <div class="prof-empty"><i class="fas fa-inbox"></i><p>No orders yet</p></div>
+                {% endfor %}
+            
+            {% elif user.is_driver %}
+                {% for ride in recent_rides %}
+                <a href="/rides/ride/{{ ride.id }}/" class="prof-activity-item">
+                    <div class="prof-activity-icon">🏍️</div>
+                    <div class="prof-activity-info">
+                        <div class="prof-activity-title">#{{ ride.ride_number }}</div>
+                        <div class="prof-activity-sub">{{ ride.customer.get_full_name|default:ride.customer.username }} · ₹{{ ride.estimated_fare|floatformat:0 }}</div>
+                    </div>
+                    <span class="prof-activity-status status-{{ ride.status }}">{{ ride.get_status_display|truncatechars:8 }}</span>
+                </a>
+                {% empty %}
+                <div class="prof-empty"><i class="fas fa-inbox"></i><p>No rides yet</p></div>
+                {% endfor %}
+            
+            {% else %}
+                <div class="prof-empty">
+                    <i class="fas fa-chart-line"></i>
+                    <p>Activity will appear here</p>
+                </div>
+            {% endif %}
+        </div>
+        
+    </div>
+    
+    <!-- Actions -->
+    <div class="prof-actions">
+        <a href="/profile/edit/" class="prof-action-btn">
+            <div class="prof-action-icon"><i class="fas fa-user-edit"></i></div>
+            <span>Edit Profile</span>
+        </a>
+        
+        <a href="/dashboard/" class="prof-action-btn">
+            <div class="prof-action-icon"><i class="fas fa-home"></i></div>
+            <span>Dashboard</span>
+        </a>
+        
+        <form action="/logout/" method="post" style="display: contents;">
+            {% csrf_token %}
+            <button type="submit" class="prof-action-btn logout">
+                <div class="prof-action-icon"><i class="fas fa-sign-out-alt"></i></div>
+                <span>Logout</span>
+            </button>
+        </form>
+    </div>
+    
+</div>
+
+</body>
+</html>

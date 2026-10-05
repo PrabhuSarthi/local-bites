@@ -1,0 +1,581 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications | LocalBites</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #FFF8F0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255,107,53,0.08), transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(247,147,30,0.08), transparent 40%);
+            color: #1A1A1A;
+            min-height: 100vh;
+        }
+        
+        /* ========== NAVBAR ========== */
+        .cust-nav {
+            background: rgba(255, 248, 240, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(240, 229, 216, 0.6);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .cust-nav-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .cust-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #1A1A1A;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: -0.5px;
+        }
+        
+        .cust-logo-mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 8px 20px rgba(255,107,53,0.3);
+        }
+        
+        .cust-nav-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .cust-nav-btn {
+            padding: 10px 18px;
+            border-radius: 100px;
+            background: white;
+            color: #1A1A1A;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            border: 1.5px solid #F0E5D8;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+            cursor: pointer;
+        }
+        
+        .cust-nav-btn:hover {
+            border-color: #FF6B35;
+            color: #FF6B35;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(255,107,53,0.15);
+        }
+        
+        .cust-nav-btn.primary {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 16px rgba(255,107,53,0.3);
+        }
+        
+        .cust-nav-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255,107,53,0.4);
+            color: white;
+        }
+        
+        /* ========== WRAPPER ========== */
+        .notif-wrap {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        /* ========== HEADER ========== */
+        .notif-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 32px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .notif-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            color: #1A1A1A;
+            margin-bottom: 8px;
+        }
+        
+        .notif-header h1 span {
+            background: linear-gradient(135deg, #FF6B35, #E63946);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .notif-header p {
+            color: #6B6B6B;
+            font-size: 15px;
+        }
+        
+        .notif-header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .action-link {
+            padding: 10px 18px;
+            background: white;
+            border: 1.5px solid #F0E5D8;
+            border-radius: 100px;
+            color: #6B6B6B;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .action-link:hover {
+            color: #FF6B35;
+            border-color: #FF6B35;
+            box-shadow: 0 6px 16px rgba(255,107,53,0.15);
+        }
+        
+        .action-link.danger:hover {
+            color: #DC2626;
+            border-color: #EF4444;
+            box-shadow: 0 6px 16px rgba(239,68,68,0.15);
+        }
+        
+        /* ========== FILTER TABS ========== */
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            padding: 6px;
+            background: white;
+            border: 1.5px solid #F0E5D8;
+            border-radius: 100px;
+            width: fit-content;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+        }
+        
+        .filter-tab {
+            padding: 9px 18px;
+            border-radius: 100px;
+            background: transparent;
+            border: none;
+            color: #6B6B6B;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+        }
+        
+        .filter-tab:hover { color: #FF6B35; }
+        
+        .filter-tab.active {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            box-shadow: 0 4px 16px rgba(255,107,53,0.3);
+        }
+        
+        .tab-count {
+            padding: 2px 8px;
+            background: rgba(0,0,0,0.06);
+            border-radius: 100px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+        
+        .filter-tab.active .tab-count {
+            background: rgba(255,255,255,0.25);
+        }
+        
+        /* ========== NOTIFICATIONS LIST ========== */
+        .notif-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .notif-card {
+            background: white;
+            border: 1.5px solid #F0E5D8;
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            gap: 16px;
+            transition: all 0.3s;
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+        }
+        
+        .notif-card:hover {
+            border-color: #FF6B35;
+            transform: translateX(4px);
+            box-shadow: 0 16px 32px -8px rgba(255,107,53,0.2);
+        }
+        
+        .notif-card.unread {
+            border-left: 4px solid #FF6B35;
+            background: linear-gradient(135deg, rgba(255,107,53,0.03), white);
+        }
+        
+        .notif-card.unread::before {
+            content: '';
+            position: absolute;
+            top: 22px;
+            right: 22px;
+            width: 10px;
+            height: 10px;
+            background: #FF6B35;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(255,107,53,0.2);
+            animation: notifPulse 2s infinite;
+        }
+        
+        @keyframes notifPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+        }
+        
+        .notif-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #FFE8D6, #FFD4B8);
+        }
+        
+        .notif-icon.order { background: linear-gradient(135deg, #DCFCE7, #BBF7D0); }
+        .notif-icon.ride { background: linear-gradient(135deg, #DBEAFE, #BFDBFE); }
+        .notif-icon.system { background: linear-gradient(135deg, #EDE9FE, #DDD6FE); }
+        .notif-icon.promo { background: linear-gradient(135deg, #FEF3C7, #FDE68A); }
+        
+        .notif-body { flex: 1; min-width: 0; }
+        
+        .notif-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+        
+        .notif-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            color: #1A1A1A;
+            letter-spacing: -0.3px;
+        }
+        
+        .notif-time {
+            font-size: 12px;
+            color: #9CA3AF;
+            white-space: nowrap;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .notif-message {
+            font-size: 14px;
+            color: #6B6B6B;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        
+        .notif-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .notif-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        .notif-type-badge.order { background: rgba(34,197,94,0.15); color: #16A34A; }
+        .notif-type-badge.ride { background: rgba(59,130,246,0.15); color: #2563EB; }
+        .notif-type-badge.system { background: rgba(139,92,246,0.15); color: #7C3AED; }
+        .notif-type-badge.promo { background: rgba(245,158,11,0.15); color: #D97706; }
+        
+        .notif-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: auto;
+        }
+        
+        .notif-action-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: #FFF8F0;
+            border: 1.5px solid #F0E5D8;
+            color: #6B6B6B;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-family: inherit;
+        }
+        
+        .notif-action-btn:hover {
+            color: #FF6B35;
+            border-color: #FF6B35;
+            background: white;
+        }
+        
+        .notif-action-btn.delete:hover {
+            color: #DC2626;
+            border-color: #EF4444;
+            background: rgba(239,68,68,0.05);
+        }
+        
+        /* ========== EMPTY ========== */
+        .notif-empty {
+            text-align: center;
+            padding: 100px 20px;
+            background: white;
+            border: 2px dashed #F0E5D8;
+            border-radius: 24px;
+        }
+        
+        .notif-empty-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFE8D6, #FFD4B8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            color: #FF6B35;
+            animation: notifFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes notifFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .notif-empty h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 8px;
+        }
+        
+        .notif-empty p {
+            color: #9CA3AF;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .notif-header h1 { font-size: 32px; }
+            .notif-card { padding: 16px; }
+            .notif-icon { width: 48px; height: 48px; font-size: 22px; }
+            .notif-head { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="cust-nav">
+    <div class="cust-nav-inner">
+        <a href="/" class="cust-logo">
+            <div class="cust-logo-mark"><i class="fas fa-bell"></i></div>
+            <span>Notifications</span>
+        </a>
+        <div class="cust-nav-actions">
+            <a href="/dashboard/" class="cust-nav-btn primary">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="notif-wrap">
+    
+    <div class="notif-header">
+        <div>
+            <h1>Notifications <span>🔔</span></h1>
+            <p>
+                {% if unread > 0 %}
+                You have <strong style="color: #FF6B35;">{{ unread }}</strong> unread notification{{ unread|pluralize }}
+                {% else %}
+                All caught up! ✨
+                {% endif %}
+            </p>
+        </div>
+        <div class="notif-header-actions">
+            {% if unread > 0 %}
+            <a href="/notifications/read-all/" class="action-link">
+                <i class="fas fa-check-double"></i> Mark all read
+            </a>
+            {% endif %}
+            <a href="/notifications/clear-all/" class="action-link danger" onclick="return confirm('Clear all read notifications?')">
+                <i class="fas fa-trash"></i> Clear read
+            </a>
+        </div>
+    </div>
+    
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+        <a href="/notifications/" class="filter-tab {% if not notif_type %}active{% endif %}">
+            <i class="fas fa-globe"></i> All
+            <span class="tab-count">{{ total }}</span>
+        </a>
+        <a href="/notifications/?type=order" class="filter-tab {% if notif_type == 'order' %}active{% endif %}">
+            <i class="fas fa-shopping-bag"></i> Orders
+            <span class="tab-count">{{ order_count }}</span>
+        </a>
+        <a href="/notifications/?type=ride" class="filter-tab {% if notif_type == 'ride' %}active{% endif %}">
+            <i class="fas fa-motorcycle"></i> Rides
+            <span class="tab-count">{{ ride_count }}</span>
+        </a>
+        <a href="/notifications/?type=system" class="filter-tab {% if notif_type == 'system' %}active{% endif %}">
+            <i class="fas fa-cog"></i> System
+            <span class="tab-count">{{ system_count }}</span>
+        </a>
+        <a href="/notifications/?type=promo" class="filter-tab {% if notif_type == 'promo' %}active{% endif %}">
+            <i class="fas fa-gift"></i> Promos
+            <span class="tab-count">{{ promo_count }}</span>
+        </a>
+    </div>
+    
+    <!-- Notifications -->
+    {% if notifications %}
+    <div class="notif-list">
+        {% for notif in notifications %}
+        <div class="notif-card {% if not notif.is_read %}unread{% endif %}" 
+             onclick="window.location.href='{% if notif.link %}{{ notif.link }}{% else %}/notifications/{{ notif.id }}/read/{% endif %}'">
+            
+            <div class="notif-icon {{ notif.notification_type }}">
+                {{ notif.icon }}
+            </div>
+            
+            <div class="notif-body">
+                <div class="notif-head">
+                    <div class="notif-title">{{ notif.title }}</div>
+                    <div class="notif-time">{{ notif.created_at|timesince }} ago</div>
+                </div>
+                
+                <div class="notif-message">{{ notif.message }}</div>
+                
+                <div class="notif-meta">
+                    <span class="notif-type-badge {{ notif.notification_type }}">
+                        {% if notif.notification_type == 'order' %}<i class="fas fa-shopping-bag"></i>
+                        {% elif notif.notification_type == 'ride' %}<i class="fas fa-motorcycle"></i>
+                        {% elif notif.notification_type == 'system' %}<i class="fas fa-cog"></i>
+                        {% elif notif.notification_type == 'promo' %}<i class="fas fa-gift"></i>
+                        {% else %}<i class="fas fa-bell"></i>{% endif %}
+                        {{ notif.get_notification_type_display }}
+                    </span>
+                    
+                    {% if not notif.is_read %}
+                    <span style="font-size: 11px; color: #FF6B35; font-weight: 800;">
+                        <i class="fas fa-circle" style="font-size: 6px;"></i> New
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="notif-actions">
+                {% if not notif.is_read %}
+                <a href="/notifications/{{ notif.id }}/read/" class="notif-action-btn" onclick="event.stopPropagation();" title="Mark as read">
+                    <i class="fas fa-check"></i>
+                </a>
+                {% endif %}
+                <a href="/notifications/{{ notif.id }}/delete/" class="notif-action-btn delete" onclick="event.stopPropagation(); return confirm('Delete this notification?')" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    
+    <div class="notif-empty">
+        <div class="notif-empty-icon">
+            <i class="fas fa-bell-slash"></i>
+        </div>
+        <h3>No notifications yet</h3>
+        <p>When you receive updates, they'll show up here</p>
+    </div>
+    
+    {% endif %}
+    
+</div>
+
+</body>
+</html>

@@ -1,0 +1,532 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order #{{ order.order_number }} | LocalBites Grocery</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F0FDF4;
+            color: #1A1A1A;
+            min-height: 100vh;
+        }
+        
+        .gro-nav {
+            background: rgba(240, 253, 244, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(34, 197, 94, 0.15);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .gro-nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .gro-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #1A1A1A;
+            font-weight: 800;
+            font-size: 20px;
+        }
+        
+        .gro-logo-mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #22C55E, #16A34A);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 8px 20px rgba(34,197,94,0.3);
+        }
+        
+        .gro-wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #6B6B6B;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        
+        .back-link:hover { color: #16A34A; }
+        
+        .detail-header {
+            background: linear-gradient(135deg, #22C55E, #16A34A);
+            border-radius: 24px;
+            padding: 32px;
+            color: white;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .detail-header::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.2), transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .detail-header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .detail-header h1 {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            margin-bottom: 8px;
+        }
+        
+        .detail-header p {
+            font-size: 15px;
+            opacity: 0.9;
+        }
+        
+        .order-number-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            font-family: 'Monaco', monospace;
+        }
+        
+        .timeline {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            border: 1.5px solid rgba(34,197,94,0.15);
+            margin-bottom: 24px;
+        }
+        
+        .timeline-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 24px;
+        }
+        
+        .timeline-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+        
+        .timeline-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 8%;
+            right: 8%;
+            height: 2px;
+            background: rgba(34,197,94,0.15);
+        }
+        
+        .timeline-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+        
+        .timeline-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid rgba(34,197,94,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9CA3AF;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .timeline-step.active .timeline-dot {
+            background: linear-gradient(135deg, #22C55E, #16A34A);
+            border-color: #22C55E;
+            color: white;
+            box-shadow: 0 8px 20px rgba(34,197,94,0.3);
+        }
+        
+        .timeline-step.completed .timeline-dot {
+            background: linear-gradient(135deg, #22C55E, #16A34A);
+            border-color: #22C55E;
+            color: white;
+        }
+        
+        .timeline-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #9CA3AF;
+            text-align: center;
+        }
+        
+        .timeline-step.active .timeline-label,
+        .timeline-step.completed .timeline-label {
+            color: #1A1A1A;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 24px;
+            padding: 28px;
+            border: 1.5px solid rgba(34,197,94,0.15);
+            margin-bottom: 24px;
+        }
+        
+        .info-card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 17px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1.5px dashed rgba(34,197,94,0.2);
+        }
+        
+        .info-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #22C55E, #16A34A);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        
+        .items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        
+        .item-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px;
+            background: #F0FDF4;
+            border-radius: 14px;
+        }
+        
+        .item-img {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #DCFCE7, #BBF7D0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .item-info { flex: 1; min-width: 0; }
+        
+        .item-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1A1A1A;
+            margin-bottom: 2px;
+        }
+        
+        .item-qty {
+            font-size: 13px;
+            color: #6B6B6B;
+        }
+        
+        .item-price {
+            font-size: 15px;
+            font-weight: 800;
+            color: #16A34A;
+            flex-shrink: 0;
+        }
+        
+        .totals {
+            padding-top: 16px;
+            border-top: 1.5px dashed rgba(34,197,94,0.2);
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #6B6B6B;
+        }
+        
+        .total-row.grand {
+            padding-top: 16px;
+            margin-top: 12px;
+            border-top: 2px solid rgba(34,197,94,0.2);
+            font-size: 20px;
+            font-weight: 900;
+            color: #1A1A1A;
+            letter-spacing: -0.5px;
+        }
+        
+        .total-row.grand span:last-child {
+            background: linear-gradient(135deg, #22C55E, #16A34A);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .info-block {
+            padding: 16px;
+            background: #F0FDF4;
+            border-radius: 14px;
+        }
+        
+        .info-label {
+            font-size: 11px;
+            font-weight: 800;
+            color: #9CA3AF;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        
+        .info-value {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1A1A1A;
+            line-height: 1.5;
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+        
+        .status-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+        
+        .status-badge.pending { background: rgba(245,158,11,0.15); color: #F59E0B; }
+        .status-badge.confirmed { background: rgba(99,102,241,0.15); color: #6366F1; }
+        .status-badge.packing { background: rgba(139,92,246,0.15); color: #8B5CF6; }
+        .status-badge.out_for_delivery { background: rgba(34,211,238,0.15); color: #06B6D4; }
+        .status-badge.delivered { background: rgba(34,197,94,0.15); color: #22C55E; }
+        .status-badge.cancelled { background: rgba(239,68,68,0.15); color: #EF4444; }
+        
+        @media (max-width: 768px) {
+            .timeline-steps { flex-wrap: wrap; gap: 20px; }
+            .timeline-steps::before { display: none; }
+            .timeline-step { flex: 0 0 45%; }
+            .info-grid { grid-template-columns: 1fr; }
+            .detail-header h1 { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="gro-nav">
+    <div class="gro-nav-inner">
+        <a href="/" class="gro-logo">
+            <div class="gro-logo-mark"><i class="fas fa-shopping-basket"></i></div>
+            <span>LocalBites</span>
+        </a>
+    </div>
+</nav>
+
+<div class="gro-wrap">
+    
+    <a href="/grocery/orders/" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to My Orders
+    </a>
+    
+    <div class="detail-header">
+        <div class="detail-header-content">
+            <div class="order-number-badge">
+                <i class="fas fa-receipt"></i> {{ order.order_number }}
+            </div>
+            <h1>{{ order.store.name }}</h1>
+            <p>Placed on {{ order.created_at|date:"F d, Y · g:i A" }}</p>
+        </div>
+    </div>
+    
+    <!-- Timeline -->
+    <div class="timeline">
+        <h3 class="timeline-title">
+            <i class="fas fa-clock" style="color: #22C55E;"></i>
+            Order Status
+        </h3>
+        
+        <div class="timeline-steps">
+            <div class="timeline-step {% if order.status == 'pending' %}active{% elif order.status == 'confirmed' or order.status == 'packing' or order.status == 'out_for_delivery' or order.status == 'delivered' %}completed{% endif %}">
+                <div class="timeline-dot"><i class="fas fa-check"></i></div>
+                <div class="timeline-label">Placed</div>
+            </div>
+            <div class="timeline-step {% if order.status == 'confirmed' %}active{% elif order.status == 'packing' or order.status == 'out_for_delivery' or order.status == 'delivered' %}completed{% endif %}">
+                <div class="timeline-dot"><i class="fas fa-check"></i></div>
+                <div class="timeline-label">Confirmed</div>
+            </div>
+            <div class="timeline-step {% if order.status == 'packing' %}active{% elif order.status == 'out_for_delivery' or order.status == 'delivered' %}completed{% endif %}">
+                <div class="timeline-dot"><i class="fas fa-box"></i></div>
+                <div class="timeline-label">Packing</div>
+            </div>
+            <div class="timeline-step {% if order.status == 'out_for_delivery' %}active{% elif order.status == 'delivered' %}completed{% endif %}">
+                <div class="timeline-dot"><i class="fas fa-truck"></i></div>
+                <div class="timeline-label">On the way</div>
+            </div>
+            <div class="timeline-step {% if order.status == 'delivered' %}completed{% endif %}">
+                <div class="timeline-dot"><i class="fas fa-home"></i></div>
+                <div class="timeline-label">Delivered</div>
+            </div>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin-bottom: 24px;">
+        <span class="status-badge {{ order.status }}">
+            {{ order.get_status_display }}
+        </span>
+    </div>
+    
+    <!-- Items -->
+    <div class="info-card">
+        <h3 class="info-card-title">
+            <div class="info-card-icon"><i class="fas fa-shopping-basket"></i></div>
+            Order Items
+        </h3>
+        
+        <div class="items-list">
+            {% for item in order.items.all %}
+            <div class="item-row">
+                <div class="item-img">🛒</div>
+                <div class="item-info">
+                    <div class="item-name">{{ item.product.name }}</div>
+                    <div class="item-qty">₹{{ item.price }} / {{ item.product.get_unit_display }} × {{ item.quantity }}</div>
+                </div>
+                <div class="item-price">₹{{ item.subtotal|floatformat:0 }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="totals">
+            <div class="total-row">
+                <span>Subtotal</span>
+                <span>₹{{ order.subtotal|floatformat:0 }}</span>
+            </div>
+            <div class="total-row">
+                <span>Delivery Fee</span>
+                <span>₹{{ order.delivery_fee|floatformat:0 }}</span>
+            </div>
+            <div class="total-row">
+                <span>Tax (5%)</span>
+                <span>₹{{ order.tax|floatformat:0 }}</span>
+            </div>
+            <div class="total-row grand">
+                <span>Total</span>
+                <span>₹{{ order.total|floatformat:0 }}</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delivery -->
+    <div class="info-card">
+        <h3 class="info-card-title">
+            <div class="info-card-icon"><i class="fas fa-map-marker-alt"></i></div>
+            Delivery Details
+        </h3>
+        
+        <div class="info-grid">
+            <div class="info-block">
+                <div class="info-label">Delivering To</div>
+                <div class="info-value">{{ order.delivery_address }}</div>
+            </div>
+            <div class="info-block">
+                <div class="info-label">Phone</div>
+                <div class="info-value">{{ order.phone }}</div>
+            </div>
+            <div class="info-block">
+                <div class="info-label">Payment Method</div>
+                <div class="info-value">{{ order.payment_method }}</div>
+            </div>
+            {% if order.delivery_slot %}
+            <div class="info-block">
+                <div class="info-label">Delivery Slot</div>
+                <div class="info-value">{{ order.delivery_slot }}</div>
+            </div>
+            {% endif %}
+            {% if order.special_instructions %}
+            <div class="info-block" style="grid-column: 1 / -1;">
+                <div class="info-label">Special Instructions</div>
+                <div class="info-value">{{ order.special_instructions }}</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+</div>
+
+</body>
+</html>

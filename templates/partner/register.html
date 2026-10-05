@@ -1,0 +1,694 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Become a Partner | LocalBites</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #08080C;
+            color: white;
+            margin: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: 
+                radial-gradient(ellipse at 15% 15%, rgba(99, 102, 241, 0.15) 0%, transparent 45%),
+                radial-gradient(ellipse at 85% 85%, rgba(139, 92, 246, 0.12) 0%, transparent 45%),
+                radial-gradient(ellipse at 50% 50%, rgba(34, 211, 238, 0.05) 0%, transparent 50%);
+        }
+        
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+        }
+        
+        .reg-nav {
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .reg-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: -0.5px;
+        }
+        
+        .reg-logo-mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .reg-logo-mark::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: pShine 3s infinite;
+        }
+        
+        @keyframes pShine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(200%) rotate(45deg); }
+        }
+        
+        .reg-partner-tag {
+            padding: 3px 8px;
+            background: rgba(99, 102, 241, 0.15);
+            color: #818CF8;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .reg-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #8B92A0;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .reg-back:hover { color: white; }
+        
+        .reg-wrap {
+            max-width: 720px;
+            margin: 20px auto 60px;
+            padding: 0 24px;
+        }
+        
+        .reg-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .reg-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #818CF8;
+            margin-bottom: 24px;
+        }
+        
+        .reg-header h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 48px;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -2.5px;
+            margin-bottom: 16px;
+        }
+        
+        .reg-header h1 span {
+            background: linear-gradient(135deg, #6366F1, #8B5CF6, #22D3EE);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .reg-header p {
+            color: #8B92A0;
+            font-size: 16px;
+            max-width: 520px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        
+        .reg-card {
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            padding: 48px;
+            box-shadow: 0 40px 80px -20px rgba(99, 102, 241, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .reg-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.12), transparent 70%);
+            pointer-events: none;
+        }
+        
+        /* Form errors (only from form, not session) */
+        .reg-form-errors {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1.5px solid rgba(239, 68, 68, 0.25);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .reg-form-errors ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #FCA5A5;
+            font-size: 13px;
+        }
+        
+        .reg-form-errors li {
+            margin-bottom: 4px;
+        }
+        
+        .reg-form-errors li:last-child {
+            margin-bottom: 0;
+        }
+        
+        .role-section {
+            margin-bottom: 32px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .reg-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: #E4E7EB;
+            margin-bottom: 14px;
+            letter-spacing: 0.2px;
+        }
+        
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .role-option { position: relative; }
+        
+        .role-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+        
+        .role-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 24px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .role-option label:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+        }
+        
+        .role-option input:checked + label {
+            border-color: var(--role-color, #6366F1);
+            background: rgba(99, 102, 241, 0.08);
+            box-shadow: 
+                0 12px 32px -8px var(--role-shadow, rgba(99, 102, 241, 0.4)),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .role-option input:checked + label .role-check {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .role-option.restaurant label { --role-color: #EF4444; --role-shadow: rgba(239, 68, 68, 0.4); }
+        .role-option.grocery label { --role-color: #22C55E; --role-shadow: rgba(34, 197, 94, 0.4); }
+        .role-option.riding label { --role-color: #3B82F6; --role-shadow: rgba(59, 130, 246, 0.4); }
+        
+        .role-icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .role-option.restaurant .role-icon-box { background: linear-gradient(135deg, #EF4444, #F97316); }
+        .role-option.grocery .role-icon-box { background: linear-gradient(135deg, #22C55E, #10B981); }
+        .role-option.riding .role-icon-box { background: linear-gradient(135deg, #3B82F6, #6366F1); }
+        
+        .role-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .role-desc {
+            font-size: 11px;
+            color: #8B92A0;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .role-check {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--role-color, #6366F1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.3s;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-input-wrap { position: relative; }
+        
+        .form-input-wrap > i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6B7480;
+            font-size: 16px;
+            transition: color 0.2s;
+            pointer-events: none;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 16px 18px 16px 48px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            font-size: 15px;
+            font-family: inherit;
+            color: white;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        .form-input::placeholder {
+            color: #6B7480;
+            font-weight: 400;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #6366F1;
+            background: rgba(99, 102, 241, 0.06);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+        }
+        
+        .form-input-wrap:focus-within > i { color: #818CF8; }
+        
+        .form-hint {
+            font-size: 12px;
+            color: #6B7480;
+            margin-top: 6px;
+            padding-left: 4px;
+        }
+        
+        .form-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 32px 0 24px;
+            color: #6B7480;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-divider::before,
+        .form-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .reg-submit {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 12px 32px rgba(99, 102, 241, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            margin-top: 8px;
+        }
+        
+        .reg-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            transition: left 0.5s;
+        }
+        
+        .reg-submit:hover::before { left: 100%; }
+        
+        .reg-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.55);
+        }
+        
+        .reg-login-cta {
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            color: #8B92A0;
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .reg-login-cta a {
+            color: #818CF8;
+            font-weight: 700;
+            text-decoration: none;
+            margin-left: 6px;
+            transition: color 0.2s;
+        }
+        
+        .reg-login-cta a:hover { color: #A5B4FC; }
+        
+        .reg-trust {
+            margin-top: 32px;
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .reg-trust-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #6B7480;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .reg-trust-item i {
+            color: #22C55E;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .reg-nav { padding: 20px 24px; }
+            .reg-wrap { padding: 0 16px; margin-top: 10px; }
+            .reg-card { padding: 32px 24px; border-radius: 24px; }
+            .role-grid { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .reg-header h1 { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="reg-nav">
+    <a href="/partner/" class="reg-logo">
+        <div class="reg-logo-mark">
+            <i class="fas fa-bolt"></i>
+        </div>
+        <span>LocalBites</span>
+        <span class="reg-partner-tag">PARTNER</span>
+    </a>
+    <a href="/partner/" class="reg-back">
+        <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+</nav>
+
+<div class="reg-wrap">
+    
+    <div class="reg-header">
+        <div class="reg-badge">
+            <span style="width: 8px; height: 8px; background: #22C55E; border-radius: 50%;"></span>
+            Step 1 of 1 · Takes 2 minutes
+        </div>
+        <h1>Become a <span>LocalBites Partner</span></h1>
+        <p>Join 500+ businesses earning with LocalBites. Zero setup fees, low commission, weekly payouts.</p>
+    </div>
+    
+    <div class="reg-card">
+        
+        <!-- Form errors (from validation only) -->
+        {% if form.errors %}
+        <div class="reg-form-errors">
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                    <li><strong>{{ field }}:</strong> {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="role-section">
+                <label class="reg-label">
+                    <i class="fas fa-briefcase" style="margin-right: 6px; color: #818CF8;"></i>
+                    Choose your partner type
+                </label>
+                <div class="role-grid">
+                    
+                    <div class="role-option restaurant">
+                        <input type="radio" name="role" value="restaurant" id="role-restaurant" checked>
+                        <label for="role-restaurant">
+                            <div class="role-check"><i class="fas fa-check"></i></div>
+                            <div class="role-icon-box">🍽️</div>
+                            <span class="role-name">Restaurant</span>
+                            <span class="role-desc">Sell your food online</span>
+                        </label>
+                    </div>
+                    
+                    <div class="role-option grocery">
+                        <input type="radio" name="role" value="grocery" id="role-grocery">
+                        <label for="role-grocery">
+                            <div class="role-check"><i class="fas fa-check"></i></div>
+                            <div class="role-icon-box">🛒</div>
+                            <span class="role-name">Grocery</span>
+                            <span class="role-desc">Sell daily essentials</span>
+                        </label>
+                    </div>
+                    
+                    <div class="role-option riding">
+                        <input type="radio" name="role" value="driver" id="role-riding">
+                        <label for="role-riding">
+                            <div class="role-check"><i class="fas fa-check"></i></div>
+                            <div class="role-icon-box">🏍️</div>
+                            <span class="role-name">Riding Captain</span>
+                            <span class="role-desc">Deliver & earn per ride</span>
+                        </label>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="form-divider">
+                <span>Your Details</span>
+            </div>
+            
+            <div class="form-group">
+                <label class="reg-label">Username *</label>
+                <div class="form-input-wrap">
+                    <input type="text" name="username" class="form-input" placeholder="Choose a unique username" required>
+                    <i class="fas fa-at"></i>
+                </div>
+                <div class="form-hint">This will be your login ID</div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="reg-label">First Name *</label>
+                    <div class="form-input-wrap">
+                        <input type="text" name="first_name" class="form-input" placeholder="First name" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="reg-label">Last Name *</label>
+                    <div class="form-input-wrap">
+                        <input type="text" name="last_name" class="form-input" placeholder="Last name" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group" style="margin-top: 20px;">
+                <label class="reg-label">Email Address *</label>
+                <div class="form-input-wrap">
+                    <input type="email" name="email" class="form-input" placeholder="your@email.com" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="reg-label">Phone Number *</label>
+                <div class="form-input-wrap">
+                    <input type="text" name="phone" class="form-input" placeholder="10-digit mobile number" required>
+                    <i class="fas fa-phone"></i>
+                </div>
+            </div>
+            
+            <div class="form-divider">
+                <span>Security</span>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="reg-label">Password *</label>
+                    <div class="form-input-wrap">
+                        <input type="password" name="password1" class="form-input" placeholder="Create a strong password" required>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="reg-label">Confirm Password *</label>
+                    <div class="form-input-wrap">
+                        <input type="password" name="password2" class="form-input" placeholder="Re-enter password" required>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="reg-submit" style="margin-top: 32px;">
+                <i class="fas fa-rocket"></i>
+                Create Partner Account
+            </button>
+            
+            <div class="reg-trust">
+                <div class="reg-trust-item">
+                    <i class="fas fa-shield-halved"></i>
+                    <span>Bank-level Security</span>
+                </div>
+                <div class="reg-trust-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>No Setup Fees</span>
+                </div>
+                <div class="reg-trust-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Setup in 24 hours</span>
+                </div>
+            </div>
+            
+        </form>
+        
+        <div class="reg-login-cta">
+            Already a partner?<a href="/partner/login/">Login to your account →</a>
+        </div>
+        
+    </div>
+    
+</div>
+
+</body>
+</html>

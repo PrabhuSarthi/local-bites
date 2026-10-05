@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard | LocalBites{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- Welcome Header -->
+    <div class="glass-premium p-6">
+        <h1 class="text-3xl font-bold gradient-text-premium">
+            Welcome, {{ user.get_full_name|default:user.username }}!
+        </h1>
+        <p class="text-gray-400 mt-2">
+            Role: <span class="text-cyan-400 font-semibold">{{ user.get_role_display }}</span>
+        </p>
+    </div>
+
+    {% if user.is_admin %}
+    <!-- ADMIN DASHBOARD -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="glass-premium rounded-xl p-5 text-center">
+            <div class="text-3xl mb-2">👥</div>
+            <div class="text-2xl font-bold gradient-text-premium">{{ total_users }}</div>
+            <div class="text-sm text-gray-400">Total Users</div>
+        </div>
+        <div class="glass-premium rounded-xl p-5 text-center">
+            <div class="text-3xl mb-2">🍽️</div>
+            <div class="text-2xl font-bold text-red-400">{{ total_restaurants }}</div>
+            <div class="text-sm text-gray-400">Restaurants</div>
+        </div>
+        <div class="glass-premium rounded-xl p-5 text-center">
+            <div class="text-3xl mb-2">🛒</div>
+            <div class="text-2xl font-bold text-green-400">{{ total_groceries }}</div>
+            <div class="text-sm text-gray-400">Grocery Stores</div>
+        </div>
+        <div class="glass-premium rounded-xl p-5 text-center">
+            <div class="text-3xl mb-2">🚗</div>
+            <div class="text-2xl font-bold text-blue-400">{{ total_drivers }}</div>
+            <div class="text-sm text-gray-400">Drivers</div>
+        </div>
+    </div>
+
+    <div class="glass-premium p-6">
+        <h2 class="text-xl font-semibold mb-4">📊 Platform Overview</h2>
+        <p class="text-gray-400">
+            Welcome to LocalBites Admin Panel. Manage all users, restaurants, grocery stores, and drivers from here.
+        </p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+            <div class="p-4 rounded-xl bg-white/5 text-center">
+                <div class="text-2xl font-bold text-purple-400">{{ total_customers }}</div>
+                <div class="text-xs text-gray-400 mt-1">Customers</div>
+            </div>
+        </div>
+    </div>
+
+    {% elif user.is_restaurant %}
+    <!-- RESTAURANT OWNER DASHBOARD -->
+    <div class="glass-premium p-6">
+        <h2 class="text-2xl font-semibold mb-4">🍽️ Restaurant Dashboard</h2>
+        <p class="text-gray-400">Manage your restaurant and menu items from here.</p>
+        <a href="/food/" class="btn-premium inline-block mt-4">
+            <i class="fas fa-utensils mr-2"></i> Go to Food Module
+        </a>
+    </div>
+
+    {% elif user.is_grocery %}
+    <!-- GROCERY OWNER DASHBOARD -->
+    <div class="glass-premium p-6">
+        <h2 class="text-2xl font-semibold mb-4">🛒 Grocery Dashboard</h2>
+        <p class="text-gray-400">Manage your grocery store and products from here.</p>
+        <a href="/grocery/" class="btn-premium inline-block mt-4">
+            <i class="fas fa-shopping-basket mr-2"></i> Go to Grocery Module
+        </a>
+    </div>
+
+    {% elif user.is_driver %}
+    <!-- DRIVER DASHBOARD -->
+    <div class="glass-premium p-6">
+        <h2 class="text-2xl font-semibold mb-4">🚗 Driver Dashboard</h2>
+        <p class="text-gray-400">Accept rides and manage your trips from here.</p>
+        <a href="/rides/" class="btn-premium inline-block mt-4">
+            <i class="fas fa-car mr-2"></i> Go to Rides Module
+        </a>
+    </div>
+
+    {% elif user.is_customer %}
+    <!-- CUSTOMER DASHBOARD -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="glass-premium rounded-xl p-6 text-center" onclick="window.location.href='/food/'" style="cursor: pointer;">
+            <div class="text-5xl mb-3">🍽️</div>
+            <h3 class="text-xl font-semibold">Order Food</h3>
+            <p class="text-sm text-gray-400 mt-2">From local restaurants</p>
+        </div>
+        <div class="glass-premium rounded-xl p-6 text-center" onclick="window.location.href='/grocery/'" style="cursor: pointer;">
+            <div class="text-5xl mb-3">🛒</div>
+            <h3 class="text-xl font-semibold">Buy Groceries</h3>
+            <p class="text-sm text-gray-400 mt-2">From nearby kirana stores</p>
+        </div>
+        <div class="glass-premium rounded-xl p-6 text-center" onclick="window.location.href='/rides/'" style="cursor: pointer;">
+            <div class="text-5xl mb-3">🚗</div>
+            <h3 class="text-xl font-semibold">Book a Ride</h3>
+            <p class="text-sm text-gray-400 mt-2">Bike, auto or car</p>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,264 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile | LocalBites</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #08080C;
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .edit-wrap {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #8B92A0;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            transition: color 0.2s;
+        }
+        
+        .back-link:hover { color: white; }
+        
+        .edit-card {
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 40px;
+        }
+        
+        .edit-header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        .edit-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #4F46E5, #7C3AED);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 16px;
+            box-shadow: 0 12px 32px rgba(79, 70, 229, 0.4);
+        }
+        
+        .edit-header h1 {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #818CF8, #22D3EE);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 6px;
+        }
+        
+        .edit-header p {
+            color: #8B92A0;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #E4E7EB;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+        }
+        
+        .form-label i {
+            color: #818CF8;
+            margin-right: 6px;
+            font-size: 12px;
+        }
+        
+        .edit-card input[type="text"],
+        .edit-card input[type="email"],
+        .edit-card input[type="tel"],
+        .edit-card textarea,
+        .edit-card select {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            color: white;
+            transition: all 0.2s;
+        }
+        
+        .edit-card input:focus,
+        .edit-card textarea:focus,
+        .edit-card select:focus {
+            outline: none;
+            border-color: #4F46E5;
+            background: rgba(79, 70, 229, 0.06);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+        }
+        
+        .edit-card input::placeholder,
+        .edit-card textarea::placeholder {
+            color: #6B7480;
+        }
+        
+        .edit-card textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        .btn-save {
+            flex: 1;
+            padding: 16px;
+            background: linear-gradient(135deg, #4F46E5, #7C3AED);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.3);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(79, 70, 229, 0.5);
+        }
+        
+        .btn-cancel {
+            flex: 1;
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            color: #E4E7EB;
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-cancel:hover {
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.05);
+        }
+        
+        @media (max-width: 640px) {
+            .edit-card { padding: 28px 20px; }
+            .form-actions { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="edit-wrap">
+    
+    <a href="/profile/" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to Profile
+    </a>
+    
+    <div class="edit-card">
+        
+        <div class="edit-header">
+            <div class="edit-icon">
+                <i class="fas fa-user-edit"></i>
+            </div>
+            <h1>Edit Profile</h1>
+            <p>Update your personal information</p>
+        </div>
+        
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-user"></i> First Name</label>
+                {{ form.first_name }}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-user"></i> Last Name</label>
+                {{ form.last_name }}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-envelope"></i> Email Address</label>
+                {{ form.email }}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-phone"></i> Phone Number</label>
+                {{ form.phone }}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-map-marker-alt"></i> Address</label>
+                {{ form.address }}
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-save">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+                <a href="/profile/" class="btn-cancel">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+        
+    </div>
+    
+</div>
+
+</body>
+</html>

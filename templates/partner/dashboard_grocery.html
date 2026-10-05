@@ -1,0 +1,249 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Dashboard | LocalBites</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/partner_dashboard.css' %}">
+</head>
+<body class="pd-body">
+
+<div class="pd-bg"></div>
+<div class="pd-grid-bg"></div>
+
+<button class="pd-mobile-toggle" onclick="document.querySelector('.pd-sidebar').classList.toggle('open')">
+    <i class="fas fa-bars"></i>
+</button>
+
+<div class="pd-layout">
+    
+    <aside class="pd-sidebar">
+        <a href="/" class="pd-sidebar-logo">
+            <div class="pd-logo-mark" style="background: linear-gradient(135deg, #22C55E, #10B981);">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div>
+                <div>LocalBites</div>
+                <div style="font-size: 10px; color: #6B7480; font-weight: 500;">Grocery Partner</div>
+            </div>
+        </a>
+        
+        <div class="pd-nav-section">
+            <span class="pd-nav-label">Main</span>
+            <a href="/dashboard/" class="pd-nav-item active">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="pd-nav-item">
+                <i class="fas fa-shopping-basket"></i>
+                <span>Orders</span>
+                <span class="pd-nav-badge">5</span>
+            </a>
+            <a href="#" class="pd-nav-item">
+                <i class="fas fa-boxes"></i>
+                <span>Inventory</span>
+            </a>
+        </div>
+        
+        <div class="pd-nav-section">
+            <span class="pd-nav-label">Business</span>
+            <a href="#" class="pd-nav-item">
+                <i class="fas fa-wallet"></i>
+                <span>Earnings</span>
+            </a>
+            <a href="#" class="pd-nav-item">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Low Stock</span>
+                <span class="pd-nav-badge">4</span>
+            </a>
+            <a href="#" class="pd-nav-item">
+                <i class="fas fa-chart-pie"></i>
+                <span>Analytics</span>
+            </a>
+        </div>
+        
+        <div class="pd-nav-section">
+            <span class="pd-nav-label">Account</span>
+            <a href="/profile/" class="pd-nav-item">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+            <a href="#" class="pd-nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </div>
+        
+        <div class="pd-sidebar-footer">
+            <form action="/logout/" method="post">
+                {% csrf_token %}
+                <button type="submit" class="pd-nav-item" style="width: 100%; background: transparent; border: none; cursor: pointer; color: #EF4444; text-align: left; font-family: inherit; font-size: 14px;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </form>
+        </div>
+    </aside>
+    
+    <main class="pd-main">
+        
+        <div class="pd-topbar">
+            <div>
+                <h1 class="pd-page-title">Grocery Dashboard 🛒</h1>
+                <p class="pd-page-subtitle">Welcome back, {{ user.get_full_name|default:user.username }}</p>
+            </div>
+            
+            <div class="pd-user-badge">
+                <div class="pd-user-avatar" style="background: linear-gradient(135deg, #22C55E, #10B981);">
+                    {{ user.username|slice:":1"|upper }}
+                </div>
+                <div>
+                    <div class="pd-user-name">{{ user.get_full_name|default:user.username }}</div>
+                    <div class="pd-user-role">Grocery Owner</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pd-stats">
+            <div class="pd-stat" style="--stat-color: linear-gradient(90deg, #22C55E, #10B981);">
+                <div class="pd-stat-header">
+                    <span class="pd-stat-label">Today's Sales</span>
+                    <div class="pd-stat-icon green"><i class="fas fa-rupee-sign"></i></div>
+                </div>
+                <div class="pd-stat-value" style="background: linear-gradient(135deg, #22C55E, #10B981); -webkit-background-clip: text; background-clip: text;">₹28,450</div>
+                <div class="pd-stat-change"><i class="fas fa-arrow-up"></i> +18% <span class="pd-stat-change-sub">vs yesterday</span></div>
+            </div>
+            
+            <div class="pd-stat" style="--stat-color: linear-gradient(90deg, #6366F1, #8B5CF6);">
+                <div class="pd-stat-header">
+                    <span class="pd-stat-label">Orders</span>
+                    <div class="pd-stat-icon"><i class="fas fa-shopping-basket"></i></div>
+                </div>
+                <div class="pd-stat-value">86</div>
+                <div class="pd-stat-change"><i class="fas fa-arrow-up"></i> +22% <span class="pd-stat-change-sub">vs yesterday</span></div>
+            </div>
+            
+            <div class="pd-stat" style="--stat-color: linear-gradient(90deg, #F59E0B, #F97316);">
+                <div class="pd-stat-header">
+                    <span class="pd-stat-label">Low Stock Items</span>
+                    <div class="pd-stat-icon orange"><i class="fas fa-exclamation-triangle"></i></div>
+                </div>
+                <div class="pd-stat-value" style="background: linear-gradient(135deg, #F59E0B, #F97316); -webkit-background-clip: text; background-clip: text;">4</div>
+                <div class="pd-stat-change down"><i class="fas fa-arrow-down"></i> -12% <span class="pd-stat-change-sub">need restock</span></div>
+            </div>
+            
+            <div class="pd-stat" style="--stat-color: linear-gradient(90deg, #EC4899, #8B5CF6);">
+                <div class="pd-stat-header">
+                    <span class="pd-stat-label">Rating</span>
+                    <div class="pd-stat-icon pink"><i class="fas fa-star"></i></div>
+                </div>
+                <div class="pd-stat-value">4.8★</div>
+                <div class="pd-stat-change"><i class="fas fa-arrow-up"></i> +0.2 <span class="pd-stat-change-sub">from 189 reviews</span></div>
+            </div>
+        </div>
+        
+        <div class="pd-actions-grid">
+            <a href="#" class="pd-action-card">
+                <div class="pd-action-icon" style="background: rgba(34, 197, 94, 0.15); color: #22C55E;"><i class="fas fa-plus-circle"></i></div>
+                <h4>Add Product</h4>
+                <p>Add new items to your store</p>
+            </a>
+            <a href="#" class="pd-action-card">
+                <div class="pd-action-icon"><i class="fas fa-boxes"></i></div>
+                <h4>Manage Inventory</h4>
+                <p>Update stock and prices</p>
+            </a>
+            <a href="#" class="pd-action-card">
+                <div class="pd-action-icon" style="background: rgba(236, 72, 153, 0.15); color: #EC4899;"><i class="fas fa-chart-bar"></i></div>
+                <h4>View Analytics</h4>
+                <p>Track sales performance</p>
+            </a>
+        </div>
+        
+        <div class="pd-chart-card">
+            <div class="pd-chart-header">
+                <div>
+                    <div class="pd-chart-title">Weekly Sales</div>
+                    <div class="pd-chart-subtitle">Last 7 days performance</div>
+                </div>
+                <div class="pd-chart-legend">
+                    <span><span class="pd-legend-dot" style="background: #22C55E;"></span>Sales</span>
+                    <span><span class="pd-legend-dot" style="background: #22D3EE;"></span>Today</span>
+                </div>
+            </div>
+            
+            <div class="pd-chart-bars">
+                <div class="pd-bar-wrap"><div class="pd-bar-track"><div class="pd-bar" style="height: 55%; background: linear-gradient(180deg, #22C55E, #10B981);"><span class="pd-bar-value">₹18K</span></div></div><span class="pd-bar-label">Mon</span></div>
+                <div class="pd-bar-wrap"><div class="pd-bar-track"><div class="pd-bar" style="height: 48%; background: linear-gradient(180deg, #22C55E, #10B981);"><span class="pd-bar-value">₹15K</span></div></div><span class="pd-bar-label">Tue</span></div>
+                <div class="pd-bar-wrap"><div class="pd-bar-track"><div class="pd-bar" style="height: 68%; background: linear-gradient(180deg, #22C55E, #10B981);"><span class="pd-bar-value">₹22K</span></div></div><span class="pd-bar-label">Wed</span></div>
+                <div class="pd-bar-wrap"><div class="pd-bar-track"><div class="pd-bar" style="height: 62%; background: linear-gradient(180deg, #22C55E, #10B981);"><span class="pd-bar-value">₹20K</span></div></div><span class="pd-bar-label">Thu</span></div>
+                <div class="pd-bar-wrap"><div class="pd-bar-track"><div class="pd-bar" style="height: 75%; background: linear-gradient(180deg, #22C55E, #10B981);"><span class="pd-bar-value">₹25K</span></div></div><span class="pd-bar-label">Fri</span></div>
+                <div class="pd-bar-wrap"><div class="pd-bar-track"><div class="pd-bar" style="height: 82%; background: linear-gradient(180deg, #22C55E, #10B981);"><span class="pd-bar-value">₹27K</span></div></div><span class="pd-bar-label">Sat</span></div>
+                <div class="pd-bar-wrap"><div class="pd-bar-track"><div class="pd-bar highlight" style="height: 88%; background: linear-gradient(180deg, #22D3EE, #06B6D4);"><span class="pd-bar-value">₹28K</span></div></div><span class="pd-bar-label">Sun</span></div>
+            </div>
+        </div>
+        
+        <div class="pd-table-card">
+            <div class="pd-table-head">
+                <span class="pd-table-title">Recent Orders</span>
+                <a href="#" class="pd-table-link">View All <i class="fas fa-arrow-right" style="font-size: 11px;"></i></a>
+            </div>
+            
+            <table class="pd-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="pd-order-id">#5821</span></td>
+                        <td>Rohit Sharma</td>
+                        <td>8 items</td>
+                        <td><strong>₹680</strong></td>
+                        <td><span class="pd-status pending">Pending</span></td>
+                        <td style="color: #8B92A0;">3 min ago</td>
+                    </tr>
+                    <tr>
+                        <td><span class="pd-order-id">#5820</span></td>
+                        <td>Meena R.</td>
+                        <td>4 items</td>
+                        <td><strong>₹420</strong></td>
+                        <td><span class="pd-status preparing">Packing</span></td>
+                        <td style="color: #8B92A0;">12 min ago</td>
+                    </tr>
+                    <tr>
+                        <td><span class="pd-order-id">#5819</span></td>
+                        <td>Karthik M.</td>
+                        <td>12 items</td>
+                        <td><strong>₹1,240</strong></td>
+                        <td><span class="pd-status delivered">Delivered</span></td>
+                        <td style="color: #8B92A0;">28 min ago</td>
+                    </tr>
+                    <tr>
+                        <td><span class="pd-order-id">#5818</span></td>
+                        <td>Lakshmi V.</td>
+                        <td>6 items</td>
+                        <td><strong>₹590</strong></td>
+                        <td><span class="pd-status delivered">Delivered</span></td>
+                        <td style="color: #8B92A0;">55 min ago</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </main>
+</div>
+
+</body>
+</html>

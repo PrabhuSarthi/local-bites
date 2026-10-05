@@ -1,0 +1,395 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | LocalBites</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: #FFF8F0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255,107,53,0.08), transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(247,147,30,0.08), transparent 40%);
+        }
+        
+        .auth-container {
+            width: 100%;
+            max-width: 460px;
+        }
+        
+        .auth-card {
+            background: white;
+            border-radius: 32px;
+            padding: 48px;
+            box-shadow: 0 24px 60px -20px rgba(255,107,53,0.2);
+            border: 1.5px solid #F0E5D8;
+        }
+        
+        .auth-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 32px;
+        }
+        
+        .auth-logo-mark {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 26px;
+            box-shadow: 0 12px 28px rgba(255,107,53,0.35);
+        }
+        
+        .auth-logo-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -1.2px;
+            color: #1A1A1A;
+        }
+        
+        .auth-logo-text span {
+            color: #FF6B35;
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .auth-header h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+            color: #1A1A1A;
+        }
+        
+        .auth-header p {
+            color: #6B6B6B;
+            font-size: 15px;
+        }
+        
+        .auth-error {
+            padding: 16px 18px;
+            background: rgba(239,68,68,0.06);
+            border: 1.5px solid rgba(239,68,68,0.25);
+            border-radius: 14px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            animation: shake 0.4s ease;
+            transition: all 0.6s ease;
+        }
+        
+        .auth-error.fade-out {
+            opacity: 0;
+            transform: translateY(-10px);
+            margin-bottom: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            max-height: 0;
+            overflow: hidden;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
+        }
+        
+        .auth-error-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: rgba(239,68,68,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #DC2626;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        .auth-error-content { flex: 1; }
+        
+        .auth-error-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: #DC2626;
+            margin-bottom: 3px;
+        }
+        
+        .auth-error-message {
+            font-size: 13px;
+            color: #991B1B;
+            line-height: 1.5;
+        }
+        
+        .auth-error-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            color: #6366F1;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 6px 12px;
+            background: rgba(99,102,241,0.1);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        
+        .auth-error-link:hover {
+            background: rgba(99,102,241,0.2);
+            transform: translateX(2px);
+        }
+        
+        .auth-form .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .auth-form .input-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: #1A1A1A;
+            margin-bottom: 8px;
+            letter-spacing: 0.2px;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .input-wrapper i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9CA3AF;
+            font-size: 16px;
+            transition: color 0.2s;
+            pointer-events: none;
+        }
+        
+        .input-wrapper .input {
+            padding-left: 48px;
+            padding-top: 16px;
+            padding-bottom: 16px;
+            font-weight: 500;
+        }
+        
+        .input-wrapper:focus-within i {
+            color: #FF6B35;
+        }
+        
+        .auth-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 24px rgba(255,107,53,0.3);
+            margin-top: 8px;
+            font-family: inherit;
+            letter-spacing: 0.3px;
+        }
+        
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(255,107,53,0.45);
+        }
+        
+        .auth-footer {
+            text-align: center;
+            margin-top: 24px;
+            color: #6B6B6B;
+            font-size: 14px;
+        }
+        
+        .auth-footer a {
+            color: #FF6B35;
+            font-weight: 800;
+            margin-left: 4px;
+            text-decoration: none;
+        }
+        
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .partner-cta {
+            margin-top: 24px;
+            padding: 20px;
+            background: rgba(99,102,241,0.05);
+            border: 1.5px dashed rgba(99,102,241,0.25);
+            border-radius: 16px;
+            text-align: center;
+        }
+        
+        .partner-cta p {
+            color: #6B6B6B;
+            font-size: 13px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .partner-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 800;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(99,102,241,0.3);
+        }
+        
+        .partner-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(99,102,241,0.4);
+        }
+        
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #9CA3AF;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            color: #FF6B35;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-container">
+    <div class="auth-card">
+        
+        <div class="auth-logo">
+            <div class="auth-logo-mark">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <span class="auth-logo-text">Local<span>Bites</span></span>
+        </div>
+        
+        <div class="auth-header">
+            <h1>Welcome Back!</h1>
+            <p>Login to continue to your account</p>
+        </div>
+        
+        {% if error %}
+        <div class="auth-error" id="errorBox">
+            <div class="auth-error-icon">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <div class="auth-error-content">
+                <div class="auth-error-title">Access Denied</div>
+                <div class="auth-error-message">{{ error }}</div>
+                {% if "partner" in error %}
+                <a href="/partner/login/" class="auth-error-link">
+                    <i class="fas fa-arrow-right"></i>
+                    Go to Partner Login
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <form method="POST" class="auth-form">
+            {% csrf_token %}
+            
+            <div class="input-group">
+                <label class="input-label">Username</label>
+                <div class="input-wrapper">
+                    <input type="text" name="username" class="input" placeholder="Enter your username" required autofocus>
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">Password</label>
+                <div class="input-wrapper">
+                    <input type="password" name="password" class="input" placeholder="Enter your password" required>
+                    <i class="fas fa-lock"></i>
+                </div>
+            </div>
+            
+            <button type="submit" class="auth-btn">
+                <i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i>
+                Login
+            </button>
+        </form>
+        
+        <div class="auth-footer">
+            Don't have an account?
+            <a href="/register/">Register</a>
+        </div>
+        
+        <div class="partner-cta">
+            <p>Are you a business partner?</p>
+            <a href="/partner/login/" class="partner-cta-btn">
+                <i class="fas fa-briefcase"></i>
+                Partner Login
+            </a>
+        </div>
+        
+    </div>
+    
+    <a href="/" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+</div>
+
+<script>
+    // Auto-fade the error box after 4 seconds
+    document.addEventListener('DOMContentLoaded', function() {
+        const errorBox = document.getElementById('errorBox');
+        if (errorBox) {
+            setTimeout(function() {
+                errorBox.classList.add('fade-out');
+                setTimeout(function() {
+                    errorBox.remove();
+                }, 600);
+            }, 4000);
+        }
+    });
+</script>
+
+</body>
+</html>

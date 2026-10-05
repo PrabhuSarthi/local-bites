@@ -1,0 +1,271 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riding Captain Dashboard | LocalBites</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/partner_dashboard.css' %}">
+</head>
+<body class="pd-body">
+
+<div class="pd-bg"></div>
+<div class="pd-grid-bg"></div>
+
+<button class="pd-mobile-toggle" onclick="document.querySelector('.pd-sidebar').classList.toggle('open')">
+    <i class="fas fa-bars"></i>
+</button>
+
+<div class="pd-layout">
+    
+    <aside class="pd-sidebar">
+        <a href="/" class="pd-sidebar-logo">
+            <div class="pd-logo-mark" style="background: linear-gradient(135deg, #3B82F6, #6366F1);">
+                <i class="fas fa-motorcycle"></i>
+            </div>
+            <div>
+                <div>LocalBites</div>
+                <div style="font-size: 10px; color: #6B7480; font-weight: 500;">Riding Captain</div>
+            </div>
+        </a>
+        
+        <div class="pd-nav-section">
+            <span class="pd-nav-label">Main</span>
+            <a href="/dashboard/" class="pd-nav-item active">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="pd-nav-item">
+                <i class="fas fa-motorcycle"></i>
+                <span>My Rides</span>
+            </a>
+            <a href="#" class="pd-nav-item">
+                <i class="fas fa-map-marked-alt"></i>
+                <span>Available Rides</span>
+                <span class="pd-nav-badge">2</span>
+            </a>
+        </div>
+        
+        <div class="pd-nav-section">
+            <span class="pd-nav-label">Earnings</span>
+            <a href="#" class="pd-nav-item">
+                <i class="fas fa-wallet"></i>
+                <span>My Wallet</span>
+            </a>
+            <a href="#" class="pd-nav-item">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>Payouts</span>
+            </a>
+            <a href="#" class="pd-nav-item">
+                <i class="fas fa-chart-pie"></i>
+                <span>Analytics</span>
+            </a>
+        </div>
+        
+        <div class="pd-nav-section">
+            <span class="pd-nav-label">Account</span>
+            <a href="/profile/" class="pd-nav-item">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+            <a href="#" class="pd-nav-item">
+                <i class="fas fa-star"></i>
+                <span>My Rating</span>
+            </a>
+        </div>
+        
+        <div class="pd-sidebar-footer">
+            <form action="/logout/" method="post">
+                {% csrf_token %}
+                <button type="submit" class="pd-nav-item" style="width: 100%; background: transparent; border: none; cursor: pointer; color: #EF4444; text-align: left; font-family: inherit; font-size: 14px;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </form>
+        </div>
+    </aside>
+    
+    <main class="pd-main">
+        
+        <div class="pd-topbar">
+            <div>
+                <h1 class="pd-page-title">Riding Captain Dashboard 🏍️</h1>
+                <p class="pd-page-subtitle">Welcome back, {{ user.get_full_name|default:user.username }}</p>
+            </div>
+            
+            <div class="pd-user-badge">
+                <div class="pd-user-avatar" style="background: linear-gradient(135deg, #3B82F6, #6366F1);">
+                    {{ user.username|slice:":1"|upper }}
+                </div>
+                <div>
+                    <div class="pd-user-name">{{ user.get_full_name|default:user.username }}</div>
+                    <div class="pd-user-role">Riding Captain</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Online Status Toggle -->
+        <div class="pd-stat" style="background: linear-gradient(160deg, rgba(34, 197, 94, 0.1), rgba(18, 18, 28, 0.8)); border-color: rgba(34, 197, 94, 0.3); margin-bottom: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="width: 12px; height: 12px; background: #22C55E; border-radius: 50%; animation: pPulse 2s infinite; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);"></div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 16px; color: white;">You're Online</div>
+                        <div style="font-size: 13px; color: #8B92A0;">Receiving new ride requests in your area</div>
+                    </div>
+                </div>
+                <button style="padding: 10px 24px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #EF4444; border-radius: 100px; font-weight: 700; cursor: pointer; font-family: inherit;">
+                    Go Offline
+                </button>
+            </div>
+        </div>
+        
+        <div class="pd-stats">
+            <div class="pd-stat" style="--stat-color: linear-gradient(90deg, #22C55E, #10B981);">
+                <div class="pd-stat-header">
+                    <span class="pd-stat-label">Today's Earnings</span>
+                    <div class="pd-stat-icon green"><i class="fas fa-rupee-sign"></i></div>
+                </div>
+                <div class="pd-stat-value" style="background: linear-gradient(135deg, #22C55E, #10B981); -webkit-background-clip: text; background-clip: text;">₹1,240</div>
+                <div class="pd-stat-change"><i class="fas fa-arrow-up"></i> +15% <span class="pd-stat-change-sub">vs yesterday</span></div>
+            </div>
+            
+            <div class="pd-stat" style="--stat-color: linear-gradient(90deg, #3B82F6, #6366F1);">
+                <div class="pd-stat-header">
+                    <span class="pd-stat-label">Rides Today</span>
+                    <div class="pd-stat-icon"><i class="fas fa-motorcycle"></i></div>
+                </div>
+                <div class="pd-stat-value">12</div>
+                <div class="pd-stat-change"><i class="fas fa-arrow-up"></i> +4 <span class="pd-stat-change-sub">more than yesterday</span></div>
+            </div>
+            
+            <div class="pd-stat" style="--stat-color: linear-gradient(90deg, #F59E0B, #F97316);">
+                <div class="pd-stat-header">
+                    <span class="pd-stat-label">Online Hours</span>
+                    <div class="pd-stat-icon orange"><i class="fas fa-clock"></i></div>
+                </div>
+                <div class="pd-stat-value" style="background: linear-gradient(135deg, #F59E0B, #F97316); -webkit-background-clip: text; background-clip: text;">6h 24m</div>
+                <div class="pd-stat-change"><i class="fas fa-arrow-up"></i> +1h <span class="pd-stat-change-sub">vs yesterday</span></div>
+            </div>
+            
+            <div class="pd-stat" style="--stat-color: linear-gradient(90deg, #EC4899, #8B5CF6);">
+                <div class="pd-stat-header">
+                    <span class="pd-stat-label">Rating</span>
+                    <div class="pd-stat-icon pink"><i class="fas fa-star"></i></div>
+                </div>
+                <div class="pd-stat-value">4.9★</div>
+                <div class="pd-stat-change"><i class="fas fa-arrow-up"></i> +0.1 <span class="pd-stat-change-sub">from 156 rides</span></div>
+            </div>
+        </div>
+        
+        <div class="pd-actions-grid">
+            <a href="#" class="pd-action-card">
+                <div class="pd-action-icon" style="background: rgba(59, 130, 246, 0.15); color: #3B82F6;"><i class="fas fa-map-marked-alt"></i></div>
+                <h4>View Available Rides</h4>
+                <p>See ride requests near you</p>
+            </a>
+            <a href="#" class="pd-action-card">
+                <div class="pd-action-icon" style="background: rgba(34, 197, 94, 0.15); color: #22C55E;"><i class="fas fa-wallet"></i></div>
+                <h4>My Wallet</h4>
+                <p>Check balance & withdraw</p>
+            </a>
+            <a href="#" class="pd-action-card">
+                <div class="pd-action-icon" style="background: rgba(236, 72, 153, 0.15); color: #EC4899;"><i class="fas fa-history"></i></div>
+                <h4>Ride History</h4>
+                <p>Past rides and earnings</p>
+            </a>
+        </div>
+        
+        <div class="pd-chart-card">
+            <div class="pd-chart-header">
+                <div>
+                    <div class="pd-chart-title">Weekly Earnings</div>
+                    <div class="pd-chart-subtitle">Last 7 days performance</div>
+                </div>
+                <div class="pd-chart-legend">
+                    <span><span class="pd-legend-dot" style="background: #3B82F6;"></span>Earnings</span>
+                    <span><span class="pd-legend-dot" style="background: #22D3EE;"></span>Today</span>
+                </div>
+            </div>
+            
+            <div class="pd-chart-bars">
+                <div class="pd-bar-wrap"><div class="pd-bar-track"><div class="pd-bar" style="height: 62%; background: linear-gradient(180deg, #3B82F6, #6366F1);"><span class="pd-bar-value">₹980</span></div></div><span class="pd-bar-label">Mon</span></div>
+                <div class="pd-bar-wrap"><div class="pd-bar-track"><div class="pd-bar" style="height: 55%; background: linear-gradient(180deg, #3B82F6, #6366F1);"><span class="pd-bar-value">₹850</span></div></div><span class="pd-bar-label">Tue</span></div>
+                <div class="pd-bar-wrap"><div class="pd-bar-track"><div class="pd-bar" style="height: 78%; background: linear-gradient(180deg, #3B82F6, #6366F1);"><span class="pd-bar-value">₹1,220</span></div></div><span class="pd-bar-label">Wed</span></div>
+                <div class="pd-bar-wrap"><div class="pd-bar-track"><div class="pd-bar" style="height: 68%; background: linear-gradient(180deg, #3B82F6, #6366F1);"><span class="pd-bar-value">₹1,050</span></div></div><span class="pd-bar-label">Thu</span></div>
+                <div class="pd-bar-wrap"><div class="pd-bar-track"><div class="pd-bar" style="height: 82%; background: linear-gradient(180deg, #3B82F6, #6366F1);"><span class="pd-bar-value">₹1,340</span></div></div><span class="pd-bar-label">Fri</span></div>
+                <div class="pd-bar-wrap"><div class="pd-bar-track"><div class="pd-bar" style="height: 88%; background: linear-gradient(180deg, #3B82F6, #6366F1);"><span class="pd-bar-value">₹1,450</span></div></div><span class="pd-bar-label">Sat</span></div>
+                <div class="pd-bar-wrap"><div class="pd-bar-track"><div class="pd-bar highlight" style="height: 75%; background: linear-gradient(180deg, #22D3EE, #06B6D4);"><span class="pd-bar-value">₹1,240</span></div></div><span class="pd-bar-label">Sun</span></div>
+            </div>
+        </div>
+        
+        <div class="pd-table-card">
+            <div class="pd-table-head">
+                <span class="pd-table-title">Recent Rides</span>
+                <a href="#" class="pd-table-link">View All <i class="fas fa-arrow-right" style="font-size: 11px;"></i></a>
+            </div>
+            
+            <table class="pd-table">
+                <thead>
+                    <tr>
+                        <th>Ride ID</th>
+                        <th>Customer</th>
+                        <th>From → To</th>
+                        <th>Distance</th>
+                        <th>Fare</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="pd-order-id">#R-847</span></td>
+                        <td>Priya S.</td>
+                        <td>MG Road → Indiranagar</td>
+                        <td>4.2 km</td>
+                        <td><strong>₹85</strong></td>
+                        <td><span class="pd-status active">Active</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="pd-order-id">#R-846</span></td>
+                        <td>Amit V.</td>
+                        <td>Koramangala → HSR</td>
+                        <td>3.8 km</td>
+                        <td><strong>₹78</strong></td>
+                        <td><span class="pd-status delivered">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="pd-order-id">#R-845</span></td>
+                        <td>Neha K.</td>
+                        <td>Whitefield → Marathahalli</td>
+                        <td>6.5 km</td>
+                        <td><strong>₹130</strong></td>
+                        <td><span class="pd-status delivered">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="pd-order-id">#R-844</span></td>
+                        <td>Rajesh K.</td>
+                        <td>Jayanagar → BTM</td>
+                        <td>5.1 km</td>
+                        <td><strong>₹102</strong></td>
+                        <td><span class="pd-status delivered">Completed</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </main>
+</div>
+
+<style>
+@keyframes pPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+    50% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+}
+</style>
+
+</body>
+</html>

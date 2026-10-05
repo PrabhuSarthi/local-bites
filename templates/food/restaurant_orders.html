@@ -1,0 +1,545 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incoming Orders | {{ restaurant.name }}</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/partner_dashboard.css' %}">
+    
+    <style>
+        body {
+            background: #08080C;
+            color: white;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .ro-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        .ro-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .ro-title {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            background: linear-gradient(135deg, #818CF8, #22D3EE);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .ro-subtitle {
+            color: #8B92A0;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        
+        .ro-back-btn {
+            padding: 12px 24px;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            color: #818CF8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        
+        .ro-back-btn:hover {
+            background: rgba(99, 102, 241, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        /* Stats Row */
+        .ro-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .ro-stat {
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ro-stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--stat-color, linear-gradient(90deg, #6366F1, #8B5CF6));
+        }
+        
+        .ro-stat-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #8B92A0;
+            margin-bottom: 8px;
+        }
+        
+        .ro-stat-value {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #818CF8, #22D3EE);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+        }
+        
+        /* Orders Grid */
+        .orders-section-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .order-card {
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .order-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.2);
+        }
+        
+        .order-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--status-color, #6366F1);
+        }
+        
+        .order-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .order-num {
+            font-family: 'Monaco', monospace;
+            font-size: 14px;
+            font-weight: 800;
+            color: #818CF8;
+            letter-spacing: 0.5px;
+        }
+        
+        .order-time {
+            font-size: 12px;
+            color: #6B7480;
+            margin-top: 4px;
+        }
+        
+        .order-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+        
+        .order-status-badge.pending { background: rgba(245,158,11,0.15); color: #F59E0B; }
+        .order-status-badge.confirmed { background: rgba(99,102,241,0.15); color: #818CF8; }
+        .order-status-badge.preparing { background: rgba(139,92,246,0.15); color: #A78BFA; }
+        .order-status-badge.out_for_delivery { background: rgba(34,211,238,0.15); color: #22D3EE; }
+        .order-status-badge.delivered { background: rgba(34,197,94,0.15); color: #22C55E; }
+        .order-status-badge.cancelled { background: rgba(239,68,68,0.15); color: #EF4444; }
+        
+        .order-customer {
+            padding: 12px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .order-customer-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .order-customer-address {
+            font-size: 12px;
+            color: #8B92A0;
+            line-height: 1.5;
+        }
+        
+        .order-items-list {
+            margin-bottom: 16px;
+        }
+        
+        .order-item-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 13px;
+            color: #E4E7EB;
+        }
+        
+        .order-item-line .qty {
+            color: #6B7480;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        
+        .order-total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-top: 1px dashed rgba(255,255,255,0.1);
+            margin-bottom: 16px;
+        }
+        
+        .order-total-label {
+            font-size: 13px;
+            color: #8B92A0;
+            font-weight: 600;
+        }
+        
+        .order-total-value {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #818CF8, #22D3EE);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .order-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            flex: 1;
+            min-width: 110px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+        
+        .action-btn.confirm {
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            color: white;
+            box-shadow: 0 4px 16px rgba(99,102,241,0.3);
+        }
+        
+        .action-btn.confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99,102,241,0.4);
+        }
+        
+        .action-btn.prepare {
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            color: white;
+            box-shadow: 0 4px 16px rgba(139,92,246,0.3);
+        }
+        
+        .action-btn.prepare:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139,92,246,0.4);
+        }
+        
+        .action-btn.deliver {
+            background: linear-gradient(135deg, #22D3EE, #06B6D4);
+            color: white;
+            box-shadow: 0 4px 16px rgba(34,211,238,0.3);
+        }
+        
+        .action-btn.deliver:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(34,211,238,0.4);
+        }
+        
+        .action-btn.complete {
+            background: linear-gradient(135deg, #22C55E, #10B981);
+            color: white;
+            box-shadow: 0 4px 16px rgba(34,197,94,0.3);
+        }
+        
+        .action-btn.complete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(34,197,94,0.4);
+        }
+        
+        .action-btn.view {
+            background: rgba(255,255,255,0.05);
+            color: #8B92A0;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .action-btn.view:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .ro-empty {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+        }
+        
+        .ro-empty i {
+            font-size: 56px;
+            color: #3A4553;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .ro-empty h3 {
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+        }
+        
+        .ro-empty p {
+            color: #6B7480;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 968px) {
+            .ro-stats { grid-template-columns: repeat(2, 1fr); }
+            .orders-grid { grid-template-columns: 1fr; }
+        }
+        
+        @media (max-width: 640px) {
+            .ro-stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="ro-wrap">
+    
+    <!-- Header -->
+    <div class="ro-header">
+        <div>
+            <h1 class="ro-title">Incoming Orders 📦</h1>
+            <p class="ro-subtitle">{{ restaurant.name }} · Manage your live orders</p>
+        </div>
+        <a href="/dashboard/" class="ro-back-btn">
+            <i class="fas fa-arrow-left"></i> Dashboard
+        </a>
+    </div>
+    
+    <!-- Stats -->
+    <div class="ro-stats">
+        <div class="ro-stat" style="--stat-color: linear-gradient(90deg, #F59E0B, #F97316);">
+            <div class="ro-stat-label">Pending</div>
+            <div class="ro-stat-value">{{ orders|length }}</div>
+        </div>
+        <div class="ro-stat" style="--stat-color: linear-gradient(90deg, #6366F1, #8B5CF6);">
+            <div class="ro-stat-label">Total Orders</div>
+            <div class="ro-stat-value">{{ orders|length }}</div>
+        </div>
+        <div class="ro-stat" style="--stat-color: linear-gradient(90deg, #22D3EE, #06B6D4);">
+            <div class="ro-stat-label">Today Revenue</div>
+            <div class="ro-stat-value">₹42K</div>
+        </div>
+        <div class="ro-stat" style="--stat-color: linear-gradient(90deg, #22C55E, #10B981);">
+            <div class="ro-stat-label">Avg Rating</div>
+            <div class="ro-stat-value">{{ restaurant.rating }}★</div>
+        </div>
+    </div>
+    
+    <!-- Orders -->
+    <h2 class="orders-section-title">
+        <i class="fas fa-shopping-bag" style="color: #818CF8;"></i>
+        Live Orders ({{ orders|length }})
+    </h2>
+    
+    {% if orders %}
+    <div class="orders-grid">
+        {% for order in orders %}
+        <div class="order-card" style="--status-color: 
+            {% if order.status == 'pending' %}#F59E0B
+            {% elif order.status == 'confirmed' %}#6366F1
+            {% elif order.status == 'preparing' %}#8B5CF6
+            {% elif order.status == 'out_for_delivery' %}#22D3EE
+            {% elif order.status == 'delivered' %}#22C55E
+            {% else %}#EF4444{% endif %};">
+            
+            <!-- Order Head -->
+            <div class="order-head">
+                <div>
+                    <div class="order-num">#{{ order.order_number }}</div>
+                    <div class="order-time">
+                        <i class="far fa-clock"></i>
+                        {{ order.created_at|timesince }} ago
+                    </div>
+                </div>
+                <span class="order-status-badge {{ order.status }}">
+                    {{ order.get_status_display }}
+                </span>
+            </div>
+            
+            <!-- Customer Info -->
+            <div class="order-customer">
+                <div class="order-customer-name">
+                    <i class="fas fa-user" style="color: #818CF8;"></i>
+                    {{ order.customer.get_full_name|default:order.customer.username }}
+                </div>
+                <div class="order-customer-address">
+                    <i class="fas fa-map-marker-alt"></i>
+                    {{ order.delivery_address|truncatewords:10 }}
+                </div>
+            </div>
+            
+            <!-- Items -->
+            <div class="order-items-list">
+                {% for item in order.items.all %}
+                <div class="order-item-line">
+                    <span>
+                        <span class="qty">{{ item.quantity }}×</span>
+                        {{ item.food_item.name }}
+                    </span>
+                    <span>₹{{ item.subtotal|floatformat:0 }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Total -->
+            <div class="order-total-row">
+                <span class="order-total-label">Total Amount</span>
+                <span class="order-total-value">₹{{ order.total|floatformat:0 }}</span>
+            </div>
+            
+            <!-- Actions -->
+            <div class="order-actions">
+                {% if order.status == 'pending' %}
+                <form method="POST" action="/food/orders/{{ order.id }}/status/" style="display: contents;">
+                    {% csrf_token %}
+                    <input type="hidden" name="status" value="confirmed">
+                    <button type="submit" class="action-btn confirm">
+                        <i class="fas fa-check"></i> Accept
+                    </button>
+                </form>
+                {% endif %}
+                
+                {% if order.status == 'confirmed' %}
+                <form method="POST" action="/food/orders/{{ order.id }}/status/" style="display: contents;">
+                    {% csrf_token %}
+                    <input type="hidden" name="status" value="preparing">
+                    <button type="submit" class="action-btn prepare">
+                        <i class="fas fa-utensils"></i> Prepare
+                    </button>
+                </form>
+                {% endif %}
+                
+                {% if order.status == 'preparing' %}
+                <form method="POST" action="/food/orders/{{ order.id }}/status/" style="display: contents;">
+                    {% csrf_token %}
+                    <input type="hidden" name="status" value="out_for_delivery">
+                    <button type="submit" class="action-btn deliver">
+                        <i class="fas fa-motorcycle"></i> Ship
+                    </button>
+                </form>
+                {% endif %}
+                
+                {% if order.status == 'out_for_delivery' %}
+                <form method="POST" action="/food/orders/{{ order.id }}/status/" style="display: contents;">
+                    {% csrf_token %}
+                    <input type="hidden" name="status" value="delivered">
+                    <button type="submit" class="action-btn complete">
+                        <i class="fas fa-check-double"></i> Delivered
+                    </button>
+                </form>
+                {% endif %}
+                
+                <a href="/food/orders/{{ order.id }}/" class="action-btn view">
+                    <i class="fas fa-eye"></i> View
+                </a>
+            </div>
+            
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="ro-empty">
+        <i class="fas fa-inbox"></i>
+        <h3>No orders yet</h3>
+        <p>When customers place orders, they'll show up here</p>
+    </div>
+    {% endif %}
+    
+</div>
+
+</body>
+</html>

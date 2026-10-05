@@ -1,0 +1,577 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users | Admin Panel</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #08080C;
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .adm-layout { display: flex; min-height: 100vh; }
+        
+        /* Sidebar */
+        .adm-sidebar {
+            width: 260px;
+            background: rgba(10, 10, 18, 0.95);
+            border-right: 1px solid rgba(255,255,255,0.08);
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+        }
+        
+        .adm-sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+            font-weight: 800;
+            font-size: 18px;
+            padding: 12px 12px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            margin-bottom: 20px;
+        }
+        
+        .adm-logo-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #EF4444, #F97316);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+        }
+        
+        .adm-tag {
+            padding: 2px 6px;
+            background: rgba(239, 68, 68, 0.15);
+            color: #FCA5A5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 5px;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        
+        .adm-nav-section { margin-bottom: 20px; }
+        
+        .adm-nav-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #6B7480;
+            padding: 8px 12px;
+            display: block;
+        }
+        
+        .adm-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 11px;
+            text-decoration: none;
+            color: #8B92A0;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            margin-bottom: 2px;
+            width: 100%;
+            background: transparent;
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+        }
+        
+        .adm-nav-item:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: white;
+        }
+        
+        .adm-nav-item.active {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(249, 115, 22, 0.1));
+            color: white;
+            border-left: 3px solid #EF4444;
+        }
+        
+        .adm-nav-item i { width: 18px; text-align: center; font-size: 14px; }
+        
+        .adm-nav-count {
+            margin-left: auto;
+            padding: 2px 8px;
+            background: rgba(255,255,255,0.08);
+            color: #8B92A0;
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: 100px;
+        }
+        
+        .adm-sidebar-footer {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        /* Main */
+        .adm-main {
+            flex: 1;
+            margin-left: 260px;
+            padding: 32px;
+        }
+        
+        .adm-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .adm-page-title {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            background: linear-gradient(135deg, #FCA5A5, #FDBA74);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .adm-page-subtitle {
+            font-size: 14px;
+            color: #8B92A0;
+            margin-top: 4px;
+        }
+        
+        /* Role filter cards */
+        .role-filters {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .role-card {
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .role-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(239, 68, 68, 0.3);
+            box-shadow: 0 16px 40px -10px rgba(239, 68, 68, 0.2);
+        }
+        
+        .role-card.active {
+            border-color: #EF4444;
+            background: linear-gradient(160deg, rgba(239, 68, 68, 0.15), rgba(18, 18, 28, 0.8));
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+        }
+        
+        .role-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin: 0 auto 12px;
+            color: white;
+        }
+        
+        .role-icon-all { background: linear-gradient(135deg, #EF4444, #F97316); }
+        .role-icon-customer { background: linear-gradient(135deg, #8B5CF6, #EC4899); }
+        .role-icon-restaurant { background: linear-gradient(135deg, #F59E0B, #F97316); }
+        .role-icon-grocery { background: linear-gradient(135deg, #22C55E, #16A34A); }
+        .role-icon-driver { background: linear-gradient(135deg, #3B82F6, #6366F1); }
+        
+        .role-card-value {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            color: white;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        
+        .role-card-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #8B92A0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Search */
+        .search-bar {
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 8px 8px 8px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 15px;
+            font-family: inherit;
+            padding: 12px 0;
+            outline: none;
+        }
+        
+        .search-bar input::placeholder { color: #6B7480; }
+        
+        .search-bar button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #EF4444, #F97316);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        
+        .search-bar button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+        }
+        
+        /* Users table */
+        .users-card {
+            background: linear-gradient(160deg, rgba(28, 28, 42, 0.6), rgba(18, 18, 28, 0.8));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .users-table th {
+            text-align: left;
+            padding: 16px 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #6B7480;
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        .users-table td {
+            padding: 16px 20px;
+            font-size: 14px;
+            color: #E4E7EB;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        
+        .users-table tr:hover td {
+            background: rgba(255,255,255,0.02);
+        }
+        
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .avatar-admin { background: linear-gradient(135deg, #EF4444, #F97316); }
+        .avatar-restaurant { background: linear-gradient(135deg, #F59E0B, #F97316); }
+        .avatar-grocery { background: linear-gradient(135deg, #22C55E, #16A34A); }
+        .avatar-driver { background: linear-gradient(135deg, #3B82F6, #6366F1); }
+        .avatar-customer { background: linear-gradient(135deg, #8B5CF6, #EC4899); }
+        
+        .user-name {
+            font-weight: 700;
+            color: white;
+            margin-bottom: 2px;
+        }
+        
+        .user-username {
+            font-size: 12px;
+            color: #6B7480;
+        }
+        
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        .role-badge.admin { background: rgba(239,68,68,0.15); color: #FCA5A5; }
+        .role-badge.restaurant { background: rgba(245,158,11,0.15); color: #FCD34D; }
+        .role-badge.grocery { background: rgba(34,197,94,0.15); color: #86EFAC; }
+        .role-badge.driver { background: rgba(59,130,246,0.15); color: #93C5FD; }
+        .role-badge.customer { background: rgba(139,92,246,0.15); color: #C4B5FD; }
+        
+        .status-dot {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .status-dot::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .status-dot.active { color: #22C55E; }
+        .status-dot.active::before { background: #22C55E; }
+        .status-dot.inactive { color: #EF4444; }
+        .status-dot.inactive::before { background: #EF4444; }
+        
+        .empty-users {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .empty-users i {
+            font-size: 48px;
+            color: #3A4553;
+            margin-bottom: 16px;
+            display: block;
+        }
+        
+        .empty-users p { color: #6B7480; }
+        
+        @media (max-width: 1200px) {
+            .role-filters { grid-template-columns: repeat(3, 1fr); }
+        }
+        
+        @media (max-width: 768px) {
+            .adm-sidebar { display: none; }
+            .adm-main { margin-left: 0; padding: 20px; }
+            .role-filters { grid-template-columns: 1fr; }
+            .users-table th, .users-table td { padding: 12px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="adm-layout">
+    
+    <!-- SIDEBAR -->
+    <aside class="adm-sidebar">
+        <a href="/" class="adm-sidebar-logo">
+            <div class="adm-logo-mark"><i class="fas fa-crown"></i></div>
+            <div>
+                <div>LocalBites</div>
+                <span class="adm-tag">ADMIN</span>
+            </div>
+        </a>
+        
+        <div class="adm-nav-section">
+            <span class="adm-nav-label">Overview</span>
+            <a href="/admin-panel/" class="adm-nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="/admin-panel/users/" class="adm-nav-item active">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+                <span class="adm-nav-count">{{ total_users }}</span>
+            </a>
+            <a href="/admin-panel/partners/" class="adm-nav-item">
+                <i class="fas fa-handshake"></i>
+                <span>Partners</span>
+            </a>
+        </div>
+        
+        <div class="adm-nav-section">
+            <span class="adm-nav-label">Transactions</span>
+            <a href="/admin-panel/orders/" class="adm-nav-item">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Orders</span>
+            </a>
+            <a href="/admin-panel/rides/" class="adm-nav-item">
+                <i class="fas fa-motorcycle"></i>
+                <span>Rides</span>
+            </a>
+        </div>
+        
+        <div class="adm-sidebar-footer">
+            <form action="/logout/" method="post">
+                {% csrf_token %}
+                <button type="submit" class="adm-nav-item" style="color: #EF4444;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </form>
+        </div>
+    </aside>
+    
+    <!-- MAIN -->
+    <main class="adm-main">
+        
+        <div class="adm-topbar">
+            <div>
+                <h1 class="adm-page-title">Users Management</h1>
+                <p class="adm-page-subtitle">{{ users|length }} user{{ users|length|pluralize }} on the platform</p>
+            </div>
+            <a href="/admin-panel/" style="padding: 12px 24px; background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; color: #FCA5A5; text-decoration: none; font-size: 14px; font-weight: 700;">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+        
+        <!-- Role Filters -->
+        <div class="role-filters">
+            <a href="/admin-panel/users/" class="role-card {% if not role_filter %}active{% endif %}">
+                <div class="role-card-icon role-icon-all"><i class="fas fa-globe"></i></div>
+                <div class="role-card-value">{{ total_users }}</div>
+                <div class="role-card-label">All Users</div>
+            </a>
+            
+            <a href="/admin-panel/users/?role=customer" class="role-card {% if role_filter == 'customer' %}active{% endif %}">
+                <div class="role-card-icon role-icon-customer"><i class="fas fa-user"></i></div>
+                <div class="role-card-value">{{ customers }}</div>
+                <div class="role-card-label">Customers</div>
+            </a>
+            
+            <a href="/admin-panel/users/?role=restaurant" class="role-card {% if role_filter == 'restaurant' %}active{% endif %}">
+                <div class="role-card-icon role-icon-restaurant"><i class="fas fa-utensils"></i></div>
+                <div class="role-card-value">{{ restaurants }}</div>
+                <div class="role-card-label">Restaurants</div>
+            </a>
+            
+            <a href="/admin-panel/users/?role=grocery" class="role-card {% if role_filter == 'grocery' %}active{% endif %}">
+                <div class="role-card-icon role-icon-grocery"><i class="fas fa-shopping-basket"></i></div>
+                <div class="role-card-value">{{ groceries }}</div>
+                <div class="role-card-label">Groceries</div>
+            </a>
+            
+            <a href="/admin-panel/users/?role=driver" class="role-card {% if role_filter == 'driver' %}active{% endif %}">
+                <div class="role-card-icon role-icon-driver"><i class="fas fa-motorcycle"></i></div>
+                <div class="role-card-value">{{ drivers }}</div>
+                <div class="role-card-label">Captains</div>
+            </a>
+        </div>
+        
+        <!-- Search -->
+        <form method="GET" class="search-bar">
+            <i class="fas fa-search" style="color: #6B7480;"></i>
+            <input type="text" name="q" value="{{ search }}" placeholder="Search by username, email, or name...">
+            {% if role_filter %}<input type="hidden" name="role" value="{{ role_filter }}">{% endif %}
+            <button type="submit">Search</button>
+        </form>
+        
+        <!-- Users Table -->
+        <div class="users-card">
+            {% if users %}
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Joined</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in users %}
+                    <tr>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar avatar-{{ u.role }}">
+                                    {{ u.username|slice:":1"|upper }}
+                                </div>
+                                <div>
+                                    <div class="user-name">{{ u.get_full_name|default:u.username }}</div>
+                                    <div class="user-username">@{{ u.username }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="color: #8B92A0;">{{ u.email|default:"—" }}</td>
+                        <td>
+                            <span class="role-badge {{ u.role }}">{{ u.get_role_display }}</span>
+                        </td>
+                        <td>
+                            {% if u.is_active %}
+                            <span class="status-dot active">Active</span>
+                            {% else %}
+                            <span class="status-dot inactive">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td style="color: #6B7480; font-size: 13px;">{{ u.date_joined|date:"M d, Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-users">
+                <i class="fas fa-users-slash"></i>
+                <p>No users found</p>
+            </div>
+            {% endif %}
+        </div>
+        
+    </main>
+</div>
+
+</body>
+</html>

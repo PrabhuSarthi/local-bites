@@ -1,0 +1,382 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile | LocalBites</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #FFF8F0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255,107,53,0.08), transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(247,147,30,0.08), transparent 40%);
+            color: #1A1A1A;
+            min-height: 100vh;
+        }
+        
+        /* Navbar */
+        .cust-nav {
+            background: rgba(255, 248, 240, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(240, 229, 216, 0.6);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .cust-nav-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .cust-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #1A1A1A;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: -0.5px;
+        }
+        
+        .cust-logo-mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 8px 20px rgba(255,107,53,0.3);
+        }
+        
+        .cust-nav-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .cust-nav-btn {
+            padding: 10px 18px;
+            border-radius: 100px;
+            background: white;
+            color: #1A1A1A;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            border: 1.5px solid #F0E5D8;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+            cursor: pointer;
+        }
+        
+        .cust-nav-btn:hover {
+            border-color: #FF6B35;
+            color: #FF6B35;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(255,107,53,0.15);
+        }
+        
+        .cust-nav-btn.primary {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 16px rgba(255,107,53,0.3);
+        }
+        
+        /* Wrapper */
+        .edit-wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #6B6B6B;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            transition: color 0.2s;
+        }
+        
+        .back-link:hover { color: #FF6B35; }
+        
+        /* Card */
+        .edit-card {
+            background: white;
+            border: 1.5px solid #F0E5D8;
+            border-radius: 28px;
+            padding: 48px;
+            box-shadow: 0 24px 60px -20px rgba(255,107,53,0.15);
+        }
+        
+        .edit-header {
+            text-align: center;
+            margin-bottom: 36px;
+            padding-bottom: 28px;
+            border-bottom: 1.5px dashed #F0E5D8;
+        }
+        
+        .edit-icon {
+            width: 76px;
+            height: 76px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            margin: 0 auto 20px;
+            color: white;
+            box-shadow: 0 16px 32px rgba(255,107,53,0.35);
+        }
+        
+        .edit-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            background: linear-gradient(135deg, #FF6B35, #E63946);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
+        }
+        
+        .edit-header p {
+            color: #6B6B6B;
+            font-size: 15px;
+        }
+        
+        /* Form */
+        .form-group {
+            margin-bottom: 22px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+        }
+        
+        .form-label i {
+            color: #FF6B35;
+            margin-right: 6px;
+            font-size: 12px;
+        }
+        
+        .edit-card input[type="text"],
+        .edit-card input[type="email"],
+        .edit-card input[type="tel"],
+        .edit-card input[type="password"],
+        .edit-card textarea,
+        .edit-card select {
+            width: 100%;
+            padding: 16px 18px;
+            background: #FFF8F0;
+            border: 1.5px solid #F0E5D8;
+            border-radius: 14px;
+            font-size: 15px;
+            font-family: inherit;
+            color: #1A1A1A;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .edit-card input:focus,
+        .edit-card textarea:focus,
+        .edit-card select:focus {
+            outline: none;
+            border-color: #FF6B35;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(255,107,53,0.12);
+        }
+        
+        .edit-card input::placeholder,
+        .edit-card textarea::placeholder {
+            color: #C4A68A;
+            font-weight: 400;
+        }
+        
+        .edit-card textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+        
+        /* Actions */
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+            padding-top: 28px;
+            border-top: 1.5px dashed #F0E5D8;
+        }
+        
+        .btn-save {
+            flex: 1;
+            padding: 18px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+            box-shadow: 0 12px 32px rgba(255,107,53,0.3);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            letter-spacing: 0.2px;
+        }
+        
+        .btn-save:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 40px rgba(255,107,53,0.45);
+        }
+        
+        .btn-cancel {
+            flex: 1;
+            padding: 18px;
+            background: white;
+            color: #1A1A1A;
+            border: 1.5px solid #F0E5D8;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-cancel:hover {
+            border-color: #FF6B35;
+            color: #FF6B35;
+            background: #FFF8F0;
+        }
+        
+        @media (max-width: 640px) {
+            .edit-card { padding: 28px 20px; }
+            .form-actions { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="cust-nav">
+    <div class="cust-nav-inner">
+        <a href="/" class="cust-logo">
+            <div class="cust-logo-mark"><i class="fas fa-bolt"></i></div>
+            <span>LocalBites</span>
+        </a>
+        <div class="cust-nav-actions">
+            <a href="/notifications/" class="cust-nav-btn">
+                <i class="fas fa-bell"></i> Alerts
+            </a>
+            <a href="/dashboard/" class="cust-nav-btn primary">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="edit-wrap">
+    
+    <a href="/profile/" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to Profile
+    </a>
+    
+    <div class="edit-card">
+        
+        <div class="edit-header">
+            <div class="edit-icon">
+                <i class="fas fa-user-edit"></i>
+            </div>
+            <h1>Edit Profile</h1>
+            <p>Update your personal information</p>
+        </div>
+        
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-user"></i> First Name</label>
+                {{ form.first_name }}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-user"></i> Last Name</label>
+                {{ form.last_name }}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-envelope"></i> Email Address</label>
+                {{ form.email }}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-phone"></i> Phone Number</label>
+                {{ form.phone }}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-map-marker-alt"></i> Address</label>
+                {{ form.address }}
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-save">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+                <a href="/profile/" class="btn-cancel">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+        
+    </div>
+    
+</div>
+
+</body>
+</html>

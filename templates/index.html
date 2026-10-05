@@ -1,0 +1,1051 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalBites | Food, Grocery & Rides</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    <style>
+        /* ========== LANDING PAGE CUSTOM STYLES ========== */
+        
+        body {
+            background: #FFF8F0;
+        }
+        
+        /* ========== NAVBAR ========== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 248, 240, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(240, 229, 216, 0.6);
+            z-index: 100;
+            padding: 16px 0;
+        }
+        
+        .navbar-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 22px;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo-mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 8px 20px rgba(255,107,53,0.3);
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+        
+        .nav-menu a {
+            font-size: 15px;
+            font-weight: 500;
+            color: #6B6B6B;
+            transition: color 0.2s;
+            position: relative;
+        }
+        
+        .nav-menu a:hover {
+            color: #FF6B35;
+        }
+        
+        .nav-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        /* ========== HERO ========== */
+        .hero {
+            padding: 60px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .hero-left .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: white;
+            border: 1.5px solid #FFE8D6;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #FF6B35;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(255,107,53,0.08);
+        }
+        
+        .hero-left h1 {
+            font-size: clamp(40px, 5.5vw, 68px);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            color: #1A1A1A;
+            margin-bottom: 20px;
+        }
+        
+        .hero-left h1 span {
+            background: linear-gradient(135deg, #FF6B35, #E63946);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero-left p.subtitle {
+            font-size: 18px;
+            color: #6B6B6B;
+            line-height: 1.7;
+            margin-bottom: 32px;
+            max-width: 520px;
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .trust-row {
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #6B6B6B;
+        }
+        
+        .trust-item i {
+            color: #FF6B35;
+            font-size: 18px;
+        }
+        
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+            aspect-ratio: 1;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .hero-blob {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #FFE8D6 0%, #FFD4B8 50%, #FFB899 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            filter: blur(2px);
+            animation: blobMorph 12s ease-in-out infinite;
+        }
+        
+        @keyframes blobMorph {
+            0%, 100% {
+                border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+                transform: rotate(0deg) scale(1);
+            }
+            33% {
+                border-radius: 60% 40% 55% 45% / 50% 55% 45% 50%;
+                transform: rotate(5deg) scale(1.05);
+            }
+            66% {
+                border-radius: 45% 55% 40% 60% / 55% 45% 55% 45%;
+                transform: rotate(-5deg) scale(0.98);
+            }
+        }
+        
+        .hero-card-float {
+            position: absolute;
+            background: white;
+            border-radius: 20px;
+            padding: 16px 20px;
+            box-shadow: 0 20px 40px rgba(255,107,53,0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 2;
+            border: 1px solid #FFE8D6;
+        }
+        
+        .hero-card-float.f1 {
+            top: 10%;
+            left: -5%;
+            animation: floatCard 5s ease-in-out infinite;
+        }
+        
+        .hero-card-float.f2 {
+            bottom: 15%;
+            right: -5%;
+            animation: floatCard 5s ease-in-out infinite 1s;
+        }
+        
+        .hero-card-float.f3 {
+            top: 45%;
+            right: -10%;
+            animation: floatCard 5s ease-in-out infinite 2s;
+        }
+        
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+        
+        .hero-emoji {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .hero-emoji.food { background: linear-gradient(135deg, #FFE8D6, #FFD4B8); }
+        .hero-emoji.grocery { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); }
+        .hero-emoji.ride { background: linear-gradient(135deg, #DBEAFE, #BFDBFE); }
+        
+        .hero-card-float .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1A1A1A;
+        }
+        
+        .hero-card-float .card-sub {
+            font-size: 12px;
+            color: #9CA3AF;
+        }
+        
+        /* ========== SECTIONS ========== */
+        .section-head {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-label {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(255,107,53,0.1);
+            color: #FF6B35;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        
+        .section-head h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.15;
+            margin-bottom: 16px;
+        }
+        
+        .section-head h2 span {
+            background: linear-gradient(135deg, #FF6B35, #E63946);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .section-head p {
+            font-size: 17px;
+            color: #6B6B6B;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* ========== SERVICE CARDS ========== */
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr;
+            gap: 24px;
+        }
+        
+        .service-card {
+            background: white;
+            border-radius: 28px;
+            padding: 32px;
+            border: 1.5px solid #F0E5D8;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, var(--card-accent, rgba(255,107,53,0.08)), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--card-border, #FF6B35);
+            box-shadow: 0 24px 48px -12px var(--card-shadow, rgba(255,107,53,0.3));
+        }
+        
+        .service-card:hover::before {
+            opacity: 1;
+        }
+        
+        .service-card.food {
+            --card-accent: rgba(255,107,53,0.12);
+            --card-border: #FF6B35;
+            --card-shadow: rgba(255,107,53,0.3);
+        }
+        
+        .service-card.grocery {
+            --card-accent: rgba(16,185,129,0.1);
+            --card-border: #10B981;
+            --card-shadow: rgba(16,185,129,0.25);
+        }
+        
+        .service-card.ride {
+            --card-accent: rgba(59,130,246,0.1);
+            --card-border: #3B82F6;
+            --card-shadow: rgba(59,130,246,0.25);
+        }
+        
+        .service-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        
+        .service-icon.food {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+        }
+        
+        .service-icon.grocery {
+            background: linear-gradient(135deg, #10B981, #059669);
+        }
+        
+        .service-icon.ride {
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+        }
+        
+        .service-card h3 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .service-card p {
+            color: #6B6B6B;
+            font-size: 15px;
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 20px;
+        }
+        
+        .service-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(0,0,0,0.03);
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #6B6B6B;
+            letter-spacing: 0.3px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* ========== FEATURES ========== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .feature {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            border: 1.5px solid #F0E5D8;
+            transition: all 0.3s;
+        }
+        
+        .feature:hover {
+            border-color: rgba(255,107,53,0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 32px -8px rgba(255,107,53,0.15);
+        }
+        
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        
+        .feature h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+        }
+        
+        .feature p {
+            color: #6B6B6B;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        
+        /* ========== STATS ========== */
+        .stats-banner {
+            background: linear-gradient(135deg, #1A1A1A 0%, #2D1810 100%);
+            border-radius: 32px;
+            padding: 60px 48px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stats-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,107,53,0.3), transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .stats-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(247,147,30,0.2), transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .stats-content {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 56px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            font-weight: 500;
+        }
+        
+        /* ========== TESTIMONIALS ========== */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        .testimonial {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            border: 1.5px solid #F0E5D8;
+            transition: all 0.3s;
+        }
+        
+        .testimonial:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -12px rgba(255,107,53,0.15);
+            border-color: rgba(255,107,53,0.2);
+        }
+        
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-quote {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #4A4A4A;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        /* ========== CTA ========== */
+        .cta-section {
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #E63946 100%);
+            border-radius: 40px;
+            padding: 80px 60px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.15), transparent 40%),
+                              radial-gradient(circle at 80% 70%, rgba(255,255,255,0.1), transparent 40%);
+        }
+        
+        .cta-section h2 {
+            font-size: clamp(32px, 4vw, 52px);
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-section .btn-white {
+            background: white;
+            color: #FF6B35;
+            font-weight: 700;
+            padding: 18px 40px;
+            border-radius: 999px;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+        }
+        
+        .cta-section .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        /* ========== FOOTER ========== */
+        .footer {
+            padding: 80px 0 40px;
+            border-top: 1px solid #F0E5D8;
+            margin-top: 80px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+        
+        .footer-brand p {
+            color: #6B6B6B;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-top: 16px;
+            max-width: 320px;
+        }
+        
+        .footer-col h4 {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #FF6B35;
+            margin-bottom: 20px;
+        }
+        
+        .footer-col a {
+            display: block;
+            color: #6B6B6B;
+            font-size: 14px;
+            padding: 6px 0;
+            transition: color 0.2s;
+            font-weight: 500;
+        }
+        
+        .footer-col a:hover {
+            color: #FF6B35;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid #F0E5D8;
+            color: #9CA3AF;
+            font-size: 14px;
+        }
+        
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 968px) {
+            .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+            .hero-visual { max-width: 400px; }
+            .services-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .stats-content { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+            .nav-menu { display: none; }
+        }
+        
+        @media (max-width: 640px) {
+            .features-grid { grid-template-columns: 1fr; }
+            .stats-content { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .cta-section { padding: 60px 24px; }
+            .stats-banner { padding: 48px 24px; }
+            .nav-actions .btn-secondary { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar">
+        <div class="container navbar-inner">
+            <a href="/" class="logo">
+                <div class="logo-mark">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <span>LocalBites</span>
+            </a>
+            
+            <div class="nav-menu">
+                <a href="#services">Services</a>
+                <a href="#features">Features</a>
+                <a href="#reviews">Reviews</a>
+                <a href="#about">About</a>
+            </div>
+            
+            <div class="nav-actions">
+                <a href="/login/" class="btn btn-ghost btn-sm">Login</a>
+                <a href="/register/" class="btn btn-primary btn-sm">
+                    Get Started <i class="fas fa-arrow-right" style="font-size: 12px;"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO ========== -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-left">
+                    <div class="badge-pill">
+                        <span style="width: 8px; height: 8px; background: #10B981; border-radius: 50%; animation: pulse 2s infinite;"></span>
+                        Now live in your city
+                    </div>
+                    
+                    <h1>
+                        Your <span>Local World</span><br>
+                        In One App
+                    </h1>
+                    
+                    <p class="subtitle">
+                        Order food from nearby restaurants, get fresh groceries from your kirana store, and book rides — all without switching apps.
+                    </p>
+                    
+                    <div class="hero-actions">
+                        <a href="/register/" class="btn btn-primary btn-lg">
+                            <i class="fas fa-rocket"></i> Get Started Free
+                        </a>
+                        <a href="#services" class="btn btn-secondary btn-lg">
+                            <i class="fas fa-play"></i> Explore
+                        </a>
+                    </div>
+                    
+                    <div class="trust-row">
+                        <div class="trust-item">
+                            <i class="fas fa-shield-halved"></i>
+                            <span>Secure Payments</span>
+                        </div>
+                        <div class="trust-item">
+                            <i class="fas fa-clock"></i>
+                            <span>30 Min Delivery</span>
+                        </div>
+                        <div class="trust-item">
+                            <i class="fas fa-star"></i>
+                            <span>4.9 Rated</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-visual">
+                    <div class="hero-blob"></div>
+                    
+                    <div class="hero-card-float f1">
+                        <div class="hero-emoji food">🍕</div>
+                        <div>
+                            <div class="card-title">Pizza Palace</div>
+                            <div class="card-sub">2.5 km · 30 min</div>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-card-float f2">
+                        <div class="hero-emoji grocery">🥬</div>
+                        <div>
+                            <div class="card-title">Fresh Veggies</div>
+                            <div class="card-sub">₹45 per kg</div>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-card-float f3">
+                        <div class="hero-emoji ride">🚗</div>
+                        <div>
+                            <div class="card-title">Ride Arriving</div>
+                            <div class="card-sub">2 mins away</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SERVICES ========== -->
+    <section class="section" id="services" style="padding-top: 40px;">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-label">Our Services</span>
+                <h2>Everything Local, <span>One App</span></h2>
+                <p>Food, groceries, and rides — all the essentials from your neighborhood</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card food" onclick="window.location.href='/register/'">
+                    <div class="service-icon food">🍽️</div>
+                    <h3>Food Delivery</h3>
+                    <p>Discover the best local restaurants, from street food to fine dining — delivered fresh to your door.</p>
+                    <span class="service-tag">
+                        <i class="fas fa-store"></i> 500+ Restaurants
+                    </span>
+                </div>
+                
+                <div class="service-card grocery" onclick="window.location.href='/register/'">
+                    <div class="service-icon grocery">🛒</div>
+                    <h3>Grocery Shopping</h3>
+                    <p>Daily essentials from your neighborhood stores, delivered in minutes.</p>
+                    <span class="service-tag">
+                        <i class="fas fa-bolt"></i> 10 Min Delivery
+                    </span>
+                </div>
+                
+                <div class="service-card ride" onclick="window.location.href='/register/'">
+                    <div class="service-icon ride">🚗</div>
+                    <h3>Ride Booking</h3>
+                    <p>Bike, auto, or car — book any ride in seconds at affordable prices.</p>
+                    <span class="service-tag">
+                        <i class="fas fa-shield"></i> Verified Drivers
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FEATURES ========== -->
+    <section class="section" id="features">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-label">Why LocalBites</span>
+                <h2>Built for <span>Real Life</span></h2>
+                <p>Every feature designed to make your daily life easier</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon icon-box-warm">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h4>Lightning Fast</h4>
+                    <p>Order in seconds, not minutes. Our streamlined interface gets you what you need, fast.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon icon-box-green">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h4>Hyperlocal</h4>
+                    <p>Connect with businesses in your neighborhood. Support local, get better service.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon icon-box-blue">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h4>Secure Payments</h4>
+                    <p>Bank-grade security for every transaction. Your money and data stay protected.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon icon-box-warm">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4>5 User Roles</h4>
+                    <p>Admin, Restaurant, Grocery, Driver, Customer — each with perfect controls.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon icon-box-green">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>Smart Analytics</h4>
+                    <p>Real-time dashboards with insights for business owners and admins.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon icon-box-blue">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h4>Works Everywhere</h4>
+                    <p>Beautiful on mobile, tablet, and desktop. Perfect experience on every screen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== STATS BANNER ========== -->
+    <section class="section" style="padding: 40px 0;">
+        <div class="container">
+            <div class="stats-banner">
+                <div class="stats-content">
+                    <div class="stat-item">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">Happy Customers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Local Partners</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">Uptime Guarantee</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">4.9★</div>
+                        <div class="stat-label">Average Rating</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TESTIMONIALS ========== -->
+    <section class="section" id="reviews">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-label">Reviews</span>
+                <h2>Loved by <span>Thousands</span></h2>
+                <p>Real reviews from real customers in your city</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <div class="avatar">P</div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 15px;">Priya Sharma</div>
+                            <div style="font-size: 12px; color: #9CA3AF;">Customer</div>
+                        </div>
+                    </div>
+                    <div class="stars" style="margin-bottom: 12px;">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-quote">
+                        "Finally, one app for everything! I order food, groceries, and book rides without switching apps. Total lifesaver!"
+                    </p>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <div class="avatar" style="background: linear-gradient(135deg, #10B981, #059669);">R</div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 15px;">Rajesh Kumar</div>
+                            <div style="font-size: 12px; color: #9CA3AF;">Restaurant Owner</div>
+                        </div>
+                    </div>
+                    <div class="stars" style="margin-bottom: 12px;">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-quote">
+                        "My restaurant business grew 3x after joining LocalBites. Finally, a platform that supports local businesses!"
+                    </p>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <div class="avatar" style="background: linear-gradient(135deg, #3B82F6, #2563EB);">A</div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 15px;">Anita Patel</div>
+                            <div style="font-size: 12px; color: #9CA3AF;">Frequent User</div>
+                        </div>
+                    </div>
+                    <div class="stars" style="margin-bottom: 12px;">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-quote">
+                        "The interface is so smooth and intuitive. Orders arrive on time, every time. Highly recommend!"
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CTA ========== -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="cta-section">
+                <h2>Ready to Experience LocalBites?</h2>
+                <p>Join thousands of users in your city. It's free, forever.</p>
+                <a href="/register/" class="btn-white">
+                    <i class="fas fa-rocket"></i> Create Free Account
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-mark">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <span>LocalBites</span>
+                    </a>
+                    <p>Your one-stop platform for food, groceries, and rides. Built with love for local communities.</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <a href="#services">Food Delivery</a>
+                    <a href="#services">Grocery</a>
+                    <a href="#services">Rides</a>
+                    <a href="#features">Features</a>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Press</a>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <a href="#">Help Center</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                © 2026 LocalBites. Made with <i class="fas fa-heart" style="color: #E63946;"></i> for local businesses.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

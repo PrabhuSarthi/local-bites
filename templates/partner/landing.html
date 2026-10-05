@@ -1,0 +1,463 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner with LocalBites | Grow Your Business</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/partner.css' %}">
+</head>
+<body class="partner-body">
+
+    <div class="p-mesh"></div>
+    <div class="p-grid-bg"></div>
+
+    <!-- ========== NAVBAR ========== -->
+    <nav class="p-navbar">
+        <div class="p-nav-inner">
+            <a href="/" class="p-logo">
+                <div class="p-logo-mark">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <span>LocalBites</span>
+                <span class="p-partner-tag">PARTNER</span>
+            </a>
+            
+            <div class="p-nav-menu">
+                <a href="#partners">Partner Types</a>
+                <a href="#earnings">Earnings</a>
+                <a href="#tools">Tools</a>
+            </div>
+            
+            <div class="p-nav-actions">
+                <a href="/partner/login/" class="p-btn p-btn-ghost">Login</a>
+                <a href="/partner/register/" class="p-btn p-btn-primary">
+                    Become a Partner <i class="fas fa-arrow-right" style="font-size: 11px;"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO ========== -->
+    <section class="p-hero">
+        <div class="p-hero-grid">
+            <div class="p-hero-content">
+                <div class="p-hero-badge">
+                    <span class="p-pulse-dot"></span>
+                    <span>Live in 12 cities · 500+ active partners</span>
+                </div>
+                
+                <h1>
+                    Your Business.<br>
+                    <span class="p-gradient-text">Your Data.</span><br>
+                    Your Earnings.
+                </h1>
+                
+                <p class="p-hero-subtitle">
+                    Get a real-time dashboard, order management, and weekly payouts. 
+                    Join India's fastest-growing partner network — with zero setup fees.
+                </p>
+                
+                <div class="p-hero-actions">
+                    <a href="/partner/register/" class="p-btn p-btn-primary p-btn-lg">
+                        <i class="fas fa-rocket"></i> Start Earning Today
+                    </a>
+                    <a href="#earnings" class="p-btn p-btn-outline p-btn-lg">
+                        <i class="fas fa-calculator"></i> See Your Potential
+                    </a>
+                </div>
+                
+                <div class="p-hero-trust">
+                    <div class="p-trust-item">
+                        <i class="fas fa-shield-halved"></i>
+                        <span>Verified Platform</span>
+                    </div>
+                    <div class="p-trust-item">
+                        <i class="fas fa-bolt"></i>
+                        <span>Weekly Payouts</span>
+                    </div>
+                    <div class="p-trust-item">
+                        <i class="fas fa-headset"></i>
+                        <span>24/7 Support</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dashboard Mockup -->
+            <div class="p-hero-visual">
+                <div class="p-dashboard-mockup">
+                    <div class="p-mockup-topbar">
+                        <div class="p-mockup-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <div class="p-mockup-url">partner.localbites.com/dashboard</div>
+                    </div>
+                    
+                    <div class="p-mockup-body">
+                        <div class="p-mockup-sidebar">
+                            <div class="p-mockup-nav-icon active"><i class="fas fa-chart-line"></i></div>
+                            <div class="p-mockup-nav-icon"><i class="fas fa-shopping-bag"></i></div>
+                            <div class="p-mockup-nav-icon"><i class="fas fa-wallet"></i></div>
+                            <div class="p-mockup-nav-icon"><i class="fas fa-cog"></i></div>
+                        </div>
+                        
+                        <div class="p-mockup-main">
+                            <div class="p-mockup-header">
+                                <h4>Business Overview</h4>
+                                <div class="p-mockup-live">Live</div>
+                            </div>
+                            
+                            <div class="p-mockup-metrics">
+                                <div class="p-mockup-metric">
+                                    <div class="p-mockup-metric-label">Today</div>
+                                    <div class="p-mockup-metric-value">₹42,180</div>
+                                    <div class="p-mockup-metric-change"><i class="fas fa-arrow-up"></i> +24%</div>
+                                </div>
+                                <div class="p-mockup-metric">
+                                    <div class="p-mockup-metric-label">Orders</div>
+                                    <div class="p-mockup-metric-value">128</div>
+                                    <div class="p-mockup-metric-change"><i class="fas fa-arrow-up"></i> +12%</div>
+                                </div>
+                                <div class="p-mockup-metric">
+                                    <div class="p-mockup-metric-label">Rating</div>
+                                    <div class="p-mockup-metric-value">4.9★</div>
+                                    <div class="p-mockup-metric-change"><i class="fas fa-arrow-up"></i> +0.3</div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-mockup-chart-section">
+                                <div class="p-mockup-chart-head">
+                                    <div class="p-mockup-chart-title">Weekly Revenue</div>
+                                    <div class="p-mockup-chart-legend">Last 9 days</div>
+                                </div>
+                                <div class="p-mockup-chart">
+                                    <div class="p-mockup-bar"></div>
+                                    <div class="p-mockup-bar"></div>
+                                    <div class="p-mockup-bar"></div>
+                                    <div class="p-mockup-bar"></div>
+                                    <div class="p-mockup-bar"></div>
+                                    <div class="p-mockup-bar"></div>
+                                    <div class="p-mockup-bar"></div>
+                                    <div class="p-mockup-bar highlight"></div>
+                                    <div class="p-mockup-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Floating Cards -->
+                <div class="p-float-card fc-1">
+                    <div class="p-float-card-icon green">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div>
+                        <div class="p-float-card-title">Order #2847 received</div>
+                        <div class="p-float-card-sub">Just now</div>
+                    </div>
+                </div>
+                
+                <div class="p-float-card fc-2">
+                    <div class="p-float-card-icon purple">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div>
+                        <div class="p-float-card-title">₹12,480 Paid</div>
+                        <div class="p-float-card-sub">Weekly payout</div>
+                    </div>
+                </div>
+                
+                <div class="p-float-card fc-3">
+                    <div class="p-float-card-icon cyan">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div>
+                        <div class="p-float-card-title">New 5★ Review</div>
+                        <div class="p-float-card-sub">From Priya S.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== EARNINGS CALCULATOR ========== -->
+    <section class="p-calc-section" id="earnings">
+        <div class="p-calc">
+            <div class="p-calc-head">
+                <h3>See Your <span class="p-gradient-text">Potential Earnings</span></h3>
+                <p>Adjust the sliders to see how much you could earn monthly</p>
+            </div>
+            
+            <div class="p-calc-grid">
+                <div>
+                    <div class="p-calc-input">
+                        <label>Orders per day</label>
+                        <div class="p-value" id="ordersValue">50 orders</div>
+                        <input type="range" min="10" max="200" value="50" class="p-slider" id="ordersSlider">
+                    </div>
+                    
+                    <div class="p-calc-input">
+                        <label>Average order value</label>
+                        <div class="p-value" id="aovValue">₹250</div>
+                        <input type="range" min="50" max="1000" value="250" step="10" class="p-slider" id="aovSlider">
+                    </div>
+                </div>
+                
+                <div class="p-calc-result">
+                    <div class="p-calc-result-label">Your Monthly Earnings</div>
+                    <div class="p-calc-result-value" id="earningsValue">₹3,37,500</div>
+                    <div class="p-calc-result-sub">
+                        After <strong>10% platform fee</strong> · Weekly payouts
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== LIVE STATS ========== -->
+    <section class="p-section p-section-dark">
+        <div class="p-stats-banner">
+            <div class="p-stats-header">
+                <span class="p-pulse-dot"></span>
+                <span>Live Platform Metrics</span>
+            </div>
+            
+            <div class="p-stats-grid">
+                <div class="p-stat-item">
+                    <div class="p-stat-value">500+</div>
+                    <div class="p-stat-label">Active Partners</div>
+                </div>
+                <div class="p-stat-item">
+                    <div class="p-stat-value">₹2Cr+</div>
+                    <div class="p-stat-label">Monthly GMV</div>
+                </div>
+                <div class="p-stat-item">
+                    <div class="p-stat-value">10K+</div>
+                    <div class="p-stat-label">Daily Orders</div>
+                </div>
+                <div class="p-stat-item">
+                    <div class="p-stat-value">4.9★</div>
+                    <div class="p-stat-label">Partner Rating</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PARTNER TYPES ========== -->
+    <section class="p-section p-section-light" id="partners">
+        <div class="p-section-head">
+            <span class="p-section-label">Partner Types</span>
+            <h2>Choose Your <span class="p-gradient-text">Business Model</span></h2>
+            <p>Three ways to earn with LocalBites. Built for restaurants, stores, and drivers.</p>
+        </div>
+        
+        <div class="p-types-grid">
+            <a href="/partner/register/?type=restaurant" class="p-type-card restaurant">
+                <div class="p-type-icon restaurant">🍽️</div>
+                <h3>Restaurant</h3>
+                <p>Menu management, order tracking, and direct customer reach. Average partners earn ₹8-15 lakhs/month.</p>
+                <div class="p-type-cta">
+                    Register Restaurant <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+            
+            <a href="/partner/register/?type=grocery" class="p-type-card grocery">
+                <div class="p-type-icon grocery">🛒</div>
+                <h3>Grocery Store</h3>
+                <p>Inventory management, delivery slots, and repeat orders. Ideal for daily-needs businesses.</p>
+                <div class="p-type-cta">
+                    Register Store <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+            
+            <a href="/partner/register/?type=driver" class="p-type-card driver">
+<div class="p-type-icon driver">🏍️</div>
+<h3>Riding Captain</h3>
+<p>Deliver orders, ride on your schedule, earn per delivery. Average captains earn ₹25-40K/month.</p>
+                <div class="p-type-cta">
+                    Register as Riding Captain  <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- ========== TOOLS PREVIEW ========== -->
+    <section class="p-section p-section-light" id="tools" style="padding-top: 0;">
+        <div class="p-section-head">
+            <span class="p-section-label">Built-In Tools</span>
+            <h2>Everything You Need in <span class="p-gradient-text">One Dashboard</span></h2>
+            <p>Powerful, intuitive tools designed for modern businesses</p>
+        </div>
+        
+        <div class="p-tools-grid">
+            <div class="p-tool">
+                <div class="p-tool-icon"><i class="fas fa-chart-line"></i></div>
+                <h4>Real-Time Analytics</h4>
+                <p>Track orders, revenue, customer trends. Make data-driven decisions with hourly insights.</p>
+            </div>
+            
+            <div class="p-tool">
+                <div class="p-tool-icon"><i class="fas fa-shopping-bag"></i></div>
+                <h4>Order Management</h4>
+                <p>Accept, prepare, and track orders in real-time. Never miss a customer again.</p>
+            </div>
+            
+            <div class="p-tool">
+                <div class="p-tool-icon"><i class="fas fa-wallet"></i></div>
+                <h4>Instant Payouts</h4>
+                <p>Weekly bank transfers. No delays, no minimums. Track every rupee in your wallet.</p>
+            </div>
+            
+            <div class="p-tool">
+                <div class="p-tool-icon"><i class="fas fa-users"></i></div>
+                <h4>Customer Insights</h4>
+                <p>Know your repeat customers. Send targeted offers. Build loyalty with data.</p>
+            </div>
+            
+            <div class="p-tool">
+                <div class="p-tool-icon"><i class="fas fa-star"></i></div>
+                <h4>Reviews & Ratings</h4>
+                <p>Build your reputation with verified reviews. Respond to feedback instantly.</p>
+            </div>
+            
+            <div class="p-tool">
+                <div class="p-tool-icon"><i class="fas fa-headset"></i></div>
+                <h4>24/7 Support</h4>
+                <p>Dedicated partner success manager. Real humans, real help, whenever you need it.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TESTIMONIALS ========== -->
+    <section class="p-section p-section-light" style="padding-top: 0;">
+        <div class="p-section-head">
+            <span class="p-section-label">Partner Stories</span>
+            <h2>Real Partners. <span class="p-gradient-text">Real Results.</span></h2>
+        </div>
+        
+        <div class="p-testimonials">
+            <div class="p-testimonial">
+                <div class="p-testimonial-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="p-testimonial-text">
+                    "Went from ₹2 lakh to ₹12 lakh monthly revenue in 6 months. The dashboard tells me exactly what's working — that's real business intelligence."
+                </p>
+                <div class="p-testimonial-author">
+                    <div class="p-testimonial-avatar">RK</div>
+                    <div>
+                        <div class="p-testimonial-name">Rajesh Kumar</div>
+                        <div class="p-testimonial-role">Restaurant Owner · Mumbai</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-testimonial">
+                <div class="p-testimonial-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="p-testimonial-text">
+                    "The inventory tracking saved me from wastage. Weekly payouts are always on time. I finally feel like a serious business, not just a shop."
+                </p>
+                <div class="p-testimonial-author">
+                    <div class="p-testimonial-avatar" style="background: linear-gradient(135deg, #22C55E, #10B981);">SP</div>
+                    <div>
+                        <div class="p-testimonial-name">Sunita Patel</div>
+                        <div class="p-testimonial-role">Grocery Store Owner · Bangalore</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-testimonial">
+                <div class="p-testimonial-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="p-testimonial-text">
+                    "The Riding Captain app is intuitive. I earn ₹35K/month on my own schedule. Payouts arrive every Monday like clockwork."
+                </p>
+                <div class="p-testimonial-author">
+                    <div class="p-testimonial-avatar" style="background: linear-gradient(135deg, #3B82F6, #6366F1);">AV</div>
+                    <div>
+                        <div class="p-testimonial-name">Amit Verma</div>
+                        <div class="p-testimonial-role">Driver captain · Delhi</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CTA ========== -->
+    <section class="p-section p-section-dark">
+        <div class="p-cta">
+            <h2>Ready to Grow Your Business?</h2>
+            <p>Join 500+ partners already earning with LocalBites</p>
+            <div class="p-cta-actions">
+                <a href="/partner/register/" class="p-btn-white">
+                    <i class="fas fa-rocket"></i> Register Now
+                </a>
+                <a href="/partner/login/" class="p-btn-white-outline">
+                    <i class="fas fa-sign-in-alt"></i> Partner Login
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="p-footer">
+        <div class="p-footer-content">
+            <p class="p-footer-text">
+                © 2026 LocalBites Partner Portal.
+                <a href="/">Back to Customer Site</a>
+            </p>
+            <p class="p-footer-text">
+                <i class="fas fa-phone"></i> Partner Support: 1800-XXX-XXXX
+            </p>
+        </div>
+    </footer>
+
+    <!-- ========== EARNINGS CALCULATOR SCRIPT ========== -->
+    <script>
+        const ordersSlider = document.getElementById('ordersSlider');
+        const aovSlider = document.getElementById('aovSlider');
+        const ordersValue = document.getElementById('ordersValue');
+        const aovValue = document.getElementById('aovValue');
+        const earningsValue = document.getElementById('earningsValue');
+        
+        function formatIndianCurrency(num) {
+            return '₹' + num.toLocaleString('en-IN');
+        }
+        
+        function updateCalculator() {
+            const orders = parseInt(ordersSlider.value);
+            const aov = parseInt(aovSlider.value);
+            
+            ordersValue.textContent = orders + ' orders';
+            aovValue.textContent = '₹' + aov;
+            
+            const monthlyOrders = orders * 30;
+            const monthlyRevenue = monthlyOrders * aov;
+            const earnings = Math.round(monthlyRevenue * 0.9); // after 10% fee
+            
+            earningsValue.textContent = formatIndianCurrency(earnings);
+        }
+        
+        ordersSlider.addEventListener('input', updateCalculator);
+        aovSlider.addEventListener('input', updateCalculator);
+        updateCalculator();
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+
+</body>
+</html>

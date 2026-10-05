@@ -1,0 +1,688 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | LocalBites</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #FFF8F0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255,107,53,0.08), transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(247,147,30,0.08), transparent 40%);
+            color: #1A1A1A;
+            min-height: 100vh;
+        }
+        
+        /* ========== NAVBAR ========== */
+        .cust-nav {
+            background: rgba(255, 248, 240, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(240, 229, 216, 0.6);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .cust-nav-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .cust-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #1A1A1A;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: -0.5px;
+        }
+        
+        .cust-logo-mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 8px 20px rgba(255,107,53,0.3);
+        }
+        
+        .cust-nav-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .cust-nav-btn {
+            padding: 10px 18px;
+            border-radius: 100px;
+            background: white;
+            color: #1A1A1A;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            border: 1.5px solid #F0E5D8;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+            cursor: pointer;
+        }
+        
+        .cust-nav-btn:hover {
+            border-color: #FF6B35;
+            color: #FF6B35;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(255,107,53,0.15);
+        }
+        
+        .cust-nav-btn.primary {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 16px rgba(255,107,53,0.3);
+        }
+        
+        .cust-nav-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255,107,53,0.4);
+            color: white;
+        }
+        
+        /* ========== WRAPPER ========== */
+        .prof-wrap {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        /* ========== HEADER CARD ========== */
+        .prof-header {
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 60%, #E63946 100%);
+            border-radius: 28px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 24px;
+            box-shadow: 0 24px 48px -12px rgba(255,107,53,0.4);
+        }
+        
+        .prof-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.25), transparent 60%);
+        }
+        
+        .prof-header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .prof-header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .prof-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(20px);
+            border: 3px solid rgba(255,255,255,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .prof-header-info { flex: 1; min-width: 200px; }
+        
+        .prof-header-info h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 34px;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            color: white;
+            margin-bottom: 6px;
+        }
+        
+        .prof-header-username {
+            font-size: 15px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 14px;
+            font-weight: 600;
+        }
+        
+        .prof-header-meta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .prof-meta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(10px);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.35);
+        }
+        
+        /* ========== STATS GRID ========== */
+        .prof-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .prof-stat {
+            background: white;
+            border: 1.5px solid #F0E5D8;
+            border-radius: 20px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+        }
+        
+        .prof-stat:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255,107,53,0.3);
+            box-shadow: 0 16px 32px -8px rgba(255,107,53,0.2);
+        }
+        
+        .prof-stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--stat-color, linear-gradient(90deg, #FF6B35, #F7931E));
+        }
+        
+        .prof-stat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, rgba(255,107,53,0.15), rgba(247,147,30,0.1));
+            color: #FF6B35;
+        }
+        
+        .prof-stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        
+        .prof-stat-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #6B6B6B;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        
+        /* ========== TWO COLUMNS ========== */
+        .prof-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .prof-card {
+            background: white;
+            border: 1.5px solid #F0E5D8;
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+        }
+        
+        .prof-card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 17px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1.5px dashed #F0E5D8;
+        }
+        
+        .prof-card-title i {
+            color: #FF6B35;
+            font-size: 18px;
+        }
+        
+        .prof-info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed #F5E5D0;
+            gap: 12px;
+        }
+        
+        .prof-info-row:last-child { border-bottom: none; }
+        
+        .prof-info-label {
+            font-size: 13px;
+            color: #6B6B6B;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .prof-info-label i {
+            color: #FF6B35;
+            font-size: 13px;
+            width: 16px;
+        }
+        
+        .prof-info-value {
+            font-size: 14px;
+            color: #1A1A1A;
+            font-weight: 700;
+            text-align: right;
+            word-break: break-word;
+        }
+        
+        /* ========== ACTIVITY ========== */
+        .prof-activity-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 14px;
+            transition: background 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .prof-activity-item:hover {
+            background: #FFF8F0;
+        }
+        
+        .prof-activity-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #FFE8D6, #FFD4B8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .prof-activity-info { flex: 1; min-width: 0; }
+        
+        .prof-activity-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #1A1A1A;
+            margin-bottom: 2px;
+        }
+        
+        .prof-activity-sub {
+            font-size: 12px;
+            color: #9CA3AF;
+        }
+        
+        .prof-activity-status {
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+        
+        .status-pending { background: rgba(245,158,11,0.15); color: #D97706; }
+        .status-confirmed { background: rgba(99,102,241,0.15); color: #6366F1; }
+        .status-preparing, .status-packing { background: rgba(139,92,246,0.15); color: #7C3AED; }
+        .status-out_for_delivery { background: rgba(6,182,212,0.15); color: #0891B2; }
+        .status-delivered, .status-completed { background: rgba(34,197,94,0.15); color: #16A34A; }
+        .status-cancelled { background: rgba(239,68,68,0.15); color: #DC2626; }
+        .status-accepted { background: rgba(99,102,241,0.15); color: #6366F1; }
+        .status-started { background: rgba(59,130,246,0.15); color: #2563EB; }
+        .status-searching { background: rgba(245,158,11,0.15); color: #D97706; }
+        
+        /* ========== ACTIONS ========== */
+        .prof-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        
+        .prof-action-btn {
+            padding: 22px;
+            background: white;
+            border: 1.5px solid #F0E5D8;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #1A1A1A;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 800;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+        }
+        
+        .prof-action-btn:hover {
+            transform: translateY(-4px);
+            border-color: #FF6B35;
+            box-shadow: 0 20px 40px -10px rgba(255,107,53,0.25);
+        }
+        
+        .prof-action-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            background: linear-gradient(135deg, #FFE8D6, #FFD4B8);
+            color: #FF6B35;
+        }
+        
+        .prof-action-btn.primary .prof-action-icon {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            box-shadow: 0 8px 20px rgba(255,107,53,0.3);
+        }
+        
+        .prof-action-btn.logout .prof-action-icon {
+            background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(249,115,22,0.1));
+            color: #DC2626;
+        }
+        
+        .prof-action-btn.logout:hover {
+            border-color: #EF4444;
+            box-shadow: 0 20px 40px -10px rgba(239,68,68,0.25);
+        }
+        
+        /* ========== EMPTY ========== */
+        .prof-empty {
+            text-align: center;
+            padding: 30px 20px;
+            color: #9CA3AF;
+            font-size: 13px;
+        }
+        
+        .prof-empty i {
+            font-size: 36px;
+            color: #E5D5C0;
+            display: block;
+            margin-bottom: 12px;
+        }
+        
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 968px) {
+            .prof-stats { grid-template-columns: repeat(2, 1fr); }
+            .prof-section { grid-template-columns: 1fr; }
+            .prof-actions { grid-template-columns: 1fr; }
+            .prof-header { padding: 28px; }
+            .prof-avatar { width: 80px; height: 80px; font-size: 34px; }
+            .prof-header-info h1 { font-size: 26px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="cust-nav">
+    <div class="cust-nav-inner">
+        <a href="/" class="cust-logo">
+            <div class="cust-logo-mark"><i class="fas fa-bolt"></i></div>
+            <span>LocalBites</span>
+        </a>
+        <div class="cust-nav-actions">
+            <a href="/notifications/" class="cust-nav-btn">
+                <i class="fas fa-bell"></i> Alerts
+            </a>
+            <a href="/dashboard/" class="cust-nav-btn primary">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="prof-wrap">
+    
+    <!-- Header -->
+    <div class="prof-header">
+        <div class="prof-header-content">
+            <div class="prof-avatar">
+                {{ user.username|slice:":1"|upper }}
+            </div>
+            <div class="prof-header-info">
+                <h1>{{ user.get_full_name|default:user.username }}</h1>
+                <div class="prof-header-username">@{{ user.username }}</div>
+                <div class="prof-header-meta">
+                    <span class="prof-meta-badge">
+                        🎯 {{ user.get_role_display }}
+                    </span>
+                    <span class="prof-meta-badge">
+                        <i class="fas fa-calendar"></i>
+                        Joined {{ user.date_joined|date:"M Y" }}
+                    </span>
+                    {% if user.is_active %}
+                    <span class="prof-meta-badge" style="background: rgba(34,197,94,0.4);">
+                        <i class="fas fa-circle" style="font-size: 8px;"></i>
+                        Active
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stats -->
+    <div class="prof-stats">
+        <div class="prof-stat">
+            <div class="prof-stat-icon"><i class="fas fa-utensils"></i></div>
+            <div class="prof-stat-value">{{ total_food_orders }}</div>
+            <div class="prof-stat-label">Food Orders</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #22C55E, #16A34A);">
+            <div class="prof-stat-icon" style="background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(16,185,129,0.1)); color: #16A34A;"><i class="fas fa-shopping-basket"></i></div>
+            <div class="prof-stat-value" style="background: linear-gradient(135deg, #22C55E, #16A34A); -webkit-background-clip: text; background-clip: text;">{{ total_grocery_orders }}</div>
+            <div class="prof-stat-label">Grocery Orders</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #3B82F6, #6366F1);">
+            <div class="prof-stat-icon" style="background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(99,102,241,0.1)); color: #3B82F6;"><i class="fas fa-motorcycle"></i></div>
+            <div class="prof-stat-value" style="background: linear-gradient(135deg, #3B82F6, #6366F1); -webkit-background-clip: text; background-clip: text;">{{ total_rides }}</div>
+            <div class="prof-stat-label">Total Rides</div>
+        </div>
+        <div class="prof-stat" style="--stat-color: linear-gradient(90deg, #F59E0B, #F97316);">
+            <div class="prof-stat-icon" style="background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(249,115,22,0.1)); color: #D97706;"><i class="fas fa-rupee-sign"></i></div>
+            <div class="prof-stat-value" style="background: linear-gradient(135deg, #F59E0B, #F97316); -webkit-background-clip: text; background-clip: text;">₹{{ total_spent|floatformat:0 }}</div>
+            <div class="prof-stat-label">Total Spent</div>
+        </div>
+    </div>
+    
+    <!-- Info + Activity -->
+    <div class="prof-section">
+        
+        <!-- Personal Info -->
+        <div class="prof-card">
+            <div class="prof-card-title">
+                <i class="fas fa-user-circle"></i>
+                Personal Information
+            </div>
+            
+            <div class="prof-info-row">
+                <span class="prof-info-label"><i class="fas fa-user"></i> Username</span>
+                <span class="prof-info-value">{{ user.username }}</span>
+            </div>
+            
+            <div class="prof-info-row">
+                <span class="prof-info-label"><i class="fas fa-envelope"></i> Email</span>
+                <span class="prof-info-value">{{ user.email|default:"Not set" }}</span>
+            </div>
+            
+            <div class="prof-info-row">
+                <span class="prof-info-label"><i class="fas fa-phone"></i> Phone</span>
+                <span class="prof-info-value">{{ user.phone|default:"Not set" }}</span>
+            </div>
+            
+            <div class="prof-info-row">
+                <span class="prof-info-label"><i class="fas fa-map-marker-alt"></i> Address</span>
+                <span class="prof-info-value">{{ user.address|default:"Not set" }}</span>
+            </div>
+            
+            <div class="prof-info-row">
+                <span class="prof-info-label"><i class="fas fa-calendar"></i> Member Since</span>
+                <span class="prof-info-value">{{ user.date_joined|date:"F d, Y" }}</span>
+            </div>
+        </div>
+        
+        <!-- Recent Activity -->
+        <div class="prof-card">
+            <div class="prof-card-title">
+                <i class="fas fa-history"></i>
+                Recent Activity
+            </div>
+            
+            {% for order in recent_food_orders %}
+            <a href="/food/orders/{{ order.id }}/" class="prof-activity-item">
+                <div class="prof-activity-icon">🍽️</div>
+                <div class="prof-activity-info">
+                    <div class="prof-activity-title">{{ order.restaurant.name }}</div>
+                    <div class="prof-activity-sub">₹{{ order.total|floatformat:0 }} · {{ order.created_at|timesince }} ago</div>
+                </div>
+                <span class="prof-activity-status status-{{ order.status }}">{{ order.get_status_display|truncatechars:8 }}</span>
+            </a>
+            {% endfor %}
+            
+            {% for order in recent_grocery_orders %}
+            <a href="/grocery/orders/{{ order.id }}/" class="prof-activity-item">
+                <div class="prof-activity-icon">🛒</div>
+                <div class="prof-activity-info">
+                    <div class="prof-activity-title">{{ order.store.name }}</div>
+                    <div class="prof-activity-sub">₹{{ order.total|floatformat:0 }} · {{ order.created_at|timesince }} ago</div>
+                </div>
+                <span class="prof-activity-status status-{{ order.status }}">{{ order.get_status_display|truncatechars:8 }}</span>
+            </a>
+            {% endfor %}
+            
+            {% for ride in recent_rides %}
+            <a href="/rides/ride/{{ ride.id }}/" class="prof-activity-item">
+                <div class="prof-activity-icon">🏍️</div>
+                <div class="prof-activity-info">
+                    <div class="prof-activity-title">{{ ride.get_vehicle_type_display }} Ride</div>
+                    <div class="prof-activity-sub">₹{{ ride.estimated_fare|floatformat:0 }} · {{ ride.created_at|timesince }} ago</div>
+                </div>
+                <span class="prof-activity-status status-{{ ride.status }}">{{ ride.get_status_display|truncatechars:8 }}</span>
+            </a>
+            {% endfor %}
+            
+            {% if not recent_food_orders and not recent_grocery_orders and not recent_rides %}
+            <div class="prof-empty">
+                <i class="fas fa-inbox"></i>
+                <p>No recent activity yet</p>
+            </div>
+            {% endif %}
+        </div>
+        
+    </div>
+    
+    <!-- Actions -->
+    <div class="prof-actions">
+        <a href="/profile/edit/" class="prof-action-btn primary">
+            <div class="prof-action-icon"><i class="fas fa-user-edit"></i></div>
+            <span>Edit Profile</span>
+        </a>
+        
+        <a href="/dashboard/" class="prof-action-btn">
+            <div class="prof-action-icon"><i class="fas fa-home"></i></div>
+            <span>Dashboard</span>
+        </a>
+        
+        <form action="/logout/" method="post" style="display: contents;">
+            {% csrf_token %}
+            <button type="submit" class="prof-action-btn logout">
+                <div class="prof-action-icon"><i class="fas fa-sign-out-alt"></i></div>
+                <span>Logout</span>
+            </button>
+        </form>
+    </div>
+    
+</div>
+
+</body>
+</html>
